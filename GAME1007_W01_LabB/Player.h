@@ -40,14 +40,16 @@ public:
 	~Player();
 	SDL_Texture* loadPlayer(SDL_Renderer*);
 	bool keyDown(SDL_Scancode);
-	void playerUpdate(Map* map);
+	void playerUpdate();
 	glm::vec2 getPosition();
 	glm::vec2 getSize();
+	glm::vec2 getVelocity() { return glm::vec2{ velX, velY }; }
 	bool getRotation();
 	void setRotation(bool newRot);
 	void jump();
 	void playerDraw(SDL_Renderer*);
 	void animate();
+	void checkCollision(int x, int y);
 	void checkCollision(int x, int y, Map* map);
 	void checkBound();
 	void clean();

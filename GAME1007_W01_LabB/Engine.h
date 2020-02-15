@@ -20,8 +20,6 @@ private:   //Properties
 	SDL_Renderer* g_pRenderer; // This represents the buffer to draw to.
 	SDL_Texture* m_pTexture;
 	SDL_Rect m_src, m_dst, m_dst2;
-	Player* player;
-	Gun* gun;
 	Map* map;
 	int m_round;
 	Mix_Music* m_pMusic;
@@ -36,9 +34,7 @@ private:   //methods
 	Engine();
 	void update();
 	void render();
-	
 	void clean();
-	
 
 public:
 	static Engine& Instance();

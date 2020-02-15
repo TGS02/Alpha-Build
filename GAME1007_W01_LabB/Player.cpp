@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <iostream>
 #include "Map.h"
+#include "GameData.h"
 using namespace std;
 
 #define WIDTH 1024
@@ -58,6 +59,8 @@ void Player::animate()
 
 
 
+
+
 bool Player::keyDown(SDL_Scancode c)
 {
 	if (g_iKeystates != nullptr)
@@ -72,7 +75,7 @@ bool Player::keyDown(SDL_Scancode c)
 
 
 
-void Player::playerUpdate(Map *map)
+void Player::playerUpdate()
 {
 	// This is the main game stuff.
 	if (keyDown(SDL_SCANCODE_W) && onGround)
@@ -115,10 +118,12 @@ void Player::playerUpdate(Map *map)
 	velX = m_iSpeed * velocityX;
 	velY = m_iSpeed * velocityY;
 	m_dst.x += velX;
-	checkCollision(velX, 0, map);
+	//checkCollision(velX, 0, map);
+	checkCollision(velX, 0);
 	onGround = false;
 	m_dst.y += velY;
-	checkCollision(0, velY, map);
+	//checkCollision(0, velY, map);
+	checkCollision(0, velY);
 	checkBound();
 	animate();
 	
@@ -157,7 +162,98 @@ void Player::checkBound()
 		m_dst.y = 0;
 	if (m_dst.y+m_dst.h >= HEIGHT)
 		m_dst.y = HEIGHT;
-	
+}
+
+void Player::checkCollision(int x, int y)
+{
+	TileMap* tileMap = GameData::Instance()->getLevelSet(0)->getDatum(0)->getTileMap();
+	tileMap->checkCollision();
+
+	// Respond to intersecting tiles
+	//std::cout << "Intersecting with " << tileMap->getIntersectingTiles()->size() << " tiles!" << std::endl;
+	for (unsigned int tileIndex = 0; tileIndex < tileMap->getIntersectingTiles()->size(); tileIndex++)
+	{
+		// Do nothing for now?
+		// Here is where gravity and physics stuff would go.
+	}
+
+	// Respond to colliding tiles
+	//std::cout << "Colliding with " << tileMap->getCollidingTiles()->size() << " tiles!" << std::endl;
+	for (unsigned int tileIndex = 0; tileIndex < tileMap->getCollidingTiles()->size(); tileIndex++)
+	{
+		int top = 0, left = 0, right = 0, bottom = 0;
+		top = tileMap->getCollidingTiles()->at(tileIndex)->getDst().y;
+		bottom = tileMap->getCollidingTiles()->at(tileIndex)->getDst().y + tileMap->getCollidingTiles()->at(tileIndex)->getDst().h;
+		left = tileMap->getCollidingTiles()->at(tileIndex)->getDst().x;
+		right = tileMap->getCollidingTiles()->at(tileIndex)->getDst().x + tileMap->getCollidingTiles()->at(tileIndex)->getDst().w;
+		SDL_Rect newDst = { m_dst.x + 5,m_dst.y,m_dst.w / 2, m_dst.h };
+		switch (tileMap->getCollidingTiles()->at(tileIndex)->getType())
+		{
+		case StaticTile::Type::SOLID:
+			if (x > 0) {
+				m_dst.x = left - 3 * m_dst.w / 4;
+				velocityX = 0;
+			}
+			if (x < 0)
+			{
+				m_dst.x = right - 5;
+				velocityX = 0;
+			}
+			if (y > 0)
+			{
+				m_dst.y = top - m_dst.h;
+				velocityY = 0;
+				onGround = true;
+			}
+			if (y < 0)
+			{
+				m_dst.y = bottom;
+				velocityY = 0;
+			}
+			break;
+		case StaticTile::Type::PLATFORM:
+			//cout << "type 2 collide : vel" << velX << "  " << velY << "\t";
+			if (y > 0)
+			{
+				//cout << row << "  " << column << endl;
+				//if (m_dst.y +m_dst.h>= top) {
+				m_dst.y = top - m_dst.h;
+				velocityY = 0;
+				onGround = true;
+				//}
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	// Respond to interacting tiles
+	//std::cout << "Interacting with " << tileMap->getInteractingTiles()->size() << " tiles!";
+	for (unsigned int tileIndex = 0; tileIndex < tileMap->getInteractingTiles()->size(); tileIndex++)
+	{
+		std::cout << " at " << tileMap->getInteractingTiles()->at(tileIndex)->getCol().x << '-'
+			<< tileMap->getInteractingTiles()->at(tileIndex)->getCol().y << '-'
+			<< tileMap->getInteractingTiles()->at(tileIndex)->getCol().w << '-'
+			<< tileMap->getInteractingTiles()->at(tileIndex)->getCol().h << ' ' << std::endl;
+		switch (tileMap->getInteractingTiles()->at(tileIndex)->getType())
+		{
+		case InteractiveTile::Type::IGNORE:
+			die = true;
+			break;
+		case InteractiveTile::Type::DIE:
+			die = true;
+			break;
+		case InteractiveTile::Type::GET:
+			die = true;
+			break;
+		case InteractiveTile::Type::WIN:
+			die = true;
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void Player::checkCollision(int x, int y, Map* map)
@@ -207,10 +303,10 @@ void Player::checkCollision(int x, int y, Map* map)
 			if (type == 2) {//platform
 				if (SDL_HasIntersection(&newDst, &tile)) {
 					{
-						cout << "type 2 collide : vel" << velX << "  " << velY << "\t";
+						//cout << "type 2 collide : vel" << velX << "  " << velY << "\t";
 						if (y > 0)
 						{
-							cout << row << "  " << column << endl;
+							//cout << row << "  " << column << endl;
 							//if (m_dst.y +m_dst.h>= top) {
 							m_dst.y = top - m_dst.h;
 							velocityY = 0;

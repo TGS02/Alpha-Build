@@ -1,5 +1,6 @@
 #include "FSM.h"
 #include "Engine.h"
+#include "Gamedata.h"
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -126,6 +127,11 @@ GameState::~GameState()
 void GameState::Enter()
 {
 	cout << "Entering Game state....." << endl;
+	GameData::Instance()->getLevelSet(0)->getDatum(0)->LoadFromXML();
+	m_pPlayer = new Player();
+	m_pPlayer->loadPlayer(Engine::Instance().GetRenderer());
+	m_pGun = new Gun(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
+	m_pGun->loadGun(Engine::Instance().GetRenderer());
 	myTimer.start();
 }
 
@@ -142,14 +148,25 @@ void GameState::Update()
 		Engine::Instance().GetFSM().ChangeState(new TitleState());
 		myTimer.stop();
 	}
+	m_pPlayer->playerUpdate();
+	if (Engine::Instance().getMousePosition().x < m_pPlayer->getPosition().x) {
+		m_pPlayer->setRotation(true);
+		m_pGun->setRotation(true);
+	}
+	if (Engine::Instance().getMousePosition().x > m_pPlayer->getPosition().x) {
+		m_pPlayer->setRotation(false);
+		m_pGun->setRotation(false);
+	}
+	m_pGun->setPosition(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
+	m_pGun->setMousePosition(Engine::Instance().getMousePosition());
+	m_pGun->update();
 }
 
 void GameState::Render()
 {
 	//cout << "Rendering Game state....." << endl;
-	cout << myTimer.get_ticks() / 1000.f << endl;
+	//cout << myTimer.get_ticks() / 1000.f << endl;
 	Engine::Instance().renderGameState();
-
 
 	if (Engine::Instance().getFont() == nullptr)
 		cout << TTF_GetError();
@@ -166,6 +183,11 @@ void GameState::Render()
 	SDL_Rect dstrect = { 0, 0, texW, texH };
 	SDL_FreeSurface(surface);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	// Render the player
+	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
+	m_pGun->draw(Engine::Instance().GetRenderer());
+
 	if (dynamic_cast<GameState*> (Engine::Instance().GetFSM().GetState().back()))
 	{
 		State::Render();
@@ -177,6 +199,12 @@ void GameState::Render()
 void GameState::Exit()
 {
 	cout << "Exiting Game state....." << endl;
+	m_pGun->clean();
+	delete m_pGun;
+	m_pGun = nullptr;
+	m_pPlayer->clean();
+	delete m_pPlayer;
+	m_pPlayer = nullptr;
 }
 
 void GameState::Resume()
@@ -193,6 +221,7 @@ TitleState::TitleState() {}
 void TitleState::Enter()
 {
 	cout << "Entering Title state....." << endl;
+	GameData::Instance()->LoadFromXML();
 }
 
 void TitleState::Update()

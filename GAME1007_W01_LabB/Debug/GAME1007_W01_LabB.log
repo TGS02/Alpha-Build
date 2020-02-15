@@ -1,2 +1,44 @@
-﻿  Gun.cpp
-  GAME1007_W01_LabB.vcxproj -> C:\Users\NEGAR\Downloads\Telegram Desktop\Alpha\First-Playable-Template\Debug\CowboyCadet_FirstPlayable.exe
+﻿  TileMap.cpp
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(182,43): warning C4838: conversion from 'T' to 'int' requires a narrowing conversion
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(182,43): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(183,40): warning C4838: conversion from 'T' to 'int' requires a narrowing conversion
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(183,40): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(184,39): warning C4838: conversion from 'T' to 'int' requires a narrowing conversion
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(184,39): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(185,36): warning C4838: conversion from 'T' to 'int' requires a narrowing conversion
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(185,36): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\Tile.h(206): warning C4172: returning address of local variable or temporary
+C:\Users\Allarielle\source\repos\Alpha-Build\GAME1007_W01_LabB\Tile.h(179): warning C4172: returning address of local variable or temporary
+  GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe

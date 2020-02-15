@@ -97,7 +97,7 @@ void Gun::turnRight()
 {
 	float angleDifference = abs(m_turnRate - abs(angleToMouse)) * 0.2f;
 	if (angleDifference < 0.25f) angleDifference = 0.0f;
-	std::cout << "Angle Diff:  " << angleDifference << std::endl;
+	//std::cout << "Angle Diff:  " << angleDifference << std::endl;
 	m_currentHeading += ((angleDifference < m_turnRate) ? angleDifference : m_turnRate) * m_speed;
 	//m_currentHeading += m_turnRate*m_speed;
 
@@ -106,7 +106,7 @@ void Gun::turnLeft()
 {
 	float angleDifference = abs(m_turnRate - abs(angleToMouse)) * 0.2f;
 	if (angleDifference < 0.25f) angleDifference = 0.0f;
-	std::cout << "Angle Diff:  " << angleDifference << std::endl;
+	//std::cout << "Angle Diff:  " << angleDifference << std::endl;
 	m_currentHeading -= ((angleDifference < m_turnRate) ? angleDifference : m_turnRate) * m_speed;
 
 	//  m_currentHeading -= m_turnRate* m_speed;
@@ -138,7 +138,7 @@ void Gun::move()
 	computeMouseDirection();
 	m_changeDirection();
 	float angleToMouse = Util::signedAngle(getCurrentDirection(),m_vMouseDirection);
-	std::cout << "angle to mouse"<< angleToMouse<< endl; 
+	//std::cout << "angle to mouse"<< angleToMouse<< endl; 
 	if (angleToMouse > 0.0f)
 		turnRight();
 	if (angleToMouse < 0.0f)

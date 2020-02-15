@@ -7,6 +7,7 @@
 #include <vector>
 #include  <SDL.h>
 #include <glm\vec2.hpp>
+#include "GameData.h"
 
 #define WIDTH 1024
 #define HEIGHT 768
@@ -36,11 +37,6 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 			{
 				m_pTexture = IMG_LoadTexture(g_pRenderer, "../Assets/Textures/Background_1.png");
 				map = new Map(g_pRenderer);
-				player = new Player();
-				player->loadPlayer(g_pRenderer);
-			
-				gun = new Gun(glm::vec2(player->getPosition().x + (player->getSize().x / 2), player->getPosition().y + (player->getSize().y / 2)));
-				gun->loadGun(g_pRenderer);
 			}
 			
 			else return false; // Renderer init fail.
@@ -129,18 +125,6 @@ bool Engine::KeyDown(SDL_Scancode c)
 void Engine::update()
 {
 	m_pFSM->Update();
-	player->playerUpdate(map);
-	if (m_mousePosition.x < player->getPosition().x) {
-		player->setRotation(true);
-		gun->setRotation(true);
-	}
-	if (m_mousePosition.x > player->getPosition().x) {
-		player->setRotation(false);
-		gun->setRotation(false);
-	}
-	gun->setPosition(glm::vec2(player->getPosition().x + (player->getSize().x / 2), player->getPosition().y + (player->getSize().y / 2)));
-	gun->setMousePosition(Engine::getMousePosition());
-	gun->update();
 }
 
 void Engine::render()
@@ -153,7 +137,7 @@ void Engine::render()
 void Engine::renderGameState()
 {
 	
-		SDL_SetRenderDrawColor(g_pRenderer, 255, 255, 255, 255);
+		SDL_SetRenderDrawColor(g_pRenderer, 0, 0, 0, 255);
 		SDL_RenderClear(g_pRenderer); // Clear the screen with the draw color.
 
 		// Render the overall background
@@ -161,22 +145,22 @@ void Engine::renderGameState()
 		//SDL_RenderCopy(g_pRenderer, m_pTexture, &m_src, &m_dst2);
 
 		// Render the tiling background
-		vector<int> num = { 1 };
-		map->DrawBG(g_pRenderer, num);
-		num.clear();
+		//vector<int> num = { 1 };
+		//map->DrawBG(g_pRenderer, num);
+		//num.clear();
 
 		// Render the tiles with z < the player
-		num = { 1,2,3,5,12,13,14,15,16,31,32,33,34,41,42 };
-		map->DrawMap(g_pRenderer, num);
-		num.clear();
+		//num = { 1,2,3,5,12,13,14,15,16,31,32,33,34,41,42 };
+		//map->DrawMap(g_pRenderer, num);
+		//num.clear();
 
-		// Render the player
-		player->playerDraw(g_pRenderer);
-		gun->draw(g_pRenderer);
+		// Render the TileMap
+		GameData::Instance()->getLevelSet(0)->getDatum(0)->getTileMap()->draw();
+
 		// Render tiles with z > the player
-		num = { 21,22 };
-		map->DrawMap(g_pRenderer, num);
-		num.clear();
+		//num = { 21,22 };
+		//map->DrawMap(g_pRenderer, num);
+		//num.clear();
 
 		// Draw anew.
 	
@@ -185,19 +169,12 @@ void Engine::renderGameState()
 void Engine::clean()
 {
 	cout << "Cleaning game." << endl;
-	gun->clean();
-	delete gun;
-	gun = nullptr;
 	m_pFSM->Clean();
 	delete m_pFSM;
 	m_pFSM = nullptr;
 	map->clean();
 	delete map;
 	map = nullptr;
-	player->clean();
-	delete player;
-	player = nullptr;
-
 	SDL_DestroyTexture(m_pTexture);
 	SDL_DestroyRenderer(g_pRenderer);
 	SDL_DestroyWindow(g_pWindow);

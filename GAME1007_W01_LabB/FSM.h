@@ -4,6 +4,8 @@
 #include <SDL_image.h>
 #include <vector>
 #include "Timer.h"
+#include "Player.h"
+#include "Gun.h"
 using namespace std;
 
 class State
@@ -35,6 +37,12 @@ public:
 };
 class GameState : public State
 {
+private:
+	Player* m_pPlayer;
+	Gun* m_pGun;
+	SDL_Surface* surface;
+	SDL_Texture* texture;
+	TTF_Font* font;
 public:
 	GameState();
 	~GameState();
@@ -43,12 +51,7 @@ public:
 	void Render();
 	void Exit();
 	void Resume();
-private:
-
-	SDL_Surface* surface;
-	SDL_Texture* texture;
-	TTF_Font* font;
-
+	Player* getPlayer() { return m_pPlayer; }
 };
 class TitleState : public State
 {
