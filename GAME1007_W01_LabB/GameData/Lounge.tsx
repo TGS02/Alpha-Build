@@ -21,6 +21,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -36,6 +37,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -51,6 +53,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -66,6 +69,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -81,6 +85,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -96,6 +101,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -111,6 +117,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -126,6 +133,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>
@@ -137,48 +145,72 @@
   </objectgroup>
  </tile>
  <tile id="9" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Acid2.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="10" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Acid1.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="16" width="32" height="16"/>
   </objectgroup>
  </tile>
  <tile id="11" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="8"/>
+   <object id="1" x="8" y="0" width="16" height="8"/>
   </objectgroup>
  </tile>
  <tile id="12" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="2" x="24" y="0" width="8" height="32"/>
+   <object id="2" x="24" y="8" width="8" height="16"/>
   </objectgroup>
  </tile>
  <tile id="13" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="8" height="32"/>
+   <object id="1" x="0" y="8" width="8" height="16"/>
   </objectgroup>
  </tile>
  <tile id="14" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="1"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="24" width="32" height="8"/>
+   <object id="1" x="8" y="24" width="16" height="8"/>
   </objectgroup>
  </tile>
  <tile id="15" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="3"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Exit_Bottom.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="16" type="InteractiveTile">
+  <properties>
+   <property name="interactiontype" type="int" value="3"/>
+  </properties>
   <image width="32" height="32" source="../../Assets/Textures/Exit_Top.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="16" width="32" height="16"/>
@@ -189,6 +221,7 @@
    <property name="drag" type="float" value="1"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
+   <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
    <property name="jumpimpulse_y" type="float" value="5"/>
    <property name="maxdrag" type="float" value="10"/>

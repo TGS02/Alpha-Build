@@ -182,13 +182,15 @@ void Player::checkCollision(int x, int y)
 	for (unsigned int tileIndex = 0; tileIndex < tileMap->getCollidingTiles()->size(); tileIndex++)
 	{
 		int top = 0, left = 0, right = 0, bottom = 0;
-		top = tileMap->getCollidingTiles()->at(tileIndex)->getDst().y;
-		bottom = tileMap->getCollidingTiles()->at(tileIndex)->getDst().y + tileMap->getCollidingTiles()->at(tileIndex)->getDst().h;
-		left = tileMap->getCollidingTiles()->at(tileIndex)->getDst().x;
-		right = tileMap->getCollidingTiles()->at(tileIndex)->getDst().x + tileMap->getCollidingTiles()->at(tileIndex)->getDst().w;
+		top = tileMap->getCollidingTiles()->at(tileIndex)->getCol().y;
+		bottom = tileMap->getCollidingTiles()->at(tileIndex)->getCol().y + tileMap->getCollidingTiles()->at(tileIndex)->getCol().h;
+		left = tileMap->getCollidingTiles()->at(tileIndex)->getCol().x;
+		right = tileMap->getCollidingTiles()->at(tileIndex)->getCol().x + tileMap->getCollidingTiles()->at(tileIndex)->getCol().w;
 		SDL_Rect newDst = { m_dst.x + 5,m_dst.y,m_dst.w / 2, m_dst.h };
 		switch (tileMap->getCollidingTiles()->at(tileIndex)->getType())
 		{
+		case StaticTile::Type::IGNORE:
+			break;
 		case StaticTile::Type::SOLID:
 			if (x > 0) {
 				m_dst.x = left - 3 * m_dst.w / 4;
@@ -212,15 +214,16 @@ void Player::checkCollision(int x, int y)
 			}
 			break;
 		case StaticTile::Type::PLATFORM:
-			//cout << "type 2 collide : vel" << velX << "  " << velY << "\t";
 			if (y > 0)
 			{
-				//cout << row << "  " << column << endl;
-				//if (m_dst.y +m_dst.h>= top) {
-				m_dst.y = top - m_dst.h;
-				velocityY = 0;
-				onGround = true;
-				//}
+				newDst = { m_dst.x + 5,m_dst.y + 15 * m_dst.h / 16,m_dst.w / 2 , m_dst.h / 16 };
+				if (SDL_HasIntersection(&newDst, &tileMap->getCollidingTiles()->at(tileIndex)->getCol())) {
+					{
+						m_dst.y = top - m_dst.h;
+						velocityY = 0;
+						onGround = true;
+					}
+				}
 			}
 			break;
 		default:
@@ -239,16 +242,13 @@ void Player::checkCollision(int x, int y)
 		switch (tileMap->getInteractingTiles()->at(tileIndex)->getType())
 		{
 		case InteractiveTile::Type::IGNORE:
-			die = true;
 			break;
 		case InteractiveTile::Type::DIE:
 			die = true;
 			break;
 		case InteractiveTile::Type::GET:
-			die = true;
 			break;
 		case InteractiveTile::Type::WIN:
-			die = true;
 			break;
 		default:
 			break;

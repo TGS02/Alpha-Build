@@ -155,7 +155,7 @@ class StaticTile
 {
 public:
 	// Enumation
-	enum class Type { SOLID, PLATFORM };
+	enum class Type { IGNORE, SOLID, PLATFORM };
 private:
 	SDL_FRect m_frCol;			// SDL_Rect <int> which specifies the area against which the player can collide, as distinct from the area of the tile's image only for this type of tile.
 	glm::vec2 m_vJumpImpulse;	// Vector which is added to the player's current velocity only on the exact frame that the player presses the JUMP button.
@@ -164,7 +164,7 @@ public:
 	// System functions
 	StaticTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
 		float drag, float maxSpeed, float maxDrag , glm::vec2 force,
-		glm::vec2 jumpImpulse, Type type = Type::SOLID)
+		glm::vec2 jumpImpulse, Type type)
 		: WorldTile(tex, src, dst, sprite, spriteMax, frame, frameMax, drag, maxSpeed, maxDrag, force),
 		m_frCol(col), m_vJumpImpulse(jumpImpulse), m_Type(type) {}
 	~StaticTile() {}
@@ -182,7 +182,7 @@ public:
 };
 
 class InteractiveTile
-	: public WorldTile
+	: public Tile
 {
 public:
 	// Enumation
@@ -193,8 +193,8 @@ private:
 public:
 	// System functions
 	InteractiveTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
-		float drag, float maxSpeed, float maxDrag, glm::vec2 force, Type type = Type::IGNORE)
-		: WorldTile(tex, src, dst, sprite, spriteMax, frame, frameMax, drag, maxSpeed, maxDrag, force), m_frCol(col), m_Type(type) {}
+		Type type)
+		: Tile(tex, src, dst, sprite, spriteMax, frame, frameMax), m_frCol(col), m_Type(type) {}
 	~InteractiveTile() {}
 
 	// Gameplay functions

@@ -249,16 +249,17 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	const char* TYPE_BACKGROUNDTILE = "BackgroundTile";
 	const char* TYPE_STATICTILE = "StaticTile";
 	const char* TYPE_INTERACTIVETILE = "InteractiveTile";
-	const char* PROPERTY_DRAG = "drag";
-	const char* PROPERTY_FORCE_X = "force_x";
-	const char* PROPERTY_FORCE_Y = "force_y";
-	const char* PROPERTY_JUMPFORCE_X = "jumpforce_x";
-	const char* PROPERTY_JUMPFORCE_Y = "jumpforce_y";
-	const char* PROPERTY_JUMPFORCEMAX = "jumpforcemax";
-	const char* PROPERTY_MAXDRAG = "maxdrag";
-	const char* PROPERTY_MAXSPEED = "maxspeed";
-	const char* PROPERTY_JUMPIMPULSE_X = "jumpimpulse_x";
-	const char* PROPERTY_JUMPIMPULSE_Y = "jumpimpulse_y";
+	std::string PROPERTY_DRAG = "drag";
+	std::string PROPERTY_FORCE_X = "force_x";
+	std::string PROPERTY_FORCE_Y = "force_y";
+	std::string PROPERTY_JUMPFORCE_X = "jumpforce_x";
+	std::string PROPERTY_JUMPFORCE_Y = "jumpforce_y";
+	std::string PROPERTY_JUMPFORCEMAX = "jumpforcemax";
+	std::string PROPERTY_MAXDRAG = "maxdrag";
+	std::string PROPERTY_MAXSPEED = "maxspeed";
+	std::string PROPERTY_INTERACTIONTYPE = "interactiontype";
+	std::string PROPERTY_JUMPIMPULSE_X = "jumpimpulse_x";
+	std::string PROPERTY_JUMPIMPULSE_Y = "jumpimpulse_y";
 	tinyxml2::XMLNode* pRoot = xmlDoc.FirstChildElement(ROOT);
 	tinyxml2::XMLElement* pElement[2];
 	unsigned int id[2];
@@ -280,12 +281,12 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	{
 		// Define the temporary storage variables with default values
 		std::string type;
-		int src_x = 0, src_y = 0, src_w, src_h;
+		int src_x = 0, src_y = 0, src_w, src_h, interactiontype;
 		const char* src_file;
-		float drag = 0, force_x = 0, force_y = 0, maxdrag = 0, maxspeed = 0,	// Common to all world tiles
-			jumpforce_x = 0, jumpforce_y = 0, jumpforcemax = 0,					// Common to background tiles
-			jumpimpulse_x = 0, jumpimpulse_y = 0,								// Common to static and dynamic tiles
-			col_x, col_y, col_w, col_h;											// Common to static, dynamic, and interactive tiles
+		float drag, force_x, force_y, maxdrag, maxspeed,	// Common to all world tiles
+			jumpforce_x, jumpforce_y, jumpforcemax,			// Common to background tiles
+			jumpimpulse_x, jumpimpulse_y,					// Common to static and dynamic tiles
+			col_x, col_y, col_w, col_h;						// Common to static, dynamic, and interactive tiles
 		SDL_Rect src, dst = { 0, 0, tilewidth, tileheight };
 		SDL_FRect col;
 		SDL_Texture* tex;
@@ -303,25 +304,29 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 				pElement[1] = pElement[1]->NextSiblingElement(CHILD_PROPERTY))
 			{
 				// Determine the property type and save its values
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_DRAG)
+				std::string prop;
+				prop = pElement[1]->Attribute(ATTRIBUTE_NAME);
+				if (prop == PROPERTY_DRAG)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &drag);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_FORCE_X)
+				if (prop == PROPERTY_FORCE_X)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &force_x);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_FORCE_Y)
+				if (prop == PROPERTY_FORCE_Y)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &force_y);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_JUMPFORCE_X)
+				if (prop == PROPERTY_JUMPFORCE_X)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpforce_x);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_JUMPFORCE_Y)
+				if (prop == PROPERTY_JUMPFORCE_Y)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpforce_y);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_JUMPFORCEMAX)
+				if (prop == PROPERTY_JUMPFORCEMAX)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpforcemax);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_MAXDRAG)
+				if (prop == PROPERTY_MAXDRAG)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &maxdrag);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_MAXSPEED)
+				if (prop == PROPERTY_MAXSPEED)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &maxspeed);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_JUMPIMPULSE_X)
+				if (prop == PROPERTY_INTERACTIONTYPE)
+					pElement[1]->QueryIntAttribute(ATTRIBUTE_VALUE, &interactiontype);
+				if (prop == PROPERTY_JUMPIMPULSE_X)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpimpulse_x);
-				if (pElement[1]->Attribute(ATTRIBUTE_NAME) == PROPERTY_JUMPIMPULSE_Y)
+				if (prop == PROPERTY_JUMPIMPULSE_Y)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpimpulse_y);
 			}
 		}
@@ -332,7 +337,7 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		pElement[1]->QueryIntAttribute(ATTRIBUTE_HEIGHT, &src_h);
 		pElement[1]->QueryStringAttribute(ATTRIBUTE_SOURCE, &src_file);
 		tex = TextureManager::LoadTexture(Engine::Instance().GetRenderer(), src_file + 3);	// The + 3 removes the first three characters "../" from the string, since the TextureManager.h is one directory higher in the heirarchy than the *.tsx files.
-		std::cout << src_file + 3 << tex << ' ';
+		//std::cout << src_file + 3 << tex << ' ';
 		src = { src_x, src_y, src_w, src_h };
 
 		// Determine the collision properties
@@ -353,7 +358,7 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		}
 
 		// Create the tile object
-		std::cout << "Initializing Tile template at position " << m_pDataSet.size() << " in the set." << std::endl;
+		//std::cout << "Initializing Tile template at position " << m_pDataSet.size() << " in the set." << std::endl;
 		if (type == TYPE_BACKGROUNDTILE)
 		{
 			m_pDataSet.push_back(new BackgroundTile(tex, src, dst, 0, 1, 0, 1,
@@ -364,12 +369,11 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		{
 			m_pDataSet.push_back(new StaticTile(tex, src, dst, col, 0, 1, 0, 1,
 				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y},
-				glm::vec2{jumpimpulse_x, jumpimpulse_y}));
+				glm::vec2{jumpimpulse_x, jumpimpulse_y}, static_cast<StaticTile::Type>(interactiontype)));
 		}
 		if (type == TYPE_INTERACTIVETILE)
 		{
-			m_pDataSet.push_back(new InteractiveTile(tex, src, dst, col, 0, 1, 0, 1,
-				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y}));
+			m_pDataSet.push_back(new InteractiveTile(tex, src, dst, col, 0, 1, 0, 1, static_cast<InteractiveTile::Type>(interactiontype)));
 		}
 
 		if (m_pDataSet[id[0]] == nullptr)
