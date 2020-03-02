@@ -3,6 +3,8 @@
 #include <iostream>
 #include <sstream>
 using namespace std;
+#define GRAV 8.0
+#define JUMPFORCE 20.0
 
 //FSM. Begins
 FSM::FSM() {}
@@ -30,6 +32,7 @@ void FSM::ChangeState(State* state)
 		m_vStates.pop_back();
 
 	}
+	Clean();
 	PushState(state);
 }
 
@@ -89,13 +92,20 @@ PauseState::PauseState()
 
 void PauseState::Enter()
 {
+	
 	cout << "Entering Pause state....." << endl;
+	m_vButtons.push_back(new Button("../Assets/Textures/resume.png", { 0,0,321,80 }, { 360,350,300,80 },
+		std::bind(&FSM::PopState, &Engine::Instance().GetFSM())));
+	m_vButtons.push_back(new Button("../Assets/Textures/exit.png", { 0,0,321,80 }, { 360,450,300,80 },
+		std::bind(&Engine::QuitGame, &Engine::Instance())));
 }
 
 void PauseState::Update()
 {
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 		Engine::Instance().GetFSM().PopState();
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Update();
 }
 
 void PauseState::Render()
@@ -103,80 +113,249 @@ void PauseState::Render()
 	//cout << "Rendering Pause state....." << endl;
 	Engine::Instance().GetFSM().GetState().front()->Render();
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture, &src, &dst);
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Render();
 	State::Render();
 
 }
 
-void PauseState::Exit()
-{
-	cout << "Exiting Pause state....." << endl;
-}
+void PauseState::Exit(){ }
 //Pause State Ends
 
 //Game State Begins
-GameState::GameState() {}
+GameState::GameState()
+{
+	drawBackground = true;
+	jumpTime = 0;
+	counterSpace = 0;
+	record = 0;
+	score = 0;
+	shoot = false;
+	bgTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/test.png");
+	map = new Map(Engine::Instance().GetRenderer());
+	m_pPlayer = new Player();
+	m_pPlayer->loadPlayer(Engine::Instance().GetRenderer());
+	gun = new Gun(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
+	gun->loadGun(Engine::Instance().GetRenderer());
+	countFinish = 0;
+	m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/time.png");
+	m_pScoreTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/score.png");
+	score_src = src = { 0,0,970,80 };
+	dst = { 0,-8,970,80 };
+	score_dst = { 925 , -8, 970, 80 };
+}
 
 GameState::~GameState()
 {
 	SDL_DestroyTexture(texture);
+	SDL_DestroyTexture(bgTexture);
 
+	gun->clean();
+	delete gun;
+	gun = nullptr;
+
+	map->clean();
+	delete map;
+	map = nullptr;
+
+	m_pPlayer->clean();
+	delete m_pPlayer;
+	m_pPlayer = nullptr;
 
 }
 
 void GameState::Enter()
 {
-	cout << "Entering Game state....." << endl;
+	m_pMusic = Mix_LoadMUS("../Assets/Audio/game.mp3");
 	myTimer.start();
+	Mix_PlayMusic(m_pMusic, -1);
+	barTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/bar.png");
+	bar_src = {0 ,0 , 170, 60};
+	bar_dst = {5 , 700, 170,60 };
 }
 
 void GameState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_P))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_A))
 	{
-		Engine::Instance().GetFSM().PushState(new PauseState());
-		cout << "P pressed" << endl;
-		myTimer.pause();
+		m_pPlayer->SetDir(-1);
+		m_pPlayer->MoveX();
 	}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_D))
+	{
+		m_pPlayer->SetDir(1);
+		m_pPlayer->MoveX();
+	}
+	if (!Engine::Instance().KeyDown(SDL_SCANCODE_D) && !Engine::Instance().KeyDown(SDL_SCANCODE_A))
+		m_pPlayer->SetAccelX(0.0);
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_W) && Engine::Instance().getSpaceOk())
+	{
+		if (m_pPlayer->IsGrounded() == true) {
+			Engine::Instance().setSpaceOk( false); // This just prevents repeated jumps when holding spacebar.
+			m_pPlayer->SetAccelY(-JUMPFORCE); // Sets the jump force.
+			m_pPlayer->SetGrounded(false);
+		}
+	}
+	if(Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
+	{
+		Engine::Instance().setPressSpace(true);
+		counterSpace++;
+	}
+	if (!Engine::Instance().getPressSpace() && counterSpace!=0)
+	{
+		Mix_PlayChannel(-1, Engine::Instance().getShootMixChunk(), 0);
+		gun->getShootFsm(true);
+		if (counterSpace >= 1 && counterSpace <= 10) {
+			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 20);
+			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 20);
+		}
+		if (counterSpace >= 11 && counterSpace <= 25) {
+
+			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 30);
+			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 30);
+		}
+		if (counterSpace >= 25 ) {
+
+			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 40);
+			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 40);
+		}
+
+		counterSpace = 0;
+	}
+	m_pPlayer->playerUpdate(map, Engine::Instance().getDelta());
+	m_pPlayer->SetAccelY(0.0); // After jump, reset vertical acceleration.
+
+	if (Engine::Instance().getMousePosition().x < m_pPlayer->getPosition().x) {
+		m_pPlayer->setRotation(true);
+		gun->setRotation(true);
+	}
+	if (Engine::Instance().getMousePosition().x > m_pPlayer->getPosition().x) {
+		m_pPlayer->setRotation(false);
+		gun->setRotation(false);
+	}
+	gun->setPosition(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 3 + 6), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 3 + 3)));
+	gun->setMousePosition(Engine::Instance().getMousePosition());
+	gun->update();
+	if (m_pPlayer->getDie())
+	{
+		gun->getPlayerDie(true);
+	}
+	
+	if (m_pPlayer->finish==true)
+	{
+		
+		map->getFinishFsm(true);
+		countFinish++;
+		if(countFinish==10)
+		m_pPlayer->stop = true;
+		if (countFinish == 27) {
+			Engine::Instance().GetFSM().ChangeState(new EndState());
+			myTimer.stop();
+			countFinish = 0;
+		}
+	}
+	else if (Engine::Instance().KeyDown(SDL_SCANCODE_P))
+	     {
+		Engine::Instance().GetFSM().PushState(new PauseState());
+		
+		myTimer.pause();
+	     }
 	else if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
 	{
 		Engine::Instance().GetFSM().ChangeState(new TitleState());
 		myTimer.stop();
 	}
 }
+bool GameState::GetShoot()
+{
+	return shoot;
+}
+
+void GameState::setShoot(bool tmpshoot)
+{
+	shoot = tmpshoot;
+}
 
 void GameState::Render()
 {
 	//cout << "Rendering Game state....." << endl;
-	cout << myTimer.get_ticks() / 1000.f << endl;
-	Engine::Instance().renderGameState();
+	
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	vector<int> num;
+	// Render the tiling background
+		 num = { 1 };
+		map->DrawBG(Engine::Instance().GetRenderer(), num);
+		num.clear();
+		drawBackground = false;
 
+	// Render the tiles with z < the player
+	num = { 1,2,3,5,8,12,13,14,15,16,31,32,33,34,41,42 };
+	map->DrawMap(Engine::Instance().GetRenderer(), num);
+	num.clear();
 
-	if (Engine::Instance().getFont() == nullptr)
-		cout << TTF_GetError();
-	std::stringstream timeText;
+	// Render the player
+	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
+	gun->draw(Engine::Instance().GetRenderer());
+	// Render tiles with z > the player
+	num = { 21,22 };
+	map->DrawMap(Engine::Instance().GetRenderer(), num);
+	num.clear();
+
+	
+	/*if (Engine::Instance().getFont() == nullptr)
+		cout << TTF_GetError();*/
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture, &src, &dst);
+	std::stringstream timeText, scoreText, lastRec;
 	timeText.str("");
-	timeText << "Time:  " << myTimer.get_ticks() / 1000;
-	SDL_Color color = { 255, 255, 255 };
+	timeText << myTimer.get_ticks() / 1000;
+	if(!m_pPlayer->finish)
+	Engine::Instance().setTime(myTimer.get_ticks() / 1000);
+	
+	SDL_Color color = { 0, 0, 0 };
 	surface = TTF_RenderText_Solid(Engine::Instance().getFont(), timeText.str().c_str(), color);
 	SDL_DestroyTexture(texture);
 	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
 	int texW = 0;
 	int texH = 0;
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect dstrect = { 0, 0, texW, texH };
+	SDL_Rect dstrect = { 60, 0, texW, texH };
 	SDL_FreeSurface(surface);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	score += m_pPlayer->record;
+	Engine::Instance().setHighScore(m_pPlayer->record);
+
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pScoreTexture, &score_src, &score_dst);
+	scoreText << m_pPlayer->record;
+	surface = TTF_RenderText_Solid(Engine::Instance().getFont(), scoreText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 990, 0, texW, texH };
+	SDL_FreeSurface(surface);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), barTexture, &bar_src, &bar_dst);
+	if (m_pPlayer->finish == true)
+	{
+
+		record = myTimer.get_ticks() / 1000;
+		lastRec << "Last Record:  " << record - (score % 10);
+
+		myTimer.start();
+	}
 	if (dynamic_cast<GameState*> (Engine::Instance().GetFSM().GetState().back()))
 	{
 		State::Render();
 	}
-
-
 }
 
 void GameState::Exit()
 {
 	cout << "Exiting Game state....." << endl;
+	Mix_FreeMusic(m_pMusic);
 }
 
 void GameState::Resume()
@@ -192,30 +371,119 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
+	m_pMusic = Mix_LoadMUS("../Assets/Audio/TitleState.mp3");
 	cout << "Entering Title state....." << endl;
+	m_vButtons.push_back(new Button("../Assets/Textures/Start.png", { 0,0,321,80 }, { 360,350,300,80 },
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+
+	m_vButtons.push_back(new Button("../Assets/Textures/exit.png", { 0,0,321,80 }, { 360,450,300,80 },
+		std::bind(&Engine::QuitGame, &Engine::Instance())));
+	Mix_PlayMusic(m_pMusic, -1);
 }
 
 void TitleState::Update()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_N))
-		Engine::Instance().GetFSM().ChangeState(new GameState());
+	
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Update();
 }
 
 void TitleState::Render()
 {
-	//cout << "Rendering Title state....." << endl;
-	//SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+
 	SDL_Texture* m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/TitleState.png");
 	SDL_Rect src = { 0, 0, 1024, 768 };
 	SDL_Rect dst = { 0 , 0, 1024, 768 };
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture, &src, &dst);
 	//SDL_RenderClear(Engine::Instance().GetRenderer());
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Render();
 	State::Render();
 }
 
 void TitleState::Exit()
 {
 	cout << "Exiting Title state....." << endl;
+	Mix_FreeMusic(m_pMusic);
 }
 
 // Title State Ends
+
+EndState::EndState()
+{
+	
+}
+
+void EndState::Enter()
+{
+	m_pMusic = Mix_LoadMUS("../Assets/Audio/TitleState.mp3");
+	font = TTF_OpenFont("arial.ttf", 40);
+	Mix_PlayMusic(m_pMusic, -1);
+	
+	cout << "Entering End state....." << endl;
+	m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/EndState.png");
+	m_vButtons.push_back(new Button("../Assets/Textures/replay.png", { 0,0,100,50 }, { 315,450,100,50 },
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new TitleState())));
+	m_vButtons.push_back(new Button("../Assets/Textures/exit2.png", { 0,0,100,50 }, { 615,450,100,50 },
+		std::bind(&Engine::QuitGame, &Engine::Instance())));
+}
+
+
+
+void EndState::Update()
+{
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
+	{
+		Engine::Instance().GetFSM().ChangeState(new TitleState());
+		/*Engine::Instance().getPlayer()->finish = false;*/
+		// Mary - dil wit it.
+	}
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Update();
+}
+
+void EndState::Render()
+{
+	
+	SDL_Rect src = { 0, 0, 1024, 768 };
+	SDL_Rect dst = { 0 , 0, 1024, 768 };
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture, &src, &dst);
+	//SDL_RenderClear(Engine::Instance().GetRenderer());
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Render();
+	std::stringstream scoreText;
+	scoreText.str("");
+	scoreText << "" << Engine::Instance().getHighScore();
+	SDL_Color color = { 0, 0, 0 };
+	surface = TTF_RenderText_Solid(font, scoreText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	int texW = 0;
+	int texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	SDL_Rect dstrect = { 352, 300, texW, texH };
+	SDL_FreeSurface(surface);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+
+	std::stringstream timeText;
+	timeText.str("");
+	timeText << "" << Engine::Instance().getTime();;
+	color = { 0, 0, 0 };
+	surface = TTF_RenderText_Solid(font, timeText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 652, 300, texW, texH };
+	SDL_FreeSurface(surface);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+	State::Render();
+}
+
+void EndState::Exit()
+{
+	cout << "Exiting End state....." << endl;
+	Mix_FreeMusic(m_pMusic);
+}

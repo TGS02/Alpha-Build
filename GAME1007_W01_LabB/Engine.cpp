@@ -7,15 +7,17 @@
 #include <vector>
 #include  <SDL.h>
 #include <glm\vec2.hpp>
+#define GRAV 8.0
+#define JUMPFORCE 20.0
 
 #define WIDTH 1024
 #define HEIGHT 768
 #define FPS 60
 using namespace std;
 
-Engine::Engine():g_bRunning(false)                          //class initializer way
+Engine::Engine():g_bRunning(false) , m_bSpaceOk(true)  ,pressSpace(false)                       //class initializer way
 {
-	cout << "Constructing engine class...\n";
+	time = highScore = 0;
 	
 }
 
@@ -23,7 +25,7 @@ Engine::Engine():g_bRunning(false)                          //class initializer 
 
 bool Engine::init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
-	cout << "Initializing game." << endl;
+	
 	// Attempt to initialize SDL.
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -33,15 +35,7 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 		{
 			g_pRenderer = SDL_CreateRenderer(g_pWindow, -1, 0);
 			if (g_pRenderer != nullptr) // Renderer init success.
-			{
-				m_pTexture = IMG_LoadTexture(g_pRenderer, "../Assets/Textures/Background_1.png");
-				map = new Map(g_pRenderer);
-				player = new Player();
-				player->loadPlayer(g_pRenderer);
-			
-				gun = new Gun(glm::vec2(player->getPosition().x + (player->getSize().x / 2), player->getPosition().y + (player->getSize().y / 2)));
-				gun->loadGun(g_pRenderer);
-			}
+			{			}
 			
 			else return false; // Renderer init fail.
 			TTF_Init();
@@ -50,6 +44,11 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 			{
 				Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
 				m_pMusic = Mix_LoadMUS("../Assets/Audio/bgMusic.mp3");
+				 m_pPickUps = Mix_LoadWAV("../Assets/Audio/coin.wav");
+				 m_pShoot = Mix_LoadWAV("../Assets/Audio/sci-fiShoot.wav");
+				 m_pWin = Mix_LoadWAV("../Assets/Audio/win.wav");
+				 m_pButtons = Mix_LoadWAV("../Assets/Audio/click.wav");
+				 m_pDeath = Mix_LoadWAV("../Assets/Audio/death.wav");;
 			}
 			else return false;
 
@@ -65,9 +64,10 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 	m_round = 0;
 	m_pFSM = new FSM();
 	m_pFSM->ChangeState(new TitleState());
-	Mix_PlayMusic(m_pMusic, -1);
+	//Mix_PlayMusic(m_pMusic, -1);
+	
 	g_bRunning = true; // Everything is okay, start the engine.
-	cout << "Success!" << endl;
+	
 	return true;
 }
 
@@ -96,13 +96,33 @@ void Engine::handleEvents()
 			g_bRunning = false;
 			break;
 		case SDL_MOUSEMOTION:
+			SDL_GetMouseState(&m_MousePos.x, &m_MousePos.y);
 			m_mousePosition.x = event.motion.x;
 			m_mousePosition.y = event.motion.y;
 			break;
 		case SDL_KEYDOWN: // Try SDL_KEYUP instead.
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				g_bRunning = false;
+		case SDL_KEYUP:
+			if (event.key.keysym.sym == SDLK_SPACE)
+				pressSpace = false;
+		/*	if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_d)
+				upButtonad = true;*/
+			if (event.key.keysym.sym == SDLK_w)
+				m_bSpaceOk = true;
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (event.button.button >= 1 && event.button.button <= 3)
+			{
+				m_MouseState[event.button.button - 1] = true;
+				Mix_PlayChannel(-1, m_pButtons, 0);
+			}
+			break;
+		case SDL_MOUSEBUTTONUP:
+			if (event.button.button >= 1 && event.button.button <= 3)
+				m_MouseState[event.button.button - 1] = false;
+			break;
+
 		}
 	}
 }
@@ -112,6 +132,7 @@ Engine& Engine::Instance()
 	static Engine instance;
 	return instance;
 }
+
 
 // Keyboard utility function.
 bool Engine::KeyDown(SDL_Scancode c)
@@ -129,76 +150,20 @@ bool Engine::KeyDown(SDL_Scancode c)
 void Engine::update()
 {
 	m_pFSM->Update();
-	player->playerUpdate(map);
-	if (m_mousePosition.x < player->getPosition().x) {
-		player->setRotation(true);
-		gun->setRotation(true);
-	}
-	if (m_mousePosition.x > player->getPosition().x) {
-		player->setRotation(false);
-		gun->setRotation(false);
-	}
-	gun->setPosition(glm::vec2(player->getPosition().x + (player->getSize().x / 2), player->getPosition().y + (player->getSize().y / 2)));
-	gun->setMousePosition(Engine::getMousePosition());
-	gun->update();
 }
 
 void Engine::render()
 {
 	m_pFSM->Render();
-	
-	
 }
 
-void Engine::renderGameState()
-{
-	
-		SDL_SetRenderDrawColor(g_pRenderer, 255, 255, 255, 255);
-		SDL_RenderClear(g_pRenderer); // Clear the screen with the draw color.
-
-		// Render the overall background
-		//SDL_RenderCopy(g_pRenderer, m_pTexture, &m_src, &m_dst);
-		//SDL_RenderCopy(g_pRenderer, m_pTexture, &m_src, &m_dst2);
-
-		// Render the tiling background
-		vector<int> num = { 1 };
-		map->DrawBG(g_pRenderer, num);
-		num.clear();
-
-		// Render the tiles with z < the player
-		num = { 1,2,3,5,12,13,14,15,16,31,32,33,34,41,42 };
-		map->DrawMap(g_pRenderer, num);
-		num.clear();
-
-		// Render the player
-		player->playerDraw(g_pRenderer);
-		gun->draw(g_pRenderer);
-		// Render tiles with z > the player
-		num = { 21,22 };
-		map->DrawMap(g_pRenderer, num);
-		num.clear();
-
-		// Draw anew.
-	
-}
 
 void Engine::clean()
 {
-	cout << "Cleaning game." << endl;
-	gun->clean();
-	delete gun;
-	gun = nullptr;
+	
 	m_pFSM->Clean();
 	delete m_pFSM;
 	m_pFSM = nullptr;
-	map->clean();
-	delete map;
-	map = nullptr;
-	player->clean();
-	delete player;
-	player = nullptr;
-
-	SDL_DestroyTexture(m_pTexture);
 	SDL_DestroyRenderer(g_pRenderer);
 	SDL_DestroyWindow(g_pWindow);
 	SDL_Quit();
@@ -233,6 +198,23 @@ TTF_Font* Engine::getFont()
 	return font;
 }
 
+Mix_Chunk* Engine::getShootMixChunk()
+{
+	return m_pShoot;
+}
+
+Mix_Chunk* Engine::getMixChunk()
+{
+	return m_pPickUps;
+}
+Mix_Chunk* Engine::getWinMixChunk()
+{
+	return m_pWin;
+}
+Mix_Chunk* Engine::getDeathMixChunk()
+{
+	return m_pDeath;
+}
 SDL_Renderer* Engine::GetRenderer()
 {
 	return g_pRenderer;
@@ -243,7 +225,74 @@ glm::vec2 Engine::getMousePosition()
 	return m_mousePosition;
 }
 
+void Engine::setHighScore(int s)
+{
+	highScore = s;
+}
+
+int Engine::getHighScore()
+{
+	return highScore;
+}
+
+int Engine::getTime()
+{
+	return time;
+}
+
+void Engine::setTime(int t)
+{
+	time = t;
+}
+
+void Engine::QuitGame() { g_bRunning = false; }
+bool Engine::GetMouseState(int idx) { return m_MouseState[idx]; }
 FSM& Engine::GetFSM()
 {
 	return *m_pFSM;
+}
+
+bool Engine::getSpaceOk()
+{
+	return m_bSpaceOk;
+}
+
+bool Engine::getUpad()
+{
+	return  upButtonad;
+}
+
+bool Engine::getPressSpace()
+{
+	return pressSpace;
+}
+
+void Engine::setPressSpace(bool press)
+{
+	pressSpace = press;
+}
+
+Uint32 Engine::getDelta()
+{
+	return g_delta;
+}
+
+void Engine::setSpaceOk(bool space)
+{
+	m_bSpaceOk = space;
+}
+
+SDL_Rect Engine::getSrcRect()
+{
+	return m_src;
+}
+
+SDL_Rect Engine::getDstRect()
+{
+	return m_dst;
+}
+
+SDL_Rect Engine::getDstRect2()
+{
+	return m_dst2;
 }

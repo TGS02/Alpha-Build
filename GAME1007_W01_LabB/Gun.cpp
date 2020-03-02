@@ -4,7 +4,8 @@
 #include <glm/vec2.hpp>
 #include <ostream>
 #include <iostream>
-
+#define WIDTH 1024
+#define HEIGHT 768
 void Gun::m_changeDirection()
 {
 	float x = cos(m_currentHeading * Util::Deg2Rad);
@@ -16,21 +17,32 @@ void Gun::m_changeDirection()
 
 Gun::Gun(glm::vec2 playerPos)
 {
+	recoilDrag = glm::vec2(8.0, 0.8);
 	m_vPosition = playerPos;
-	m_src = { 0,0,44,16 };
+	m_src = { 0,0,40,14 };
 	left = false;
 	m_turnRate = 20.0f; // 20 degrees per frame
 	m_currentHeading = 0.0; //current facing angle
 	m_VCurrentDirection = glm::vec2(1.0f, 0.0f);
 	m_vVelocity = glm::vec2(0.0f, 0.0f);
-	m_speed = 1;
+	m_speed = 2.9f;
 	angleToMouse = 0;
+	delayMin = 0;
+	delayMax = 15;
+	startFlashing = false;
+	flashMin = 0;
+	flashMax = 35;
+	stopMin = 0;
+	stopMax = 100;
+	playerDie = false;
+	counterShoot = 0;
+	drawShoot = false;
 }
 
 SDL_Texture* Gun::loadGun(SDL_Renderer* m_pRenderer)
 {
 	
-	m_pTexture = TextureManager::LoadTexture(m_pRenderer, "../Assets/Textures/PPSH.png");
+	m_pTexture = TextureManager::LoadTexture(m_pRenderer, "../Assets/Textures/Gun.png");
 	return m_pTexture;
 	
 }
@@ -67,6 +79,11 @@ void Gun::computeMouseDirection()
 	
 }
 
+void Gun::getShootFsm(bool shoot)
+{
+	drawShoot = shoot;
+}
+
 glm::vec2 Gun::getMousePosition()
 {
 	return  m_vMousePosition;
@@ -75,6 +92,11 @@ glm::vec2 Gun::getMousePosition()
 bool Gun::getRotation()
 {
 	return left;
+}
+
+void Gun::getPlayerDie(bool die)
+{
+	playerDie = die;
 }
 
 glm::vec2 Gun::getCurrentDirection()
@@ -88,6 +110,11 @@ void Gun::setPosition(glm::vec2 newPosition)
 	m_vPosition = newPosition;
 }
 
+glm::vec2 Gun::getPosition()
+{
+	return m_vPosition;
+}
+
 void Gun::setVelocity(glm::vec2 newVelocity)
 {
 	m_vVelocity = newVelocity;
@@ -97,7 +124,7 @@ void Gun::turnRight()
 {
 	float angleDifference = abs(m_turnRate - abs(angleToMouse)) * 0.2f;
 	if (angleDifference < 0.25f) angleDifference = 0.0f;
-	std::cout << "Angle Diff:  " << angleDifference << std::endl;
+	
 	m_currentHeading += ((angleDifference < m_turnRate) ? angleDifference : m_turnRate) * m_speed;
 	//m_currentHeading += m_turnRate*m_speed;
 
@@ -106,7 +133,7 @@ void Gun::turnLeft()
 {
 	float angleDifference = abs(m_turnRate - abs(angleToMouse)) * 0.2f;
 	if (angleDifference < 0.25f) angleDifference = 0.0f;
-	std::cout << "Angle Diff:  " << angleDifference << std::endl;
+	
 	m_currentHeading -= ((angleDifference < m_turnRate) ? angleDifference : m_turnRate) * m_speed;
 
 	//  m_currentHeading -= m_turnRate* m_speed;
@@ -114,18 +141,111 @@ void Gun::turnLeft()
 
 void Gun::draw(SDL_Renderer* g_p_renderer)
 {
-	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 44, 10 };
-	SDL_Point centerPoint = { 0, 5};
-	if(!left)
+	if(drawShoot)
+	{
+		m_src = { 40,0,40,14 };
+		counterShoot++;
+		if(counterShoot==12)
+		{
+			counterShoot = 0;
+			drawShoot = false;
+			m_src = { 0,0,40,14 };
+
+		}
+		
+	}
+	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 40, 18 };
+	SDL_Point centerPoint = { 0, 9};
+	if(!left && !playerDie)
 	TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
-	else {
+	else if (left && !playerDie) {
 		TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 	}
+	if (playerDie)
+	{
+		if (delayMin == delayMax)
+		{
+			left = false;
+			playerDie = false;
+			delayMin = 0;
+			startFlashing = true;
+		}
+		delayMin++;
+	}
+	if (startFlashing)
+	{
+		if (stopMin != stopMax)
+		{
+			if (flashMin == flashMax / 2)
+			{
+				SDL_SetTextureAlphaMod(m_pTexture, 32);
+				if (!left )
+					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+				else
+					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+
+			}
+			if (flashMin == flashMax)
+			{
+				SDL_SetTextureAlphaMod(m_pTexture, 255);
+				if (!left)
+					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+				else
+					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+
+				flashMin = 0;
+			}
+			flashMin++;
+			stopMin++;
+		}
+		if (stopMin == stopMax)
+		{
+			SDL_SetTextureAlphaMod(m_pTexture, 255);
+			if (!left)
+				TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+			else
+				TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+
+			startFlashing = false;
+			stopMin = 0;
+		}
+	}
+
+}
+
+void Gun::shoot()
+{
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
+	{
+		glm::vec2 offset;
+		
+		
+		float angle = 1.0 - abs(m_VCurrentDirection.y);
+		if  (m_VCurrentDirection.x <= 0)
+		{
+
+			offset.x = getPosition().x + recoilDrag.x;
+			offset.y = getPosition().y - 10 * recoilDrag.y;
+
+		}
+		else 
+		{
+			offset.x = getPosition().x - recoilDrag.x;
+			offset.y = getPosition().y - 10 * recoilDrag.y;
+
+		}
+
+	
+		setPosition(offset);
+
+	}
+	
 }
 
 void Gun::update()
 {
 	move();
+	shoot();
 }
 
 void Gun::clean()
@@ -138,11 +258,12 @@ void Gun::move()
 	computeMouseDirection();
 	m_changeDirection();
 	float angleToMouse = Util::signedAngle(getCurrentDirection(),m_vMouseDirection);
-	std::cout << "angle to mouse"<< angleToMouse<< endl; 
-	if (angleToMouse > 0.0f)
-		turnRight();
-	if (angleToMouse < 0.0f)
-		turnLeft();
+	if (abs(angleToMouse)> 6.0f) {
+		if (angleToMouse > 1.0f)
+			turnRight();
+		if (angleToMouse < -1.0f)
+			turnLeft();
+	}
 	//setVelocity(getCurrentDirection());
 	//setPosition(m_vPosition + getVelocity());
 	

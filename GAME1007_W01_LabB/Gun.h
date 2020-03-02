@@ -19,11 +19,19 @@ private:
 	glm::vec2 m_VCurrentDirection;
 	glm::vec2 m_vMouseDirection;
 	glm::vec2 m_vVelocity;
-
+	int delayMin, delayMax; // To create a delay after player dies.
+	bool startFlashing;
+	int flashMin, flashMax; // Player starts flashing after dying.
+	int stopMin, stopMax; // Set total time for player to keep flashing.
+	bool playerDie;
+	int counterShoot;
+	bool drawShoot;
+	glm::vec2 recoilDrag;
 public:
 	Gun(glm::vec2);
 	~Gun();
 	void draw(SDL_Renderer* g_p_renderer);
+	void shoot();
 	void update();
 	void clean();
 	void move();
@@ -36,14 +44,16 @@ public:
 	float getMaxSpeed();
 	glm::vec2 getMousePosition();
 	bool getRotation();
-
+	void getPlayerDie(bool die);
 	// setters
 	void setVelocity(glm::vec2 newVelocity);
 	void setCurrentDirection(glm::vec2 newDirection);
 	void setPosition(glm::vec2 newPosition);
+	glm::vec2 getPosition();
 	void setMousePosition(glm::vec2 newPosition);
 	void setRotation(bool newRot);
 	void checkInMouseDirecion();
 	void computeMouseDirection();
+	void getShootFsm(bool shoot);
 };
 
