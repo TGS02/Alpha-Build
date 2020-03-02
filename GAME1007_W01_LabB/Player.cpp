@@ -174,12 +174,12 @@ void Player::checkCollision(int x, int y, Map* map)
 					else if ((m_dst.x  ) - GetVelX() <= tile.x)
 					{ // Collision from left.
 						SetVelX(0.0); // Stop the player from moving horizontally.
-						SetX(tile.x - m_dst.w);
+						SetX(tile.x - 8*m_dst.w/9);
 					}
 					else if (m_dst.x + m_dst.w/2- GetVelX() >= (tile.x +tile.w))
 					{ // Collision from right.
 						SetVelX(0.0); // Stop the player from moving horizontally.
-						SetX(tile.x + tile.w + 0.01f);
+						SetX(tile.x + tile.w + 0.1f);
 					}
 					
 				}
@@ -286,7 +286,7 @@ void Player::checkCollision(int x, int y, Map* map)
 			}
 
 			newDst = { m_dst.x + 5 ,m_dst.y ,m_dst.w - 5 , m_dst.h };
-			tile = { left ,top + 15 ,20,21 };
+			tile = { left+7 ,top + 7 ,25,15 };
 			if (type == 16)//Pickups
 			{
 				
@@ -367,7 +367,7 @@ void Player::clean()
 	SDL_DestroyTexture(m_pTexture);
 }
 
-void Player::MoveX() { m_dAccelX += 1.0 * m_iDir; }// Should change real number to speed variable.
+void Player::MoveX() { m_dAccelX += 0.5 * m_iDir; }// Should change real number to speed variable.
 
 void Player::Stop() // If you want a dead stop both axes.
 {

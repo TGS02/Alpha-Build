@@ -205,11 +205,11 @@ void GameState::Update()
 	{
 		Mix_PlayChannel(-1, Engine::Instance().getShootMixChunk(), 0);
 		gun->getShootFsm(true);
-		if (counterSpace >= 1 && counterSpace <= 10) {
+		//if (counterSpace >= 1 && counterSpace <= 10) {
 			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 20);
 			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 20);
-		}
-		if (counterSpace >= 11 && counterSpace <= 25) {
+		//}
+	/*	if (counterSpace >= 11 && counterSpace <= 25) {
 
 			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 30);
 			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 30);
@@ -218,7 +218,7 @@ void GameState::Update()
 
 			m_pPlayer->SetVelX(-gun->getCurrentDirection().x * 40);
 			m_pPlayer->SetVelY(-gun->getCurrentDirection().y * 40);
-		}
+		}*/
 
 		counterSpace = 0;
 	}
