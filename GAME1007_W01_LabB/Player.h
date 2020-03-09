@@ -3,70 +3,81 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <string>
-#include "Map.h"
 #include <glm\vec2.hpp>
+#include "Scorecard.h"
+#include "TileMap.h"
+#include "Weapon.h"
 using namespace std;
 
+struct Forces
+{
+	Forces() { Clear(); }
+	float air_control;
+	float grd_control;
+	glm::vec2 air_force;
+	glm::vec2 grd_force;
+	float air_drag;
+	float grd_drag;
+	float air_maxSpeed;
+	float grd_maxSpeed;
+	float air_maxDrag;
+	float grd_maxDrag;
+	glm::vec2 jumpForce;
+	float jumpForceMax;
+	glm::vec2 jumpImpulse;
+	unsigned int numSupportingTiles;
+	void Clear();
+	void Update(TileMap* tileMap);
+};
 
 class Player
 {
 
 private:
-
-	double m_dAccelX,
-		m_dMaxAccelX,
-		m_dAccelY,
-		m_dVelX,
-		m_dMaxVelX,
-		m_dVelY,
-		m_dMaxVelY,
-		m_dDrag,
-		m_dGrav;
 	int m_iDir; // Direction. -1 or 1. Not being used in this example.
 
 	/********************************************/
 	SDL_Texture* m_pTexture;
-	int m_iSpeed;
 	int velX, velY;
-	SDL_Rect m_src, m_dst;
+	SDL_Rect m_src, m_dst, m_col;
+	glm::vec2 m_pos;
 	int m_frame, 
 		m_frameMax, 
 		m_sprite, 
 		m_spriteMax; 
 	const Uint8* g_iKeystates;
 	bool left;
-	bool onGround;
 	int m_lastPosition;
-	float jumpVel ;
-	bool  jumping;
-    float gravity ;
 	bool die;
 	int delayMin, delayMax; // To create a delay after player dies.
 	bool startFlashing;
 	int flashMin, flashMax; // Player starts flashing after dying.
 	int stopMin, stopMax; // Set total time for player to keep flashing.
-	
+
+	// Physics variables
+	glm::vec2 m_fVelocity;
+	glm::vec2 m_fAcceleration;
+	bool onGround;
+	bool isJumping;
+	glm::vec2 m_fTotalJumpForce;
+	TileMap* m_pTileMap;
+	Forces m_forces;
+
+	Weapon* m_pWeapon;
+	glm::vec2 m_fRecoilVelocity;
 
 public:
-	bool score;
 	int record;
 	bool finish;
 	bool stop;
 	void Update();
-	void MoveX();
 	void Stop();
 	void SetDir(int dir);
-	void SetAccelX(double a);
-	void SetAccelY(double a);
 	bool IsGrounded();
 	void SetGrounded(bool g);
-	double GetVelX();
-	double GetVelY();
-	void SetVelX(double v);
-	void setVelXMax(double v);
-	void setVelyMax(double v);
-	void setDrag(double d);
-	void SetVelY(double v);
+	float getControl() { return m_forces.numSupportingTiles > 0 ? m_forces.grd_control : m_forces.air_control; }
+	glm::vec2& getVelocity() { return m_fVelocity; }
+	glm::vec2& getAcceleration() { return m_fAcceleration; }
 	void SetX(int y);
 	void SetY(int y);
 	void SetLeft(bool l);
@@ -77,16 +88,23 @@ public:
 	~Player();
 	SDL_Texture* loadPlayer(SDL_Renderer*);
 	bool keyDown(SDL_Scancode);
-	void playerUpdate(Map* map, Uint32 delta);
-	glm::vec2 getPosition();
+	void playerUpdate();
+	glm::vec2 getPosition() { return m_pos; }
 	glm::vec2 getSize();
+	SDL_Rect getCol() { return SDL_Rect{ m_dst.x + m_col.x, m_dst.y + m_col.y, m_col.w, m_col.h }; }
 	bool getRotation();
 	bool getDie();
 	void setRotation(bool newRot);
-	void jump();
+	void jump(bool holdingKey = true);
+	void shoot(glm::vec2 direction);
+	void reload();
+	Weapon* getWeapon() { return m_pWeapon; }
+	void setWeapon(Weapon* weapon) { m_pWeapon = weapon; }
+	void setTileMap(TileMap* tileMap) { m_pTileMap = tileMap; }
 	void playerDraw(SDL_Renderer*);
 	void animate();
-	void checkCollision(int x, int y, Map* map);
+	void accelerate();
+	void move();
 	void checkBound();
 	void clean();
 };

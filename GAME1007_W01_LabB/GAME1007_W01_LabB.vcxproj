@@ -119,31 +119,59 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FSM.cpp" />
+    <ClCompile Include="GameData.cpp" />
     <ClCompile Include="Gun.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerData.cpp" />
+    <ClCompile Include="Scorecard.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Util.cpp" />
+    <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="XMLManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="DataSet.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FSM.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="Gun.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerData.h" />
+    <ClInclude Include="Scorecard.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileMap.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Util.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="XMLManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\Textures\PPSH.png" />
     <Image Include="Player.png" />
     <Image Include="TitleState.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameData\GameData.xml" />
+    <Xml Include="GameData\Level1_1.xml" />
+    <Xml Include="GameData\Level1_2.xml" />
+    <Xml Include="GameData\Player1.xml" />
+    <Xml Include="GameData\PlayerData.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameData\Lounge.tsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

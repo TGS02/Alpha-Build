@@ -8,6 +8,8 @@
 #include "Button.h"
 #include "Map.h"
 #include "Player.h"
+#include "Scorecard.h"
+#include "TileMap.h"
 using namespace std;
 
 class State
@@ -42,6 +44,7 @@ public:
 class EndState : public State
 {
 private:
+	Scorecard* m_pScorecard;
 	Mix_Music* m_pMusic;
 	SDL_Texture* m_pTexture;
 	SDL_Rect src, dst;
@@ -55,6 +58,7 @@ public:
 	void Update();
 	void Render();
 	void Exit();
+	void setScorecard(Scorecard* scorecard) { m_pScorecard = scorecard; }
 
 
 };
@@ -69,13 +73,18 @@ public:
 	void Render();
 	void Exit();
 	void Resume();
+	Player* getPlayer() { return m_pPlayer; }
 	bool GetShoot();
 	void setShoot(bool tmpshoot);
+	Scorecard* getScorecard() { return m_pScorecard; }
+	TileMap* getTileMap() { return m_pTileMap; }
 	bool p_score = false;
 	int p_record = 0;
 	bool p_finish = false;
 	bool shoot;
 private:
+	TileMap* m_pTileMap;
+	Scorecard* m_pScorecard;
 	int jumpTime;
 	int record,score;
 	SDL_Surface* surface;
@@ -97,8 +106,9 @@ class TitleState : public State
 {
 private:
 	Mix_Music* m_pMusic;
-	SDL_Texture* m_pBGText;
-	SDL_Rect m_src, m_dst;
+	SDL_Texture* m_pBGTex;
+	SDL_Texture* m_pLogoTex;
+	SDL_Rect m_bgSrc, m_bgDst, m_logoSrc, m_logoDst;
 	vector<Button*> m_vButtons;
 public:
 	TitleState();

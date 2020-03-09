@@ -31,6 +31,7 @@ bool Button::MouseCollision()
 void Button::Update()
 {
 	bool col = MouseCollision();
+	bool willCallback = false;
 	switch (m_iFrame)
 	{
 	case MOUSE_UP:
@@ -51,13 +52,15 @@ void Button::Update()
 			{
 				m_iFrame = MOUSE_OVER;
 				// Execute callback.
-				m_callback();
+				willCallback = true;
 			}
 			else
 				m_iFrame = MOUSE_UP;
 		}
 		break;
 	}
+	if (willCallback)
+		m_callback();
 }
 
 void Button::Render()
