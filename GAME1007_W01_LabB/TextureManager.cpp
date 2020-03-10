@@ -2,9 +2,7 @@
 
 SDL_Texture* TextureManager::LoadTexture(SDL_Renderer* m_pRenderer, const char* fileName)
 {
-	SDL_Texture* tex = IMG_LoadTexture(m_pRenderer, fileName);
-	SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
-	return tex;
+	return IMG_LoadTexture(m_pRenderer, fileName);
 }
 
 void TextureManager::Draw(SDL_Renderer* m_pRenderer, SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst)
