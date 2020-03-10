@@ -127,6 +127,8 @@ void PauseState::Exit(){ }
 //Game State Begins
 GameState::GameState()
 {
+	activeLevelSet = 0;
+	activeLevel = 0;
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
 	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;

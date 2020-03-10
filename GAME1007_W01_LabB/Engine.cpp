@@ -64,6 +64,7 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 	m_round = 0;
 	m_pFSM = new FSM();
 	m_pFSM->ChangeState(new TitleState());
+	m_pCamera = new Camera();
 	//Mix_PlayMusic(m_pMusic, -1);
 	
 	g_bRunning = true; // Everything is okay, start the engine.

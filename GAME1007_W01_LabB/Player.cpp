@@ -138,6 +138,8 @@ void Player::playerUpdate()
 	// Update the player's weapon and sprite
 	m_pWeapon->Update();
 	animate();
+
+	Engine::Instance().getCamera().UpdatePosition({ static_cast<int>(m_pos.x) + m_dst.w / 2, static_cast<int>(m_pos.y) + m_dst.h / 2 });
 }
 
 glm::vec2 Player::getSize()
@@ -357,15 +359,15 @@ void Player::move()
 
 void Player::playerDraw(SDL_Renderer* g_pRenderer)
 {
-	if (!left && !die)
-		TextureManager::Draw(g_pRenderer, m_pTexture, &m_src, &m_dst);
-	if(left && !die)
-		TextureManager::DrawLeft(g_pRenderer, m_pTexture, &m_src, &m_dst);
+	SDL_RendererFlip flip = left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+	int alpha = 255;
+
 	if(die)
 	{
 		if (delayMin == delayMax)
 		{
 			m_pos = { m_src.w, HEIGHT - 5 * 32 - m_src.h };
+			std::cout << m_pos.x << m_pos.y << std::endl;
 			m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
 			left = false;
 			die = false;
@@ -377,6 +379,7 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 		}
 		delayMin++;
 	}
+
 	if (startFlashing)
 	{
 		if (stopMin!=stopMax)
@@ -403,6 +406,8 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 			stopMin = 0;
 		}
 	}
+
+	Engine::Instance().getCamera().RenderOffset(Engine::Instance().GetRenderer(), m_pTexture, &m_src, &m_dst, 0.0, alpha, nullptr, flip);
 }
 
 Player::~Player(){}

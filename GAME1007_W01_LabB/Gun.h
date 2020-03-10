@@ -11,6 +11,7 @@ private:
 	glm::vec2 m_vMousePosition;
 	SDL_Rect m_src, m_dst;
 	bool left;
+	SDL_RendererFlip flip;
 	float m_speed;
 	float m_turnRate;
 	void m_changeDirection();
