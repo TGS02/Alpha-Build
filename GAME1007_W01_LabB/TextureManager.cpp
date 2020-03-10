@@ -20,7 +20,13 @@ void TextureManager::DrawLeft(SDL_Renderer* m_pRenderer, SDL_Texture* tex, SDL_R
 void TextureManager::draw(SDL_Renderer* pRenderer, SDL_Texture* tex, SDL_Rect* src, SDL_Rect* dst, double angle,
 	int alpha, SDL_Point* centered, SDL_RendererFlip flip)
 {
-
-	SDL_RenderCopyEx(pRenderer, tex, src, dst, angle,centered , flip);
-
+	if (centered != nullptr)
+	{
+		SDL_RenderCopyEx(pRenderer, tex, src, dst, angle, centered , flip);
+	}
+	else
+	{
+		SDL_Point pivot = { dst->x + dst->w / 2, dst->y + dst->h / 2 };
+		SDL_RenderCopyEx(pRenderer, tex, src, dst, angle, &pivot, flip);
+	}
 }

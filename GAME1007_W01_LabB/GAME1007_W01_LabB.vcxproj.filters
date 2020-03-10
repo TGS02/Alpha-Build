@@ -84,6 +84,9 @@
     <ClCompile Include="TileMap.cpp">
       <Filter>GameData\Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DataSet.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -140,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="FSM.h" />
