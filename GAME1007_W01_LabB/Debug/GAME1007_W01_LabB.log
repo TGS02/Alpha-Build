@@ -1,8 +1,2 @@
-﻿  TileMap.cpp
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(197,33): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(198,30): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(199,29): warning C4018: '>': signed/unsigned mismatch
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(200,16): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(179): warning C4172: returning address of local variable or temporary
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(206): warning C4172: returning address of local variable or temporary
+﻿  Weapon.cpp
   GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\W2020\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe

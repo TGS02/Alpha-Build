@@ -77,7 +77,7 @@ bool TileMap::LoadFromXML()
 			pElement[1] = pElement[1]->NextSiblingElement(CHILD_TILE))
 		{
 			position_x++;
-			if (position_x % 32 == 0)
+			if (position_x % m_iGridSize[2] == 0)
 			{
 				position_x = 0;
 				position_y++;
@@ -106,7 +106,7 @@ bool TileMap::LoadFromXML()
 					//static_cast<int>((gridpos % m_iGridSize[2]) * m_iTileSize[0]), // To get x, % xsize and * width
 					//static_cast<int>((gridpos / m_iGridSize[1]) * m_iTileSize[1]), // To get y, / xsize and * height
 					position_x * static_cast<int>(m_iTileSize[0]),
-					position_y* static_cast<int>(m_iTileSize[1]),
+					position_y * static_cast<int>(m_iTileSize[1]),
 					m_TileGrid.back()->getDst().w,
 					m_TileGrid.back()->getDst().h });
 			}
