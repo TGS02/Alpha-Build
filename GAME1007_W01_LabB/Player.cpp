@@ -277,6 +277,7 @@ void Player::move()
 				if (totalVelocity.x < 0.0f && initialCollider.x >= tileCollider.x + tileCollider.w)
 				{
 					m_fVelocity.x = 0.0f;
+					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? -m_fRecoilVelocity.x : m_fRecoilVelocity.x;
 					m_fRecoilVelocity.x = 0.0f;
 					finalPosition.x = static_cast<float>(tileCollider.x + tileCollider.w);
 				}
@@ -285,6 +286,7 @@ void Player::move()
 				if (totalVelocity.x > 0.0f && initialCollider.x + initialCollider.w <= tileCollider.x)
 				{
 					m_fVelocity.x = 0.0f;
+					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? m_fRecoilVelocity.x : -m_fRecoilVelocity.x;
 					m_fRecoilVelocity.x = 0.0f;
 					finalPosition.x = static_cast<float>(tileCollider.x - initialCollider.w);
 				}

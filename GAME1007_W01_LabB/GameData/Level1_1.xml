@@ -318,6 +318,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -346,6 +350,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -374,6 +382,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -402,6 +414,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -430,6 +446,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -458,30 +478,10 @@
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
-   <tile gid="1"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
+   <tile gid="10"/>
    <tile gid="1"/>
    <tile gid="1"/>
    <tile gid="1"/>
@@ -1080,7 +1080,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="10"/>
    <tile/>
    <tile/>
    <tile gid="2"/>
@@ -1092,7 +1092,7 @@
    <tile/>
    <tile gid="6"/>
    <tile gid="7"/>
-   <tile gid="7"/>
+   <tile/>
    <tile gid="7"/>
    <tile gid="2"/>
    <tile gid="2"/>
@@ -1112,7 +1112,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="10"/>
    <tile/>
    <tile/>
    <tile/>

@@ -7,9 +7,9 @@
   <properties>
    <property name="drag" type="float" value="0.95"/>
    <property name="force_x" type="float" value="0"/>
-   <property name="force_y" type="float" value="1"/>
+   <property name="force_y" type="float" value="0.5"/>
    <property name="jumpforce_x" type="float" value="0"/>
-   <property name="jumpforce_y" type="float" value="-1"/>
+   <property name="jumpforce_y" type="float" value="-0.75"/>
    <property name="jumpforcemax" type="float" value="-10"/>
    <property name="maxdrag" type="float" value="0.5"/>
    <property name="maxspeed" type="float" value="25"/>
@@ -23,7 +23,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -39,7 +39,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -55,7 +55,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -71,7 +71,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -87,7 +87,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -103,7 +103,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -119,7 +119,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -135,7 +135,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-25"/>
+   <property name="jumpimpulse_y" type="float" value="-15"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
