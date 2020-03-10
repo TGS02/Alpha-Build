@@ -127,8 +127,8 @@ void PauseState::Exit(){ }
 //Game State Begins
 GameState::GameState()
 {
-	GameData::Instance()->getLevelSet(0)->getDatum(0)->LoadFromXML();
-	m_pTileMap = GameData::Instance()->getLevelSet(0)->getDatum(0)->getTileMap();
+	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
+	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;
 	jumpTime = 0;
 	counterSpace = 0;
@@ -307,7 +307,7 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 
-	GameData::Instance()->getLevelSet(0)->getDatum(0)->getTileMap()->draw();
+	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap()->draw();
 	
 	// Render the player
 	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());

@@ -7,6 +7,7 @@
 #include "Scorecard.h"
 #include "TileMap.h"
 #include "Weapon.h"
+#include "Camera.h"
 using namespace std;
 
 struct Forces

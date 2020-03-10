@@ -77,31 +77,39 @@ bool TileMap::LoadFromXML()
 			pElement[1] = pElement[1]->NextSiblingElement(CHILD_TILE))
 		{
 			position_x++;
-			if (position_x % 32 == 0)
+			if (position_x % m_iGridSize[2] == 0)
 			{
 				position_x = 0;
 				position_y++;
 			}
 
 			if (pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_GID, &id[1]) == XML_NO_ATTRIBUTE)
-				id[1] = 1; // Make sure there's an int to push back, even if it's 0.
+				id[1] = 0; // Make sure there's an int to push back, even if it's 0.
+			
 			// Determine the appropriate Tile to push into the vector
-			Tile* tileFromSet = m_TileSet[0].getDatum(id[1] - 1);	// Can only load from one TileSet for now.
-
+			Tile* tileFromSet = nullptr;
+			if (id[1] != 0)
+				tileFromSet = m_TileSet[0].getDatum(id[1] - 1);	// Can only load from one TileSet for now.
+			
 			if (dynamic_cast<BackgroundTile*>(tileFromSet) != nullptr)
 				m_TileGrid.push_back(new BackgroundTile(*dynamic_cast<BackgroundTile*>(tileFromSet)));
-			if (dynamic_cast<StaticTile*>(tileFromSet) != nullptr)
+			else if (dynamic_cast<StaticTile*>(tileFromSet) != nullptr)
 				m_TileGrid.push_back(new StaticTile(*dynamic_cast<StaticTile*>(tileFromSet)));
-			if (dynamic_cast<InteractiveTile*>(tileFromSet) != nullptr)
+			else if (dynamic_cast<InteractiveTile*>(tileFromSet) != nullptr)
 				m_TileGrid.push_back(new InteractiveTile(*dynamic_cast<InteractiveTile*>(tileFromSet)));
+			else
+				m_TileGrid.push_back(nullptr);
 			unsigned int gridpos = m_TileGrid.size() % (m_iGridSize[1] * m_iGridSize[2]); // Account for the layer
-			m_TileGrid.back()->setDst(SDL_Rect{
-				//static_cast<int>((gridpos % m_iGridSize[2]) * m_iTileSize[0]), // To get x, % xsize and * width
-				//static_cast<int>((gridpos / m_iGridSize[1]) * m_iTileSize[1]), // To get y, / xsize and * height
-				position_x * static_cast<int>(m_iTileSize[0]),
-				position_y * static_cast<int>(m_iTileSize[1]),
-				m_TileGrid.back()->getDst().w,
-				m_TileGrid.back()->getDst().h});
+			if (m_TileGrid.back() != nullptr)
+			{
+				m_TileGrid.back()->setDst(SDL_Rect{
+					//static_cast<int>((gridpos % m_iGridSize[2]) * m_iTileSize[0]), // To get x, % xsize and * width
+					//static_cast<int>((gridpos / m_iGridSize[1]) * m_iTileSize[1]), // To get y, / xsize and * height
+					position_x * static_cast<int>(m_iTileSize[0]),
+					position_y * static_cast<int>(m_iTileSize[1]),
+					m_TileGrid.back()->getDst().w,
+					m_TileGrid.back()->getDst().h });
+			}
 		}
 	}
 	return true;
@@ -118,7 +126,7 @@ void TileMap::clean()
 
 void TileMap::print()
 {
-	std::cout << "Printing TileMap with " << m_iGridSize[0] << " layers, " << m_iGridSize[1] << " rows, and " << m_iGridSize[2] << " columns." << std::endl;
+	//std::cout << "Printing TileMap with " << m_iGridSize[0] << " layers, " << m_iGridSize[1] << " rows, and " << m_iGridSize[2] << " columns." << std::endl;
 	//for (unsigned int layerId = 0; layerId < m_iGridSize[0]; layerId++)
 	//{
 	//	std::cout << "Layer: " << layerId << " firstgid: " << m_TileSet[0].getId() << std::endl;
@@ -143,24 +151,27 @@ void TileMap::print()
 	//	std::cout << std::endl;
 	//}
 
-	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
-	{
-		int type = 0;
-		if (dynamic_cast<BackgroundTile*>(m_TileGrid[tileIndex]))
-			type = 1;
-		else if (dynamic_cast<StaticTile*>(m_TileGrid[tileIndex]))
-			type = 2;
-		else if (dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]))
-			type = 3;
-		std::cout << type << ' ';
-	}
+	//for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
+	//{
+	//	int type = 0;
+	//	if (dynamic_cast<BackgroundTile*>(m_TileGrid[tileIndex]))
+	//		type = 1;
+	//	else if (dynamic_cast<StaticTile*>(m_TileGrid[tileIndex]))
+	//		type = 2;
+	//	else if (dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]))
+	//		type = 3;
+	//	std::cout << type << ' ';
+	//}
 }
 
 void TileMap::draw()
 {
 	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
 	{
-		m_TileGrid[tileIndex]->draw();
+		if (m_TileGrid[tileIndex] != nullptr)
+		{
+			m_TileGrid[tileIndex]->draw();
+		}
 	}
 }
 

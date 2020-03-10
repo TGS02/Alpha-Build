@@ -34,6 +34,8 @@ private:   //Properties
 	int counterSpace;
 	bool pressSpace;
 	bool m_MouseState[3] = { 0,0,0 };
+	Camera m_pCamera;
+
 private:   //methods
 	bool init(const char* , int , int , int , int, int);        //you could define all these functions inline(copy the whole function including its body here)
 	void wake();
@@ -42,11 +44,10 @@ private:   //methods
 	Engine();
 	void update();
 	void render();
-	
 	void clean();
-	
 
 public:
+	Camera& getCamera() { return m_pCamera; }
 	void setHighScore(int s);
 	int getHighScore();
 	int getTime();
