@@ -1,12 +1,242 @@
-﻿  Camera.cpp
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+﻿  Button.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-  GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\W2020\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Button.cpp(25,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Button.cpp(26,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Camera.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  DataSet.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Engine.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Engine.cpp(100,36): warning C4244: '=': conversion from 'Sint32' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Engine.cpp(101,36): warning C4244: '=': conversion from 'Sint32' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  FSM.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(192,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(193,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Gun.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Gun.cpp(223,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Main.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Player.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  TextureManager.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Tile.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  TileMap.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(196,33): warning C4018: '>': signed/unsigned mismatch
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(197,30): warning C4018: '<': signed/unsigned mismatch
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(198,29): warning C4018: '>': signed/unsigned mismatch
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\TileMap.cpp(199,16): warning C4018: '<': signed/unsigned mismatch
+  Util.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(228,15): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(229,15): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(245,16): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(277,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(278,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(279,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(280,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(285,59): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(285,52): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(285,45): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(285,36): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(291,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(292,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(293,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(294,8): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(297,24): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(298,24): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(395,16): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(396,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(401,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(411,22): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Util.cpp(420,19): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Weapon.cpp
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Generating Code...
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Tile.h(206): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Tile.h(179): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\PlayerData.h(81): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\PlayerData.h(82): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\PlayerData.h(83): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\PlayerData.h(84): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Tile.h(179): warning C4172: returning address of local variable or temporary
+C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Tile.h(206): warning C4172: returning address of local variable or temporary
+  GAME1007_W01_LabB.vcxproj -> C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe

@@ -146,6 +146,13 @@ GameState::GameState()
 	countFinish = 0;
 	m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/time.png");
 	m_pScoreTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/score.png");
+	BG_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/PauseState.png");
+	crosshair_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Crosshair.png");
+	cross_src = { 0,0,32,32 };
+
+	cross_dst = { 0,0, cross_src.w,cross_src.h };
+	bg_src = { 0,0,1024,768 };
+	bg_dst = { 0,0,bg_src.w,bg_src.h };
 	score_src = src = { 0,0,970,80 };
 	dst = { 0,-8,970,80 };
 	score_dst = { 925 , -8, 970, 80 };
@@ -182,6 +189,11 @@ void GameState::Enter()
 
 void GameState::Update()
 {
+	mouseposx = Engine::Instance().getMousePosition().x;
+	mouseposy = Engine::Instance().getMousePosition().y;
+	cross_dst.x = mouseposx - (cross_src.w /2);
+	cross_dst.y = mouseposy - (cross_src.h /2);
+
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
 	{
 		m_pPlayer->reload();
@@ -307,12 +319,14 @@ void GameState::Render()
 	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 255, 255, 255);
 	SDL_RenderClear(Engine::Instance().GetRenderer());
 
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), BG_text, &bg_src, &bg_dst);
+
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap()->draw();
 	
 	// Render the player
 	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
 	gun->draw(Engine::Instance().GetRenderer());
-
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), crosshair_text, &cross_src, &cross_dst);
 	
 	/*if (Engine::Instance().getFont() == nullptr)
 		cout << TTF_GetError();*/
