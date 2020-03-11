@@ -32,6 +32,7 @@ public:
 	virtual void setFileName(std::string filename) { m_strFileName = filename; }
 
 	// Accessor functions
+	virtual const SDL_Rect getBounds();
 	virtual const std::string getFileName() { return m_strFileName; }
 	virtual DataSet_1D<Tile>* getTileSet(unsigned int index = 0) { return &m_TileSet[index]; }
 	virtual Tile* getTile(unsigned int layer, unsigned int pos_x, unsigned int pos_y) {

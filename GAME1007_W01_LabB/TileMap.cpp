@@ -249,3 +249,15 @@ void TileMap::update()
 		m_TileGrid[tileIndex]->update();
 	}
 }
+
+const SDL_Rect TileMap::getBounds()
+{
+	SDL_Rect bounds = {
+		0,
+		0,
+		m_iGridSize[2] * m_iTileSize[0],
+		m_iGridSize[1] * m_iTileSize[1],
+	};
+	std::cout << "Bounds are: " << bounds.x << '/' << bounds.y << '/' << bounds.w << '/' << bounds.h << ' ' << std::endl;
+	return bounds;
+}

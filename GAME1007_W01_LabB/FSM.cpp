@@ -127,6 +127,8 @@ void PauseState::Exit(){ }
 //Game State Begins
 GameState::GameState()
 {
+	activeLevelSet = 0;
+	activeLevel = 0;
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
 	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;
@@ -179,6 +181,7 @@ GameState::~GameState()
 
 void GameState::Enter()
 {
+	Engine::Instance().getCamera().SetBounds(m_pTileMap->getBounds());
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
 	myTimer.start();
 	Mix_PlayMusic(m_pMusic, -1);

@@ -82,8 +82,8 @@ public:
 	int p_record = 0;
 	bool p_finish = false;
 	bool shoot;
-	unsigned int activeLevel = 1;
-	unsigned int activeLevelSet = 0;
+	unsigned int activeLevel;
+	unsigned int activeLevelSet;
 	int mouseposx, mouseposy;
 private:
 	TileMap* m_pTileMap;
