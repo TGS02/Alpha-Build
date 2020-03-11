@@ -60,4 +60,5 @@ public:
 	virtual void Update();
 	virtual bool Fire();
 	virtual bool Reload();
+	virtual void Reset();
 };

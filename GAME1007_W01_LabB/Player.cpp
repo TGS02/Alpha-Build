@@ -338,7 +338,9 @@ void Player::move()
 	m_pTileMap->checkInteraction(finalCollider);
 	for (unsigned int tileIndex = 0; tileIndex < m_pTileMap->getInteractingTiles()->size(); tileIndex++)
 	{
-		switch (m_pTileMap->getInteractingTiles()->at(tileIndex)->getType())
+		InteractiveTile* interactiveTile = m_pTileMap->getInteractingTiles()->at(tileIndex);
+		interactiveTile->setInteracted(true);
+		switch (interactiveTile->getType())
 		{
 		case InteractiveTile::Type::IGNORE:
 			break;
@@ -376,6 +378,8 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 			onGround = true;
 			delayMin = 0;
 			startFlashing = true;
+			m_pWeapon->Reset();
+			m_pTileMap->reset();
 		}
 		delayMin++;
 	}

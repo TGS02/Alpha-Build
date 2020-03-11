@@ -177,7 +177,7 @@ void TileMap::draw()
 
 void TileMap::checkCollision(SDL_Rect collider)
 {
-	unsigned int pad = 3;
+	unsigned int pad = 7;
 	// Clear the collision vector for refilling
 	m_CollidingTiles.clear();
 	m_SupportingTiles.clear();
@@ -195,8 +195,8 @@ void TileMap::checkCollision(SDL_Rect collider)
 			}
 			if ((collider.y + collider.h > tileCol.y - pad) && // Between 3 pixels above the top of the tile
 				(collider.y + collider.h < tileCol.y + pad) && // And 3 pixels below it
-				collider.x + collider.w > tileCol.x + pad &&
-				collider.x < tileCol.x + tileCol.w - pad)
+				collider.x + collider.w > tileCol.x &&
+				collider.x < tileCol.x + tileCol.w)
 			{
 				m_SupportingTiles.push_back(colTile);
 			}
@@ -246,7 +246,21 @@ void TileMap::update()
 {
 	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
 	{
-		m_TileGrid[tileIndex]->update();
+		if (m_TileGrid[tileIndex] != nullptr)
+		{
+			m_TileGrid[tileIndex]->update();
+		}
+	}
+}
+
+void TileMap::reset()
+{
+	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
+	{
+		if (m_TileGrid[tileIndex] != nullptr)
+		{
+			m_TileGrid[tileIndex]->reset();
+		}
 	}
 }
 

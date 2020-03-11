@@ -234,6 +234,8 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	const char* CHILD_IMAGE = "image";
 	const char* CHILD_OBJECTGROUP = "objectgroup";
 	const char* CHILD_OBJECT = "object";
+	const char* CHILD_ANIMATION = "animation";
+	const char* CHILD_FRAME = "frame";
 	const char* ATTRIBUTE_ID = "id";
 	const char* ATTRIBUTE_NAME = "name";
 	const char* ATTRIBUTE_TILEWIDTH = "tilewidth";
@@ -246,6 +248,8 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	const char* ATTRIBUTE_TYPE = "type";
 	const char* ATTRIBUTE_SOURCE = "source";
 	const char* ATTRIBUTE_VALUE = "value";
+	const char* ATTRIBUTE_TILEID = "tileid";
+	const char* ATTRIBUTE_DURATION = "duration";
 	const char* TYPE_BACKGROUNDTILE = "BackgroundTile";
 	const char* TYPE_STATICTILE = "StaticTile";
 	const char* TYPE_INTERACTIVETILE = "InteractiveTile";
@@ -258,6 +262,8 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	std::string PROPERTY_MAXDRAG = "maxdrag";
 	std::string PROPERTY_MAXSPEED = "maxspeed";
 	std::string PROPERTY_INTERACTIONTYPE = "interactiontype";
+	std::string PROPERTY_ANIMATEONINTERACTION = "animateoninteraction";
+	std::string PROPERTY_VANISHONINTERACTION = "vanishoninteraction";
 	std::string PROPERTY_JUMPIMPULSE_X = "jumpimpulse_x";
 	std::string PROPERTY_JUMPIMPULSE_Y = "jumpimpulse_y";
 	tinyxml2::XMLNode* pRoot = xmlDoc.FirstChildElement(ROOT);
@@ -281,6 +287,7 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	{
 		// Define the temporary storage variables with default values
 		std::string type;
+		bool animateoninteraction = false, vanishoninteraction = false;
 		int src_x = 0, src_y = 0, src_w, src_h, interactiontype;
 		const char* src_file;
 		float drag, force_x, force_y, maxdrag, maxspeed,	// Common to all world tiles
@@ -324,6 +331,10 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &maxspeed);
 				if (prop == PROPERTY_INTERACTIONTYPE)
 					pElement[1]->QueryIntAttribute(ATTRIBUTE_VALUE, &interactiontype);
+				if (prop == PROPERTY_ANIMATEONINTERACTION)
+					pElement[1]->QueryBoolAttribute(ATTRIBUTE_VALUE, &animateoninteraction);
+				if (prop == PROPERTY_VANISHONINTERACTION)
+					pElement[1]->QueryBoolAttribute(ATTRIBUTE_VALUE, &vanishoninteraction);
 				if (prop == PROPERTY_JUMPIMPULSE_X)
 					pElement[1]->QueryFloatAttribute(ATTRIBUTE_VALUE, &jumpimpulse_x);
 				if (prop == PROPERTY_JUMPIMPULSE_Y)
@@ -361,19 +372,34 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		//std::cout << "Initializing Tile template at position " << m_pDataSet.size() << " in the set." << std::endl;
 		if (type == TYPE_BACKGROUNDTILE)
 		{
-			m_pDataSet.push_back(new BackgroundTile(tex, src, dst, 0, 1, 0, 1,
+			m_pDataSet.push_back(new BackgroundTile(tex, src, dst,
 				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y},
 				glm::vec2{jumpforce_x, jumpforce_y}, jumpforcemax));
 		}
 		if (type == TYPE_STATICTILE)
 		{
-			m_pDataSet.push_back(new StaticTile(tex, src, dst, col, 0, 1, 0, 1,
+			m_pDataSet.push_back(new StaticTile(tex, src, dst, col,
 				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y},
 				glm::vec2{jumpimpulse_x, jumpimpulse_y}, static_cast<StaticTile::Type>(interactiontype)));
 		}
 		if (type == TYPE_INTERACTIVETILE)
 		{
-			m_pDataSet.push_back(new InteractiveTile(tex, src, dst, col, 0, 1, 0, 1, static_cast<InteractiveTile::Type>(interactiontype)));
+			m_pDataSet.push_back(new InteractiveTile(tex, src, dst, col, static_cast<InteractiveTile::Type>(interactiontype), animateoninteraction, vanishoninteraction));
+		}
+
+		// Determine the animation properties
+		pElement[1] = pElement[0]->FirstChildElement(CHILD_ANIMATION);
+		if (pElement[1] != nullptr)
+		{
+			unsigned int tileid, duration;
+			for (pElement[1] = pElement[1]->FirstChildElement(CHILD_FRAME);
+				pElement[1] != nullptr;
+				pElement[1] = pElement[1]->NextSiblingElement(CHILD_FRAME))
+			{
+				pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_TILEID, &tileid);
+				pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_DURATION, &duration);
+				m_pDataSet.back()->addFrame(tileid, duration);
+			}
 		}
 
 		if (m_pDataSet[id[0]] == nullptr)
@@ -386,6 +412,10 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		}
 	}
 	std::cout << "All tiles in tileset " << getId() << " loaded successfully." << std::endl;
+	for (unsigned int tileId = 0; tileId < m_pDataSet.size(); tileId++)
+	{
+		m_pDataSet[tileId]->populateFrameSet(*this);
+	}
 	return true;
 }
 

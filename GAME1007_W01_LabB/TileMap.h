@@ -27,6 +27,7 @@ public:
 	virtual void checkIntersection(SDL_Rect collider);
 	virtual void checkInteraction(SDL_Rect collider);
 	virtual void update();
+	virtual void reset();
 
 	// Mutator functions
 	virtual void setFileName(std::string filename) { m_strFileName = filename; }

@@ -181,6 +181,7 @@ GameState::~GameState()
 
 void GameState::Enter()
 {
+	SDL_ShowCursor(SDL_DISABLE);
 	Engine::Instance().getCamera().SetBounds(m_pTileMap->getBounds());
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
 	myTimer.start();
@@ -275,6 +276,8 @@ void GameState::Update()
 	gun->setPosition(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 3 + 6), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 3 + 3)));
 	gun->setMousePosition(Engine::Instance().getMousePosition());
 	gun->update();
+	m_pTileMap->update();
+
 	if (m_pPlayer->getDie())
 	{
 		gun->getPlayerDie(true);
@@ -383,6 +386,7 @@ void GameState::Render()
 void GameState::Exit()
 {
 	cout << "Exiting Game state....." << endl;
+	SDL_ShowCursor(SDL_ENABLE);
 	Mix_FreeMusic(m_pMusic);
 }
 

@@ -1,7 +1,10 @@
 #pragma once
-#include "SDL.h"
+#include <SDL.h>
+#include <SDL_image.h>
 #include "glm/vec2.hpp"
 #include <string>
+#include <vector>
+#include "DataSet.h"
 
 /*SO! What does the tile need, what does the tileSET need? Right?
 The Level loads both a TileSET and a TileMAP, both into memory.
@@ -59,39 +62,41 @@ class Tile
 {
 private:
 	SDL_Texture* m_pTex;
-	SDL_Rect m_irSrc;
-	SDL_Rect m_irDst;
-	unsigned short m_iSprite;
-	unsigned short m_iSpriteMax;
-	unsigned short m_iFrame;
-	unsigned short m_iFrameMax;
+	SDL_Rect m_src;
+	SDL_Rect m_dst;
+	unsigned int m_iFrame;
+	std::vector<unsigned int> m_iFrameSet;
+	std::vector<SDL_Texture*> m_FrameSet;
+	Uint32 m_iAnimationCD;
+	std::vector<Uint32> m_iAnimationMax;
 public:
 	// System functions
-	Tile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax)
-		: m_pTex(tex), m_irSrc(src), m_irDst(dst), m_iSprite(sprite), m_iSpriteMax(spriteMax), m_iFrame(frame), m_iFrameMax(frameMax) {}
+	Tile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst) : m_pTex(tex), m_src(src), m_dst(dst), m_iFrame(0), m_iAnimationCD(0) {}
 	~Tile() {}
 
 	// Gameplay functions
 	virtual void draw();
-	virtual void update() {}
+	virtual void update();
+	virtual void animate();
+	virtual void reset();
 
 	// Mutator functions
 	virtual void setTexture(SDL_Texture* tex) { m_pTex = tex; }
-	virtual void setSrc(const SDL_Rect& ir) { m_irSrc = ir; }
-	virtual void setDst(const SDL_Rect& ir) { m_irDst = ir; }
-	virtual void setSprite(unsigned short i) { m_iSprite = i; }
-	virtual void setSpriteMax(unsigned short i) { m_iSpriteMax = i; }
-	virtual void setFrame(unsigned short i) { m_iFrame = i; }
-	virtual void setFrameMax(unsigned short i) { m_iFrameMax = i; }
+	virtual void addFrame(unsigned int tileid, Uint32 duration) { m_iFrameSet.push_back(tileid); m_iAnimationMax.push_back(duration); }
+	virtual void populateFrameSet(DataSet_1D<Tile>& tileset); // This function populates the set of frames with texture pointers which it derives from other tiles in a specified tileset. This is neccessary because it won't be able to access said pointers until said tiles have finished loading. Note that individual tiles do not know which tileset they belong to.
+	virtual void setSrc(const SDL_Rect& ir) { m_src = ir; }
+	virtual void setDst(const SDL_Rect& ir) { m_dst = ir; }
+	virtual void setFrame(const unsigned int frame) { m_iFrame = frame; }
+	virtual void setAnimationCD(Uint32 i) { m_iAnimationCD = i; }
+	virtual void setAnimationMax(Uint32 i, unsigned int frame) { m_iAnimationMax[frame] = i; }
 
 	// Accessor functions
-	const SDL_Texture* getTexture() {return m_pTex; }
-	const SDL_Rect& getSrc() { return m_irSrc; }
-	const SDL_Rect& getDst() {return m_irDst; }
-	const unsigned short getSprite() { return m_iSprite; }
-	const unsigned short getSpriteMax() { return m_iSpriteMax; }
-	const unsigned short getFrame() { return m_iFrame; }
-	const unsigned short getFrameMax() { return m_iFrameMax; }
+	SDL_Texture* getTexture() { return m_pTex; }
+	const SDL_Rect& getSrc() { return m_src; }
+	const SDL_Rect& getDst() { return m_dst; }
+	const unsigned int getFrame() { return m_iFrame; }
+	const Uint32 getAnimationCD() { return m_iAnimationCD; }
+	const Uint32 getAnimationMax(unsigned int frame) { return m_iAnimationMax[frame]; }
 };
 
 class WorldTile
@@ -104,9 +109,8 @@ private:
 	glm::vec2 m_vForce;	// Vector which is added every update (*frametime) to the player's current velocity.
 public:
 	// System functions
-	WorldTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
-		float drag, float maxSpeed, float maxDrag, glm::vec2 force)
-		: Tile(tex, src, dst, sprite, spriteMax, frame, frameMax), m_fDrag(drag), m_fMaxSpeed(maxSpeed), m_fMaxDrag(maxDrag), m_vForce(force) {}
+	WorldTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, float drag, float maxSpeed, float maxDrag, glm::vec2 force)
+		: Tile(tex, src, dst), m_fDrag(drag), m_fMaxSpeed(maxSpeed), m_fMaxDrag(maxDrag), m_vForce(force) {}
 	~WorldTile() {}
 
 	// Gameplay functions
@@ -132,10 +136,9 @@ private:
 	float m_fJumpForceMax;		// Scalar which defines the upper limit for ONLY the velocity the player gained from jumping. 
 public:
 	// System functions
-	BackgroundTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, unsigned short sprite , unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
-		float drag, float maxSpeed, float maxDrag, glm::vec2 force,
+	BackgroundTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, float drag, float maxSpeed, float maxDrag, glm::vec2 force,
 		glm::vec2 jumpForce, float jumpForceMax)
-		: WorldTile(tex, src, dst, sprite, spriteMax, frame, frameMax, drag, maxSpeed, maxDrag, force),
+		: WorldTile(tex, src, dst, drag, maxSpeed, maxDrag, force),
 		m_vJumpForce(jumpForce), m_fJumpForceMax(jumpForceMax) {}
 	~BackgroundTile() {}
 	
@@ -162,10 +165,9 @@ private:
 	Type m_Type;
 public:
 	// System functions
-	StaticTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
-		float drag, float maxSpeed, float maxDrag , glm::vec2 force,
+	StaticTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, float drag, float maxSpeed, float maxDrag , glm::vec2 force,
 		glm::vec2 jumpImpulse, Type type)
-		: WorldTile(tex, src, dst, sprite, spriteMax, frame, frameMax, drag, maxSpeed, maxDrag, force),
+		: WorldTile(tex, src, dst, drag, maxSpeed, maxDrag, force),
 		m_frCol(col), m_vJumpImpulse(jumpImpulse), m_Type(type) {}
 	~StaticTile() {}
 
@@ -190,17 +192,24 @@ public:
 private:
 	SDL_FRect m_frCol;				// SDL_Rect <int> which specifies the area against which the player can collide, as distinct from the area of the tile's image only for this type of tile.
 	Type m_Type;
+	bool m_interacted;
+	bool m_AnimateOnInteraction;
+	bool m_VanishOnInteraction;
 public:
 	// System functions
-	InteractiveTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, unsigned short sprite, unsigned short spriteMax, unsigned short frame, unsigned short frameMax,
-		Type type)
-		: Tile(tex, src, dst, sprite, spriteMax, frame, frameMax), m_frCol(col), m_Type(type) {}
+	InteractiveTile(SDL_Texture* tex, SDL_Rect& src, SDL_Rect& dst, SDL_FRect& col, Type type, bool animateoninteraction, bool vanishoninteraction)
+		: Tile(tex, src, dst), m_frCol(col), m_Type(type), m_interacted(false), m_AnimateOnInteraction(animateoninteraction), m_VanishOnInteraction(vanishoninteraction) {}
 	~InteractiveTile() {}
 
 	// Gameplay functions
+	virtual void draw() override;
+	virtual void update() override;
+	virtual void animate() override;
+	virtual void reset() override;
 
 	// Mutator functions
 	virtual void setCol(const SDL_FRect& ir) { m_frCol = ir; }
+	virtual void setInteracted(bool interacted = true) { m_interacted = interacted; }
 
 	// Accessor functions
 	virtual const SDL_Rect& getCol() { return SDL_Rect{ getDst().x + static_cast<int>(m_frCol.x), getDst().y + static_cast<int>(m_frCol.y), static_cast<int>(m_frCol.w), static_cast<int>(m_frCol.h) }; }
