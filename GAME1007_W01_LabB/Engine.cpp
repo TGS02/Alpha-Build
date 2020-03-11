@@ -62,9 +62,9 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 	m_dst = { 0,0, WIDTH, HEIGHT / 2 };
 	m_dst2 = { 0,HEIGHT / 2, WIDTH, HEIGHT / 2 };
 	m_round = 0;
+	m_pCamera = new Camera(Engine::Instance().GetRenderer(), { 0, 0, WIDTH, HEIGHT });
 	m_pFSM = new FSM();
 	m_pFSM->ChangeState(new TitleState());
-	m_pCamera = new Camera();
 	//Mix_PlayMusic(m_pMusic, -1);
 	
 	g_bRunning = true; // Everything is okay, start the engine.

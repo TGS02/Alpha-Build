@@ -163,7 +163,7 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 40, 18 };
 	SDL_Point centerPoint = { 0, 9 };
 	if(!playerDie)
-	Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, flip);
+	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, flip);
 
 	if (playerDie)
 	{
@@ -184,18 +184,18 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 			{
 				SDL_SetTextureAlphaMod(m_pTexture, 32);
 				if (!left )
-					Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 				else
-					Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 			}
 			if (flashMin == flashMax)
 			{
 				SDL_SetTextureAlphaMod(m_pTexture, 255);
 				if (!left)
-					Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 				else
-					Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 				flashMin = 0;
 			}
@@ -206,9 +206,9 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 		{
 			SDL_SetTextureAlphaMod(m_pTexture, 255);
 			if (!left)
-				Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+				Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 			else
-				Engine::Instance().getCamera().RenderOffset(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+				Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 			startFlashing = false;
 			stopMin = 0;

@@ -407,7 +407,7 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 		}
 	}
 
-	Engine::Instance().getCamera().RenderOffset(Engine::Instance().GetRenderer(), m_pTexture, &m_src, &m_dst, 0.0, alpha, nullptr, flip);
+	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, 0.0, alpha, nullptr, flip);
 }
 
 Player::~Player(){}

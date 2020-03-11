@@ -1,14 +1,14 @@
-﻿  Button.cpp
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Button.cpp(25,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+﻿  Engine.cpp
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Engine.cpp(101,36): warning C4244: '=': conversion from 'Sint32' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Button.cpp(26,9): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Engine.cpp(102,36): warning C4244: '=': conversion from 'Sint32' to 'T', possible loss of data
           with
           [
               T=float
           ]
-  Weapon.cpp
+  FSM.cpp
   Generating Code...
   GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\W2020\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe
