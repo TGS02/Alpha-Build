@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.3.1" name="Lounge" tilewidth="32" tileheight="32" tilecount="18" columns="1" backgroundcolor="#000000">
+<tileset version="1.2" tiledversion="1.3.3" name="Lounge" tilewidth="32" tileheight="32" tilecount="19" columns="1" backgroundcolor="#000000">
  <editorsettings>
   <export target="Lounge.tsx" format="tsx"/>
  </editorsettings>
@@ -231,5 +231,18 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
+ </tile>
+ <tile id="18" type="BackgroundTile">
+  <properties>
+   <property name="drag" type="float" value="0.95"/>
+   <property name="force_x" type="float" value="0"/>
+   <property name="force_y" type="float" value="0.5"/>
+   <property name="jumpforce_x" type="float" value="0"/>
+   <property name="jumpforce_y" type="float" value="-0.75"/>
+   <property name="jumpforcemax" type="float" value="-10"/>
+   <property name="maxdrag" type="float" value="0.5"/>
+   <property name="maxspeed" type="float" value="25"/>
+  </properties>
+  <image width="32" height="32" source="../../Assets/Textures/Window.png"/>
  </tile>
 </tileset>
