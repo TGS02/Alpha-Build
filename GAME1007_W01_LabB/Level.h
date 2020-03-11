@@ -13,7 +13,7 @@ private:
 	std::string m_strUnlockCode;
 	unsigned int m_iNumCollectibles;
 	//SDL_Texture* m_pCoverImage;		// Should be deallocated when inside the level
-	TileMap* m_pTileMap;					// Should be deallocated when inside the main menu
+	TileMap* m_pTileMap;				// Should be deallocated when inside the main menu
 
 	// Private system functions
 	virtual void UnloadScorecardSet();

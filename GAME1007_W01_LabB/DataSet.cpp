@@ -376,13 +376,13 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y},
 				glm::vec2{jumpforce_x, jumpforce_y}, jumpforcemax));
 		}
-		if (type == TYPE_STATICTILE)
+		else if (type == TYPE_STATICTILE)
 		{
 			m_pDataSet.push_back(new StaticTile(tex, src, dst, col,
 				drag, maxspeed, maxdrag, glm::vec2{force_x, force_y},
 				glm::vec2{jumpimpulse_x, jumpimpulse_y}, static_cast<StaticTile::Type>(interactiontype)));
 		}
-		if (type == TYPE_INTERACTIVETILE)
+		else if (type == TYPE_INTERACTIVETILE)
 		{
 			m_pDataSet.push_back(new InteractiveTile(tex, src, dst, col, static_cast<InteractiveTile::Type>(interactiontype), animateoninteraction, vanishoninteraction));
 		}
@@ -391,6 +391,14 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		pElement[1] = pElement[0]->FirstChildElement(CHILD_ANIMATION);
 		if (pElement[1] != nullptr)
 		{
+			if (type == TYPE_STATICTILE || type == TYPE_INTERACTIVETILE)
+			{
+				m_pDataSet.back()->setFrameSet(new CollidableFrameSet);
+			}
+			else
+			{
+				m_pDataSet.back()->setFrameSet(new FrameSet);
+			}
 			unsigned int tileid, duration;
 			for (pElement[1] = pElement[1]->FirstChildElement(CHILD_FRAME);
 				pElement[1] != nullptr;
@@ -398,7 +406,7 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 			{
 				pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_TILEID, &tileid);
 				pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_DURATION, &duration);
-				m_pDataSet.back()->addFrame(tileid, duration);
+				m_pDataSet.back()->getFrameSet()->addFrame(tileid, duration);
 			}
 		}
 
@@ -414,7 +422,19 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 	std::cout << "All tiles in tileset " << getId() << " loaded successfully." << std::endl;
 	for (unsigned int tileId = 0; tileId < m_pDataSet.size(); tileId++)
 	{
-		m_pDataSet[tileId]->populateFrameSet(*this);
+		FrameSet* fsptr = m_pDataSet[tileId]->getFrameSet();
+		if (fsptr != nullptr)
+		{
+			CollidableFrameSet* cfsptr = dynamic_cast<CollidableFrameSet*>(fsptr);
+			if (cfsptr != nullptr)
+			{
+				cfsptr->populateFrameSet(*this);
+			}
+			else
+			{
+				fsptr->populateFrameSet(*this);
+			}
+		}
 	}
 	return true;
 }

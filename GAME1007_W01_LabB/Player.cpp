@@ -265,65 +265,69 @@ void Player::move()
 	m_pTileMap->checkCollision(terminalCollider);
 	for (unsigned int tileIndex = 0; tileIndex < m_pTileMap->getCollidingTiles()->size(); tileIndex++)
 	{
-		SDL_Rect tileCollider = m_pTileMap->getCollidingTiles()->at(tileIndex)->getCol();
-
-		switch (m_pTileMap->getCollidingTiles()->at(tileIndex)->getType())
+		StaticTile* stcTile = m_pTileMap->getCollidingTiles()->at(tileIndex);
+		if (stcTile->getCollidable() == true)
 		{
-		case StaticTile::Type::SOLID:
+			SDL_Rect tileCol = stcTile->getICol();
 
-			// Player is moving horizontally and is initially neither above nor below the tile
-			if (initialCollider.y + initialCollider.h > tileCollider.y &&
-				initialCollider.y < tileCollider.y + tileCollider.h)
+			switch (stcTile->getType())
 			{
-				// Player is moving left and is right of the tile
-				if (totalVelocity.x < 0.0f && initialCollider.x >= tileCollider.x + tileCollider.w)
+			case StaticTile::Type::SOLID:
+
+				// Player is moving horizontally and is initially neither above nor below the tile
+				if (initialCollider.y + initialCollider.h > tileCol.y&&
+					initialCollider.y < tileCol.y + tileCol.h)
 				{
-					m_fVelocity.x = 0.0f;
-					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? -m_fRecoilVelocity.x : m_fRecoilVelocity.x;
-					m_fRecoilVelocity.x = 0.0f;
-					finalPosition.x = static_cast<float>(tileCollider.x + tileCollider.w);
+					// Player is moving left and is right of the tile
+					if (totalVelocity.x < 0.0f && initialCollider.x >= tileCol.x + tileCol.w)
+					{
+						m_fVelocity.x = 0.0f;
+						m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? -m_fRecoilVelocity.x : m_fRecoilVelocity.x;
+						m_fRecoilVelocity.x = 0.0f;
+						finalPosition.x = static_cast<float>(tileCol.x + tileCol.w);
+					}
+
+					// Player is moving right and is left of the tile
+					if (totalVelocity.x > 0.0f && initialCollider.x + initialCollider.w <= tileCol.x)
+					{
+						m_fVelocity.x = 0.0f;
+						m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? m_fRecoilVelocity.x : -m_fRecoilVelocity.x;
+						m_fRecoilVelocity.x = 0.0f;
+						finalPosition.x = static_cast<float>(tileCol.x - initialCollider.w);
+					}
 				}
 
-				// Player is moving right and is left of the tile
-				if (totalVelocity.x > 0.0f && initialCollider.x + initialCollider.w <= tileCollider.x)
+				// Player is moving vertically and is initially neither to the left nor the right of the tile
+				if (initialCollider.x + initialCollider.w > tileCol.x&&
+					initialCollider.x < tileCol.x + tileCol.w)
 				{
-					m_fVelocity.x = 0.0f;
-					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? m_fRecoilVelocity.x : -m_fRecoilVelocity.x;
-					m_fRecoilVelocity.x = 0.0f;
-					finalPosition.x = static_cast<float>(tileCollider.x - initialCollider.w);
+					// Player is moving up and is below the tile
+					if (totalVelocity.y < 0.0f && initialCollider.y >= tileCol.y + tileCol.h)
+					{
+						m_fVelocity.y = 0.0f;
+						m_fRecoilVelocity.y = 0.0f;
+						finalPosition.y = static_cast<float>(tileCol.y + tileCol.h);
+					}
 				}
-			}
+			case StaticTile::Type::PLATFORM: // Since there is no 'break;', this last check will happen in both cases.
+				// Player is moving vertically and is initially neither to the left nor the right of the tile
+				if (initialCollider.x + initialCollider.w > tileCol.x&&
+					initialCollider.x < tileCol.x + tileCol.w)
+				{
+					// Player is moving down and is above the tile
+					if (totalVelocity.y >= 0.0f && initialCollider.y + initialCollider.h <= tileCol.y)
+					{
+						m_fVelocity.y = 0.0f;
+						m_fRecoilVelocity.y = 0.0f;
+						finalPosition.y = static_cast<float>(tileCol.y - initialCollider.h);
+						onGround = true;
+					}
+				}
 
-			// Player is moving vertically and is initially neither to the left nor the right of the tile
-			if (initialCollider.x + initialCollider.w > tileCollider.x &&
-				initialCollider.x < tileCollider.x + tileCollider.w)
-			{
-				// Player is moving up and is below the tile
-				if (totalVelocity.y < 0.0f && initialCollider.y >= tileCollider.y + tileCollider.h)
-				{
-					m_fVelocity.y = 0.0f;
-					m_fRecoilVelocity.y = 0.0f;
-					finalPosition.y = static_cast<float>(tileCollider.y + tileCollider.h);
-				}
+				break;
+			case StaticTile::Type::IGNORE:
+			default: break;
 			}
-		case StaticTile::Type::PLATFORM: // Since there is no 'break;', this last check will happen in both cases.
-			// Player is moving vertically and is initially neither to the left nor the right of the tile
-			if (initialCollider.x + initialCollider.w > tileCollider.x &&
-				initialCollider.x < tileCollider.x + tileCollider.w)
-			{
-				// Player is moving down and is above the tile
-				if (totalVelocity.y >= 0.0f && initialCollider.y + initialCollider.h <= tileCollider.y)
-				{
-					m_fVelocity.y = 0.0f;
-					m_fRecoilVelocity.y = 0.0f;
-					finalPosition.y = static_cast<float>(tileCollider.y - initialCollider.h);
-					onGround = true;
-				}
-			}
-
-			break;
-		case StaticTile::Type::IGNORE:
-		default: break;
 		}
 	}
 

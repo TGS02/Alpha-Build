@@ -188,17 +188,22 @@ void TileMap::checkCollision(SDL_Rect collider)
 		StaticTile* colTile = dynamic_cast<StaticTile*>(m_TileGrid[tileIndex]);
 		if (colTile != nullptr)
 		{
-			SDL_Rect tileCol = colTile->getCol();
-			if (SDL_HasIntersection(&collider, &tileCol))
+			if(colTile->getCollidable() == true)
 			{
-				m_CollidingTiles.push_back(colTile);
-			}
-			if ((collider.y + collider.h > tileCol.y - pad) && // Between 3 pixels above the top of the tile
-				(collider.y + collider.h < tileCol.y + pad) && // And 3 pixels below it
-				collider.x + collider.w > tileCol.x &&
-				collider.x < tileCol.x + tileCol.w)
-			{
-				m_SupportingTiles.push_back(colTile);
+				SDL_Rect tileCol = colTile->getICol();
+				
+				if (SDL_HasIntersection(&collider, &tileCol))
+				{
+					m_CollidingTiles.push_back(colTile);
+				}
+
+				if ((collider.y + collider.h > tileCol.y - pad) && // Between 3 pixels above the top of the tile
+					(collider.y + collider.h < tileCol.y + pad) && // And 3 pixels below it
+					collider.x + collider.w > tileCol.x&&
+					collider.x < tileCol.x + tileCol.w)
+				{
+					m_SupportingTiles.push_back(colTile);
+				}
 			}
 		}
 	}
@@ -234,9 +239,13 @@ void TileMap::checkInteraction(SDL_Rect collider)
 		InteractiveTile* actTile = dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]);
 		if (actTile != nullptr)
 		{
-			if (SDL_HasIntersection(&collider, &actTile->getCol()))
-			{
-				m_InteractingTiles.push_back(actTile);
+			if (actTile->getCollidable() == true)
+			{	
+				SDL_Rect tileCol = actTile->getICol();
+				if (SDL_HasIntersection(&collider, &tileCol))
+				{
+					m_InteractingTiles.push_back(actTile);
+				}
 			}
 		}
 	}
