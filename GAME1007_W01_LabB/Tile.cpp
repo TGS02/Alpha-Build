@@ -216,7 +216,7 @@ SDL_Rect CollidableTile::getICol()
 // Start of InteractiveTile
 void InteractiveTile::draw()
 {
-	if (m_VanishOnInteraction != true || m_VanishOnInteraction == true && m_interacted == false)
+	if (m_VanishOnInteraction != true || (m_VanishOnInteraction == true && m_interacted == false))
 	{
 		Tile::draw();
 	}

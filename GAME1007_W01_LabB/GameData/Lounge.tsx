@@ -265,6 +265,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="8" y="0" width="16" height="8"/>
   </objectgroup>
+  <animation>
+   <frame tileid="19" duration="500"/>
+   <frame tileid="20" duration="500"/>
+   <frame tileid="33" duration="500"/>
+   <frame tileid="19" duration="500"/>
+  </animation>
  </tile>
  <tile id="20" type="InteractiveTile">
   <properties>
@@ -274,6 +280,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="8" y="0" width="16" height="8"/>
   </objectgroup>
+  <animation>
+   <frame tileid="20" duration="500"/>
+   <frame tileid="19" duration="500"/>
+   <frame tileid="33" duration="500"/>
+   <frame tileid="19" duration="500"/>
+  </animation>
  </tile>
  <tile id="21" type="InteractiveTile">
   <properties>
@@ -337,6 +349,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="24" y="8" width="8" height="16"/>
   </objectgroup>
+  <animation>
+   <frame tileid="27" duration="500"/>
+   <frame tileid="28" duration="500"/>
+   <frame tileid="27" duration="500"/>
+   <frame tileid="34" duration="500"/>
+  </animation>
  </tile>
  <tile id="28" type="InteractiveTile">
   <properties>
@@ -346,6 +364,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="24" y="8" width="8" height="16"/>
   </objectgroup>
+  <animation>
+   <frame tileid="28" duration="500"/>
+   <frame tileid="27" duration="500"/>
+   <frame tileid="34" duration="500"/>
+   <frame tileid="27" duration="500"/>
+  </animation>
  </tile>
  <tile id="29" type="InteractiveTile">
   <properties>
@@ -355,6 +379,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="8" width="8" height="16"/>
   </objectgroup>
+  <animation>
+   <frame tileid="29" duration="500"/>
+   <frame tileid="30" duration="500"/>
+   <frame tileid="29" duration="500"/>
+   <frame tileid="35" duration="500"/>
+  </animation>
  </tile>
  <tile id="30" type="InteractiveTile">
   <properties>
@@ -364,6 +394,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="8" width="8" height="16"/>
   </objectgroup>
+  <animation>
+   <frame tileid="30" duration="500"/>
+   <frame tileid="29" duration="500"/>
+   <frame tileid="35" duration="500"/>
+   <frame tileid="29" duration="500"/>
+  </animation>
  </tile>
  <tile id="31" type="InteractiveTile">
   <properties>
@@ -373,6 +409,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="8" y="24" width="16" height="8"/>
   </objectgroup>
+  <animation>
+   <frame tileid="31" duration="500"/>
+   <frame tileid="32" duration="500"/>
+   <frame tileid="31" duration="500"/>
+   <frame tileid="36" duration="500"/>
+  </animation>
  </tile>
  <tile id="32" type="InteractiveTile">
   <properties>
@@ -382,6 +424,12 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="8" y="24" width="16" height="8"/>
   </objectgroup>
+  <animation>
+   <frame tileid="32" duration="500"/>
+   <frame tileid="31" duration="500"/>
+   <frame tileid="36" duration="500"/>
+   <frame tileid="31" duration="500"/>
+  </animation>
  </tile>
  <tile id="33" type="InteractiveTile">
   <properties>
@@ -392,10 +440,10 @@
    <object id="1" x="8" y="0" width="16" height="8"/>
   </objectgroup>
   <animation>
-   <frame tileid="11" duration="300"/>
-   <frame tileid="19" duration="300"/>
-   <frame tileid="20" duration="300"/>
-   <frame tileid="19" duration="300"/>
+   <frame tileid="11" duration="500"/>
+   <frame tileid="19" duration="500"/>
+   <frame tileid="20" duration="500"/>
+   <frame tileid="19" duration="500"/>
   </animation>
  </tile>
  <tile id="34" type="InteractiveTile">
@@ -407,10 +455,10 @@
    <object id="1" x="24" y="8" width="8" height="16"/>
   </objectgroup>
   <animation>
-   <frame tileid="12" duration="300"/>
-   <frame tileid="27" duration="300"/>
-   <frame tileid="28" duration="300"/>
-   <frame tileid="27" duration="300"/>
+   <frame tileid="12" duration="500"/>
+   <frame tileid="27" duration="500"/>
+   <frame tileid="28" duration="500"/>
+   <frame tileid="27" duration="500"/>
   </animation>
  </tile>
  <tile id="35" type="InteractiveTile">
@@ -422,10 +470,10 @@
    <object id="1" x="0" y="8" width="8" height="16"/>
   </objectgroup>
   <animation>
-   <frame tileid="13" duration="300"/>
-   <frame tileid="29" duration="300"/>
-   <frame tileid="30" duration="300"/>
-   <frame tileid="29" duration="300"/>
+   <frame tileid="13" duration="500"/>
+   <frame tileid="29" duration="500"/>
+   <frame tileid="30" duration="500"/>
+   <frame tileid="29" duration="500"/>
   </animation>
  </tile>
  <tile id="36" type="InteractiveTile">
@@ -437,10 +485,10 @@
    <object id="1" x="8" y="24" width="16" height="8"/>
   </objectgroup>
   <animation>
-   <frame tileid="14" duration="300"/>
-   <frame tileid="31" duration="300"/>
-   <frame tileid="32" duration="300"/>
-   <frame tileid="31" duration="300"/>
+   <frame tileid="14" duration="500"/>
+   <frame tileid="31" duration="500"/>
+   <frame tileid="32" duration="500"/>
+   <frame tileid="31" duration="500"/>
   </animation>
  </tile>
  <tile id="37" type="InteractiveTile">
@@ -453,16 +501,16 @@
    <object id="1" x="8" y="8" width="16" height="16"/>
   </objectgroup>
   <animation>
-   <frame tileid="37" duration="100"/>
-   <frame tileid="38" duration="100"/>
-   <frame tileid="39" duration="100"/>
-   <frame tileid="40" duration="100"/>
-   <frame tileid="41" duration="100"/>
-   <frame tileid="42" duration="100"/>
-   <frame tileid="43" duration="100"/>
-   <frame tileid="44" duration="100"/>
-   <frame tileid="45" duration="100"/>
-   <frame tileid="41" duration="100"/>
+   <frame tileid="37" duration="333"/>
+   <frame tileid="38" duration="333"/>
+   <frame tileid="39" duration="333"/>
+   <frame tileid="40" duration="333"/>
+   <frame tileid="41" duration="333"/>
+   <frame tileid="42" duration="333"/>
+   <frame tileid="43" duration="333"/>
+   <frame tileid="44" duration="333"/>
+   <frame tileid="45" duration="333"/>
+   <frame tileid="41" duration="333"/>
   </animation>
  </tile>
  <tile id="38" type="InteractiveTile">
