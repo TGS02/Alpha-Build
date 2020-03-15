@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "GameData.h"
 #include "Util.h"
+#include <iomanip>
 
 // Start of FrameSet
 void FrameSet::clean()
@@ -165,7 +166,7 @@ void Tile::setFrameSet(FrameSet* frameSet)
 SDL_FRect CollidableTile::getFCol()
 {
 	SDL_Rect idst = getDst();
-	SDL_FRect fdst = { static_cast<float>(idst.x), static_cast<float>(idst.h), static_cast<float>(idst.w), static_cast<float>(idst.h) };
+	SDL_FRect fdst = { static_cast<float>(idst.x), static_cast<float>(idst.y), static_cast<float>(idst.w), static_cast<float>(idst.h) };
 	SDL_FRect colrect = m_frCol;
 
 	CollidableFrameSet* colset = nullptr;

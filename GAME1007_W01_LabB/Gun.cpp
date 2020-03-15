@@ -100,9 +100,9 @@ bool Gun::getRotation()
 	return left;
 }
 
-void Gun::getPlayerDie(bool die)
+void Gun::getPlayerDie(bool m_hasDied)
 {
-	playerDie = die;
+	playerDie = m_hasDied;
 }
 
 glm::vec2 Gun::getCurrentDirection()

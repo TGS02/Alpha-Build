@@ -146,7 +146,7 @@
  </tile>
  <tile id="9" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Acid2.png"/>
   <objectgroup draworder="index" id="2">
@@ -155,7 +155,7 @@
  </tile>
  <tile id="10" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Acid1.png"/>
   <objectgroup draworder="index" id="2">
@@ -164,7 +164,7 @@
  </tile>
  <tile id="11" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -173,7 +173,7 @@
  </tile>
  <tile id="12" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -182,7 +182,7 @@
  </tile>
  <tile id="13" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -191,7 +191,7 @@
  </tile>
  <tile id="14" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -201,31 +201,33 @@
  <tile id="15" type="InteractiveTile">
   <properties>
    <property name="animateoninteraction" type="bool" value="true"/>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="1"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorBottom_1.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="32"/>
+   <object id="1" x="0" y="-32" width="32" height="64"/>
   </objectgroup>
   <animation>
-   <frame tileid="21" duration="300"/>
-   <frame tileid="22" duration="300"/>
-   <frame tileid="23" duration="0"/>
+   <frame tileid="23" duration="333"/>
+   <frame tileid="22" duration="333"/>
+   <frame tileid="21" duration="333"/>
+   <frame tileid="15" duration="0"/>
   </animation>
  </tile>
  <tile id="16" type="InteractiveTile">
   <properties>
    <property name="animateoninteraction" type="bool" value="true"/>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorTop_1.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
   <animation>
-   <frame tileid="24" duration="300"/>
-   <frame tileid="25" duration="300"/>
-   <frame tileid="26" duration="0"/>
+   <frame tileid="26" duration="333"/>
+   <frame tileid="25" duration="333"/>
+   <frame tileid="24" duration="333"/>
+   <frame tileid="16" duration="0"/>
   </animation>
  </tile>
  <tile id="17" type="StaticTile">
@@ -259,7 +261,7 @@
  </tile>
  <tile id="19" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_2.png"/>
   <objectgroup draworder="index" id="2">
@@ -274,7 +276,7 @@
  </tile>
  <tile id="20" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_3.png"/>
   <objectgroup draworder="index" id="2">
@@ -289,43 +291,55 @@
  </tile>
  <tile id="21" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="animateoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="2"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorBottom_2.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="32"/>
+   <object id="1" x="0" y="-32" width="32" height="64"/>
   </objectgroup>
+  <animation>
+   <frame tileid="21" duration="333"/>
+   <frame tileid="22" duration="333"/>
+   <frame tileid="23" duration="0"/>
+  </animation>
  </tile>
  <tile id="22" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorBottom_3.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="32"/>
+   <object id="1" x="0" y="-32" width="32" height="64"/>
   </objectgroup>
  </tile>
  <tile id="23" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorBottom_4.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="32"/>
+   <object id="1" x="0" y="-32" width="32" height="64"/>
   </objectgroup>
  </tile>
  <tile id="24" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="animateoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorTop_2.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
+  <animation>
+   <frame tileid="24" duration="333"/>
+   <frame tileid="25" duration="333"/>
+   <frame tileid="26" duration="0"/>
+  </animation>
  </tile>
  <tile id="25" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorTop_3.png"/>
   <objectgroup draworder="index" id="2">
@@ -334,7 +348,7 @@
  </tile>
  <tile id="26" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="3"/>
+   <property name="interactiontype" type="int" value="0"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/DoorTop_4.png"/>
   <objectgroup draworder="index" id="2">
@@ -343,7 +357,7 @@
  </tile>
  <tile id="27" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_2.png"/>
   <objectgroup draworder="index" id="2">
@@ -358,7 +372,7 @@
  </tile>
  <tile id="28" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_3.png"/>
   <objectgroup draworder="index" id="2">
@@ -373,7 +387,7 @@
  </tile>
  <tile id="29" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_2.png"/>
   <objectgroup draworder="index" id="2">
@@ -388,7 +402,7 @@
  </tile>
  <tile id="30" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_3.png"/>
   <objectgroup draworder="index" id="2">
@@ -403,7 +417,7 @@
  </tile>
  <tile id="31" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_2.png"/>
   <objectgroup draworder="index" id="2">
@@ -418,11 +432,11 @@
  </tile>
  <tile id="32" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_3.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="24" width="16" height="8"/>
+   <object id="1" x="-184" y="24" width="208" height="8"/>
   </objectgroup>
   <animation>
    <frame tileid="32" duration="500"/>
@@ -433,7 +447,7 @@
  </tile>
  <tile id="33" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -448,7 +462,7 @@
  </tile>
  <tile id="34" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -463,7 +477,7 @@
  </tile>
  <tile id="35" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_1.png"/>
   <objectgroup draworder="index" id="2">
@@ -478,11 +492,11 @@
  </tile>
  <tile id="36" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="1"/>
+   <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_1.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="24" width="16" height="8"/>
+   <object id="1" x="-48" y="-232" width="112" height="312"/>
   </objectgroup>
   <animation>
    <frame tileid="14" duration="500"/>
@@ -493,7 +507,7 @@
  </tile>
  <tile id="37" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
+   <property name="interactiontype" type="int" value="4"/>
    <property name="vanishoninteraction" type="bool" value="true"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin1.png"/>
@@ -515,57 +529,57 @@
  </tile>
  <tile id="38" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin2.png"/>
  </tile>
  <tile id="39" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin3.png"/>
  </tile>
  <tile id="40" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin4.png"/>
  </tile>
  <tile id="41" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin5.png"/>
  </tile>
  <tile id="42" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin6.png"/>
  </tile>
  <tile id="43" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin7.png"/>
  </tile>
  <tile id="44" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin8.png"/>
  </tile>
  <tile id="45" type="InteractiveTile">
   <properties>
-   <property name="interactiontype" type="int" value="2"/>
-   <property name="vanishoninteraction" type="bool" value="true"/>
+   <property name="interactiontype" type="int" value="0"/>
+   <property name="vanishoninteraction" type="bool" value="false"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/goldCoin9.png"/>
  </tile>

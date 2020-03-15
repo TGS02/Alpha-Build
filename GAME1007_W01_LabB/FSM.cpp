@@ -128,7 +128,7 @@ void PauseState::Exit(){ }
 GameState::GameState()
 {
 	activeLevelSet = 0;
-	activeLevel = 2;
+	activeLevel = 1;
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
 	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;
@@ -189,6 +189,8 @@ void GameState::Enter()
 	barTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/bar.png");
 	bar_src = {0 ,0 , 170, 60};
 	bar_dst = {5 , 700, 170,60 };
+	m_pPlayer->setStartingTile(m_pTileMap->findStartingTile());
+	m_pPlayer->setPosition(m_pPlayer->getStartingPosition());
 }
 
 void GameState::Update()

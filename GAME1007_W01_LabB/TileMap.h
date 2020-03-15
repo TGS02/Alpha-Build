@@ -26,6 +26,8 @@ public:
 	virtual void checkCollision(SDL_Rect collider);
 	virtual void checkIntersection(SDL_Rect collider);
 	virtual void checkInteraction(SDL_Rect collider);
+	//virtual InteractiveTile* findStartingTile();
+	 InteractiveTile* findStartingTile();
 	virtual void update();
 	virtual void reset();
 

@@ -265,7 +265,7 @@ class InteractiveTile
 {
 public:
 	// Enumation
-	enum class Type { IGNORE, DIE, GET, WIN };
+	enum class Type { IGNORE, START, WIN, DIE, GET };
 private:
 	Type m_Type;
 	bool m_interacted;
@@ -288,4 +288,5 @@ public:
 
 	// Accessor functions
 	virtual const Type getType() { return m_Type; }
+	virtual const bool getInteracted() { return m_interacted; }
 };

@@ -5,12 +5,12 @@ C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(95,5
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(119,34): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(122,51): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(123,53): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(196,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(198,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(197,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(199,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
           with
           [
               T=float

@@ -45,7 +45,7 @@ public:
 	float getMaxSpeed();
 	glm::vec2 getMousePosition();
 	bool getRotation();
-	void getPlayerDie(bool die);
+	void getPlayerDie(bool m_hasDied);
 	// setters
 	void setVelocity(glm::vec2 newVelocity);
 	void setCurrentDirection(glm::vec2 newDirection);

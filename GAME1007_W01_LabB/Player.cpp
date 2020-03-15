@@ -79,7 +79,7 @@ Player::Player() :
 		m_spriteMax = 6;
 		left = false;
 		onGround = false;
-		die = false;
+		m_hasDied = false;
 		delayMin = 0;
 		delayMax = 15;
 		startFlashing = false;
@@ -142,6 +142,13 @@ void Player::playerUpdate()
 	Engine::Instance().getCamera().UpdatePosition({ static_cast<int>(m_pos.x) + m_dst.w / 2, static_cast<int>(m_pos.y) + m_dst.h / 2 });
 }
 
+glm::vec2 Player::getStartingPosition()
+{
+	SDL_Rect startTile = m_pStartingTile->getDst();
+	SDL_Rect playerCol = getCol();
+	return { (startTile.x + (startTile.w * 0.5f) - (playerCol.w * 0.5f)), (startTile.y + startTile.h - playerCol.h) };
+}
+
 glm::vec2 Player::getSize()
 {
 	return glm::vec2(m_dst.w, m_dst.h);
@@ -154,12 +161,29 @@ bool Player::getRotation()
 
 bool Player::getDie()
 {
-	return die;
+	return m_hasDied;
 }
 
 void Player::setRotation(bool newRot)
 {
 	left = newRot;
+}
+
+void Player::die()
+{
+	setPosition(getStartingPosition());
+	std::cout << m_pos.x << m_pos.y << std::endl;
+	m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
+	left = false;
+	m_hasDied = false;
+	m_fVelocity = { 0, 0 };
+	velY = 0;
+	velX = 0;
+	onGround = true;
+	delayMin = 0;
+	startFlashing = true;
+	m_pWeapon->Reset();
+	m_pTileMap->reset();
 }
 
 void Player::jump(bool holdingKey)
@@ -343,22 +367,26 @@ void Player::move()
 	for (unsigned int tileIndex = 0; tileIndex < m_pTileMap->getInteractingTiles()->size(); tileIndex++)
 	{
 		InteractiveTile* interactiveTile = m_pTileMap->getInteractingTiles()->at(tileIndex);
-		interactiveTile->setInteracted(true);
-		switch (interactiveTile->getType())
+		if (interactiveTile->getInteracted() == false)
 		{
-		case InteractiveTile::Type::IGNORE:
-			break;
-		case InteractiveTile::Type::DIE:
-			die = true;
-			break;
-		case InteractiveTile::Type::GET:
-
-			break;
-		case InteractiveTile::Type::WIN:
-			finish = true;
-			break;
-		default:
-			break;
+			interactiveTile->setInteracted(true);
+			switch (interactiveTile->getType())
+			{
+			case InteractiveTile::Type::IGNORE:
+				break;
+			case InteractiveTile::Type::DIE:
+				die();
+				break;
+			case InteractiveTile::Type::GET:
+				std::cout << "You got a collectable!" << std::endl;
+				break;
+			case InteractiveTile::Type::WIN:
+				std::cout << "You reached the exit!" << std::endl;
+				finish = true;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -368,23 +396,8 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 	SDL_RendererFlip flip = left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	int alpha = 255;
 
-	if(die)
+	if(m_hasDied)
 	{
-		if (delayMin == delayMax)
-		{
-			m_pos = { m_src.w, HEIGHT - 5 * 32 - m_src.h };
-			std::cout << m_pos.x << m_pos.y << std::endl;
-			m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
-			left = false;
-			die = false;
-			velY = 0;
-			velX = 0;
-			onGround = true;
-			delayMin = 0;
-			startFlashing = true;
-			m_pWeapon->Reset();
-			m_pTileMap->reset();
-		}
 		delayMin++;
 	}
 

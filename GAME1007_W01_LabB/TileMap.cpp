@@ -242,6 +242,7 @@ void TileMap::checkInteraction(SDL_Rect collider)
 			if (actTile->getCollidable() == true)
 			{	
 				SDL_Rect tileCol = actTile->getICol();
+
 				if (SDL_HasIntersection(&collider, &tileCol))
 				{
 					m_InteractingTiles.push_back(actTile);
@@ -249,6 +250,23 @@ void TileMap::checkInteraction(SDL_Rect collider)
 			}
 		}
 	}
+}
+
+InteractiveTile* TileMap::findStartingTile()
+{
+	// Iterate through all tiles checking for interactability
+	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++) // Ideally this should only check tiles on the interaction layer
+	{
+		InteractiveTile* startTile = dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]);
+		if (startTile != nullptr)
+		{
+			if (startTile->getType() == InteractiveTile::Type::START)
+			{
+				return startTile;
+			}
+		}
+	}
+	return nullptr;
 }
 
 void TileMap::update()
