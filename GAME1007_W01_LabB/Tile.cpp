@@ -102,6 +102,11 @@ void CollidableFrameSet::populateFrameSet(TileSet& tileset)
 			bool boolToAdd = collidableTile->getCollidable();
 			m_vpfrCol.push_back(colToAdd);
 			m_vbCollidable.push_back(boolToAdd);
+			//std::cout << std::left << "Tile Frame " << i << " Collider: "
+			//	<< std::setw(4) << colToAdd.x << '/'
+			//	<< std::setw(4) << colToAdd.y << '/'
+			//	<< std::setw(4) << colToAdd.w << '/'
+			//	<< std::setw(4) << colToAdd.h << std::endl;
 		}
 	}
 	m_pfrCol = m_vpfrCol[0];
