@@ -46,7 +46,7 @@ class EndState : public State
 private:
 	Scorecard* m_pScorecard;
 	Mix_Music* m_pMusic;
-	SDL_Texture* m_pTexture;
+	SDL_Texture* m_pTexture[2];
 	SDL_Rect src, dst;
 	vector<Button*> m_vButtons;
 	SDL_Surface* surface;
@@ -82,7 +82,7 @@ public:
 	int p_record = 0;
 	bool p_finish = false;
 	bool shoot;
-	unsigned int activeLevel = 1;
+	unsigned int activeLevel = 0;
 	unsigned int activeLevelSet = 0;
 	int mouseposx, mouseposy;
 private:
@@ -120,6 +120,23 @@ public:
 	void Render();
 	void Exit();
 };
+
+class LevelSelect : public State
+{
+private:
+	Mix_Music* m_pMusic;
+	SDL_Texture* m_pBGTex;
+	SDL_Texture* m_pLogoTex;
+	SDL_Rect m_bgSrc, m_bgDst, m_logoSrc, m_logoDst;
+	vector<Button*> m_vButtons;
+public:
+	LevelSelect();
+	void Enter();
+	void Update();
+	void Render();
+	void Exit();
+};
+
 class FSM
 {
 private:
