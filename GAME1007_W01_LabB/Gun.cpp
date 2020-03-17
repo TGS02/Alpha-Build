@@ -73,10 +73,16 @@ void Gun::checkInMouseDirecion()
 void Gun::computeMouseDirection()
 {
 	glm::vec2 velocity;
-	velocity.x = getMousePosition().x - static_cast<int>(m_vPosition.x);
-	velocity.y = getMousePosition().y - static_cast<int>( m_vPosition.y);
+	// Obtain the position of the player on the screen
+	SDL_Rect position = { m_vPosition.x, m_vPosition.y, 0, 0 };
+	position = Engine::Instance().getCamera().Offset(position);
+	velocity.x = getMousePosition().x - static_cast<int>(position.x);
+	velocity.y = getMousePosition().y - static_cast<int>(position.y);
 	m_vMouseDirection = Util::normalize(velocity);
-	
+	if (velocity.x < 0)
+		flip = SDL_FLIP_VERTICAL;
+	else
+		flip = SDL_FLIP_NONE;
 }
 
 void Gun::getShootFsm(bool shoot)
@@ -94,9 +100,9 @@ bool Gun::getRotation()
 	return left;
 }
 
-void Gun::getPlayerDie(bool die)
+void Gun::getPlayerDie(bool m_hasDied)
 {
-	playerDie = die;
+	playerDie = m_hasDied;
 }
 
 glm::vec2 Gun::getCurrentDirection()
@@ -155,12 +161,10 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 		
 	}
 	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 40, 18 };
-	SDL_Point centerPoint = { 0, 9};
-	if(!left && !playerDie)
-	TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
-	else if (left && !playerDie) {
-		TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
-	}
+	SDL_Point centerPoint = { 0, 9 };
+	if(!playerDie)
+	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, flip);
+
 	if (playerDie)
 	{
 		if (delayMin == delayMax)
@@ -180,18 +184,18 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 			{
 				SDL_SetTextureAlphaMod(m_pTexture, 32);
 				if (!left )
-					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 				else
-					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 			}
 			if (flashMin == flashMax)
 			{
 				SDL_SetTextureAlphaMod(m_pTexture, 255);
 				if (!left)
-					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 				else
-					TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+					Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 				flashMin = 0;
 			}
@@ -202,15 +206,14 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 		{
 			SDL_SetTextureAlphaMod(m_pTexture, 255);
 			if (!left)
-				TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
+				Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_NONE);
 			else
-				TextureManager::draw(g_p_renderer, m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
+				Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, SDL_FLIP_VERTICAL);
 
 			startFlashing = false;
 			stopMin = 0;
 		}
 	}
-
 }
 
 void Gun::shoot()

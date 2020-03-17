@@ -79,7 +79,7 @@ Player::Player() :
 		m_spriteMax = 6;
 		left = false;
 		onGround = false;
-		die = false;
+		m_hasDied = false;
 		delayMin = 0;
 		delayMax = 15;
 		startFlashing = false;
@@ -138,6 +138,15 @@ void Player::playerUpdate()
 	// Update the player's weapon and sprite
 	m_pWeapon->Update();
 	animate();
+
+	Engine::Instance().getCamera().UpdatePosition({ static_cast<int>(m_pos.x) + m_dst.w / 2, static_cast<int>(m_pos.y) + m_dst.h / 2 });
+}
+
+glm::vec2 Player::getStartingPosition()
+{
+	SDL_Rect startTile = m_pStartingTile->getDst();
+	SDL_Rect playerCol = getCol();
+	return { (startTile.x + (startTile.w * 0.5f) - (playerCol.w * 0.5f)), (startTile.y + startTile.h - playerCol.h) };
 }
 
 glm::vec2 Player::getSize()
@@ -152,12 +161,29 @@ bool Player::getRotation()
 
 bool Player::getDie()
 {
-	return die;
+	return m_hasDied;
 }
 
 void Player::setRotation(bool newRot)
 {
 	left = newRot;
+}
+
+void Player::die()
+{
+	setPosition(getStartingPosition());
+	std::cout << m_pos.x << m_pos.y << std::endl;
+	m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
+	left = false;
+	m_hasDied = false;
+	m_fVelocity = { 0, 0 };
+	velY = 0;
+	velX = 0;
+	onGround = true;
+	delayMin = 0;
+	startFlashing = true;
+	m_pWeapon->Reset();
+	m_pTileMap->reset();
 }
 
 void Player::jump(bool holdingKey)
@@ -263,65 +289,69 @@ void Player::move()
 	m_pTileMap->checkCollision(terminalCollider);
 	for (unsigned int tileIndex = 0; tileIndex < m_pTileMap->getCollidingTiles()->size(); tileIndex++)
 	{
-		SDL_Rect tileCollider = m_pTileMap->getCollidingTiles()->at(tileIndex)->getCol();
-
-		switch (m_pTileMap->getCollidingTiles()->at(tileIndex)->getType())
+		StaticTile* stcTile = m_pTileMap->getCollidingTiles()->at(tileIndex);
+		if (stcTile->getCollidable() == true)
 		{
-		case StaticTile::Type::SOLID:
+			SDL_Rect tileCol = stcTile->getICol();
 
-			// Player is moving horizontally and is initially neither above nor below the tile
-			if (initialCollider.y + initialCollider.h > tileCollider.y &&
-				initialCollider.y < tileCollider.y + tileCollider.h)
+			switch (stcTile->getType())
 			{
-				// Player is moving left and is right of the tile
-				if (totalVelocity.x < 0.0f && initialCollider.x >= tileCollider.x + tileCollider.w)
+			case StaticTile::Type::SOLID:
+
+				// Player is moving horizontally and is initially neither above nor below the tile
+				if (initialCollider.y + initialCollider.h > tileCol.y&&
+					initialCollider.y < tileCol.y + tileCol.h)
 				{
-					m_fVelocity.x = 0.0f;
-					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? -m_fRecoilVelocity.x : m_fRecoilVelocity.x;
-					m_fRecoilVelocity.x = 0.0f;
-					finalPosition.x = static_cast<float>(tileCollider.x + tileCollider.w);
+					// Player is moving left and is right of the tile
+					if (totalVelocity.x < 0.0f && initialCollider.x >= tileCol.x + tileCol.w)
+					{
+						m_fVelocity.x = 0.0f;
+						m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? -m_fRecoilVelocity.x : m_fRecoilVelocity.x;
+						m_fRecoilVelocity.x = 0.0f;
+						finalPosition.x = static_cast<float>(tileCol.x + tileCol.w);
+					}
+
+					// Player is moving right and is left of the tile
+					if (totalVelocity.x > 0.0f && initialCollider.x + initialCollider.w <= tileCol.x)
+					{
+						m_fVelocity.x = 0.0f;
+						m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? m_fRecoilVelocity.x : -m_fRecoilVelocity.x;
+						m_fRecoilVelocity.x = 0.0f;
+						finalPosition.x = static_cast<float>(tileCol.x - initialCollider.w);
+					}
 				}
 
-				// Player is moving right and is left of the tile
-				if (totalVelocity.x > 0.0f && initialCollider.x + initialCollider.w <= tileCollider.x)
+				// Player is moving vertically and is initially neither to the left nor the right of the tile
+				if (initialCollider.x + initialCollider.w > tileCol.x&&
+					initialCollider.x < tileCol.x + tileCol.w)
 				{
-					m_fVelocity.x = 0.0f;
-					m_fRecoilVelocity.y += m_fRecoilVelocity.y > 0 ? m_fRecoilVelocity.x : -m_fRecoilVelocity.x;
-					m_fRecoilVelocity.x = 0.0f;
-					finalPosition.x = static_cast<float>(tileCollider.x - initialCollider.w);
+					// Player is moving up and is below the tile
+					if (totalVelocity.y < 0.0f && initialCollider.y >= tileCol.y + tileCol.h)
+					{
+						m_fVelocity.y = 0.0f;
+						m_fRecoilVelocity.y = 0.0f;
+						finalPosition.y = static_cast<float>(tileCol.y + tileCol.h);
+					}
 				}
-			}
+			case StaticTile::Type::PLATFORM: // Since there is no 'break;', this last check will happen in both cases.
+				// Player is moving vertically and is initially neither to the left nor the right of the tile
+				if (initialCollider.x + initialCollider.w > tileCol.x&&
+					initialCollider.x < tileCol.x + tileCol.w)
+				{
+					// Player is moving down and is above the tile
+					if (totalVelocity.y >= 0.0f && initialCollider.y + initialCollider.h <= tileCol.y)
+					{
+						m_fVelocity.y = 0.0f;
+						m_fRecoilVelocity.y = 0.0f;
+						finalPosition.y = static_cast<float>(tileCol.y - initialCollider.h);
+						onGround = true;
+					}
+				}
 
-			// Player is moving vertically and is initially neither to the left nor the right of the tile
-			if (initialCollider.x + initialCollider.w > tileCollider.x &&
-				initialCollider.x < tileCollider.x + tileCollider.w)
-			{
-				// Player is moving up and is below the tile
-				if (totalVelocity.y < 0.0f && initialCollider.y >= tileCollider.y + tileCollider.h)
-				{
-					m_fVelocity.y = 0.0f;
-					m_fRecoilVelocity.y = 0.0f;
-					finalPosition.y = static_cast<float>(tileCollider.y + tileCollider.h);
-				}
+				break;
+			case StaticTile::Type::IGNORE:
+			default: break;
 			}
-		case StaticTile::Type::PLATFORM: // Since there is no 'break;', this last check will happen in both cases.
-			// Player is moving vertically and is initially neither to the left nor the right of the tile
-			if (initialCollider.x + initialCollider.w > tileCollider.x &&
-				initialCollider.x < tileCollider.x + tileCollider.w)
-			{
-				// Player is moving down and is above the tile
-				if (totalVelocity.y >= 0.0f && initialCollider.y + initialCollider.h <= tileCollider.y)
-				{
-					m_fVelocity.y = 0.0f;
-					m_fRecoilVelocity.y = 0.0f;
-					finalPosition.y = static_cast<float>(tileCollider.y - initialCollider.h);
-					onGround = true;
-				}
-			}
-
-			break;
-		case StaticTile::Type::IGNORE:
-		default: break;
 		}
 	}
 
@@ -336,47 +366,41 @@ void Player::move()
 	m_pTileMap->checkInteraction(finalCollider);
 	for (unsigned int tileIndex = 0; tileIndex < m_pTileMap->getInteractingTiles()->size(); tileIndex++)
 	{
-		switch (m_pTileMap->getInteractingTiles()->at(tileIndex)->getType())
+		InteractiveTile* interactiveTile = m_pTileMap->getInteractingTiles()->at(tileIndex);
+		if (interactiveTile->getInteracted() == false)
 		{
-		case InteractiveTile::Type::IGNORE:
-			break;
-		case InteractiveTile::Type::DIE:
-			die = true;
-			break;
-		case InteractiveTile::Type::GET:
-
-			break;
-		case InteractiveTile::Type::WIN:
-			finish = true;
-			break;
-		default:
-			break;
+			interactiveTile->setInteracted(true);
+			switch (interactiveTile->getType())
+			{
+			case InteractiveTile::Type::IGNORE:
+				break;
+			case InteractiveTile::Type::DIE:
+				die();
+				break;
+			case InteractiveTile::Type::GET:
+				std::cout << "You got a collectable!" << std::endl;
+				break;
+			case InteractiveTile::Type::WIN:
+				std::cout << "You reached the exit!" << std::endl;
+				finish = true;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
 
 void Player::playerDraw(SDL_Renderer* g_pRenderer)
 {
-	if (!left && !die)
-		TextureManager::Draw(g_pRenderer, m_pTexture, &m_src, &m_dst);
-	if(left && !die)
-		TextureManager::DrawLeft(g_pRenderer, m_pTexture, &m_src, &m_dst);
-	if(die)
+	SDL_RendererFlip flip = left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+	int alpha = 255;
+
+	if(m_hasDied)
 	{
-		if (delayMin == delayMax)
-		{
-			m_pos = { m_src.w, HEIGHT - 5 * 32 - m_src.h };
-			m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
-			left = false;
-			die = false;
-			velY = 0;
-			velX = 0;
-			onGround = true;
-			delayMin = 0;
-			startFlashing = true;
-		}
 		delayMin++;
 	}
+
 	if (startFlashing)
 	{
 		if (stopMin!=stopMax)
@@ -403,6 +427,8 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 			stopMin = 0;
 		}
 	}
+
+	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, 0.0, alpha, nullptr, flip);
 }
 
 Player::~Player(){}

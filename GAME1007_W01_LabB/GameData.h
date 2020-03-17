@@ -2,8 +2,9 @@
 #include <string>
 #include <vector>
 #include "DataSet.h"
-#include "Weapon.h"
+#include "Tile.h"
 #include "Level.h"
+#include "Weapon.h"
 #include "PlayerData.h"
 #define TGS02_GAMEDATAFILE "GameData/GameData.xml"
 #define TGS02_PLAYERDATAFILE "GameData/PlayerData.xml"

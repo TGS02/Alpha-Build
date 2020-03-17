@@ -128,6 +128,8 @@ void PauseState::Exit(){ }
 //Game State Begins
 GameState::GameState()
 {
+	activeLevelSet = 0;
+	activeLevel = 1;
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
 	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;
@@ -180,12 +182,16 @@ GameState::~GameState()
 
 void GameState::Enter()
 {
+	SDL_ShowCursor(SDL_DISABLE);
+	Engine::Instance().getCamera().SetBounds(m_pTileMap->getBounds());
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
 	myTimer.start();
 	Mix_PlayMusic(m_pMusic, -1);
 	barTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/bar.png");
 	bar_src = {0 ,0 , 170, 60};
 	bar_dst = {5 , 700, 170,60 };
+	m_pPlayer->setStartingTile(m_pTileMap->findStartingTile());
+	m_pPlayer->setPosition(m_pPlayer->getStartingPosition());
 }
 
 void GameState::Update()
@@ -273,6 +279,8 @@ void GameState::Update()
 	gun->setPosition(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 3 + 6), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 3 + 3)));
 	gun->setMousePosition(Engine::Instance().getMousePosition());
 	gun->update();
+	m_pTileMap->update();
+
 	if (m_pPlayer->getDie())
 	{
 		gun->getPlayerDie(true);
@@ -381,6 +389,7 @@ void GameState::Render()
 void GameState::Exit()
 {
 	cout << "Exiting Game state....." << endl;
+	SDL_ShowCursor(SDL_ENABLE);
 	Mix_FreeMusic(m_pMusic);
 }
 

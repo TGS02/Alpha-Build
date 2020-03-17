@@ -41,3 +41,11 @@ bool Weapon::Reload()
 	}
 	return false;
 }
+
+void Weapon::Reset()
+{
+	m_iShotsLeft = m_iMaxShots;
+	m_iReloadsLeft = m_iMaxReloads;
+	m_iRefireCD = m_iRefireRate;
+	m_iRefireRate = m_iReloadRate;
+}

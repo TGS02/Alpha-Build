@@ -177,7 +177,7 @@ void TileMap::draw()
 
 void TileMap::checkCollision(SDL_Rect collider)
 {
-	unsigned int pad = 3;
+	unsigned int pad = 7;
 	// Clear the collision vector for refilling
 	m_CollidingTiles.clear();
 	m_SupportingTiles.clear();
@@ -188,17 +188,22 @@ void TileMap::checkCollision(SDL_Rect collider)
 		StaticTile* colTile = dynamic_cast<StaticTile*>(m_TileGrid[tileIndex]);
 		if (colTile != nullptr)
 		{
-			SDL_Rect tileCol = colTile->getCol();
-			if (SDL_HasIntersection(&collider, &tileCol))
+			if(colTile->getCollidable() == true)
 			{
-				m_CollidingTiles.push_back(colTile);
-			}
-			if ((collider.y + collider.h > tileCol.y - pad) && // Between 3 pixels above the top of the tile
-				(collider.y + collider.h < tileCol.y + pad) && // And 3 pixels below it
-				collider.x + collider.w > tileCol.x + pad &&
-				collider.x < tileCol.x + tileCol.w - pad)
-			{
-				m_SupportingTiles.push_back(colTile);
+				SDL_Rect tileCol = colTile->getICol();
+				
+				if (SDL_HasIntersection(&collider, &tileCol))
+				{
+					m_CollidingTiles.push_back(colTile);
+				}
+
+				if ((collider.y + collider.h > tileCol.y - pad) && // Between 3 pixels above the top of the tile
+					(collider.y + collider.h < tileCol.y + pad) && // And 3 pixels below it
+					collider.x + collider.w > tileCol.x&&
+					collider.x < tileCol.x + tileCol.w)
+				{
+					m_SupportingTiles.push_back(colTile);
+				}
 			}
 		}
 	}
@@ -234,18 +239,66 @@ void TileMap::checkInteraction(SDL_Rect collider)
 		InteractiveTile* actTile = dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]);
 		if (actTile != nullptr)
 		{
-			if (SDL_HasIntersection(&collider, &actTile->getCol()))
-			{
-				m_InteractingTiles.push_back(actTile);
+			if (actTile->getCollidable() == true)
+			{	
+				SDL_Rect tileCol = actTile->getICol();
+
+				if (SDL_HasIntersection(&collider, &tileCol))
+				{
+					m_InteractingTiles.push_back(actTile);
+				}
 			}
 		}
 	}
+}
+
+InteractiveTile* TileMap::findStartingTile()
+{
+	// Iterate through all tiles checking for interactability
+	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++) // Ideally this should only check tiles on the interaction layer
+	{
+		InteractiveTile* startTile = dynamic_cast<InteractiveTile*>(m_TileGrid[tileIndex]);
+		if (startTile != nullptr)
+		{
+			if (startTile->getType() == InteractiveTile::Type::START)
+			{
+				return startTile;
+			}
+		}
+	}
+	return nullptr;
 }
 
 void TileMap::update()
 {
 	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
 	{
-		m_TileGrid[tileIndex]->update();
+		if (m_TileGrid[tileIndex] != nullptr)
+		{
+			m_TileGrid[tileIndex]->update();
+		}
 	}
+}
+
+void TileMap::reset()
+{
+	for (unsigned int tileIndex = 0; tileIndex < m_TileGrid.size(); tileIndex++)
+	{
+		if (m_TileGrid[tileIndex] != nullptr)
+		{
+			m_TileGrid[tileIndex]->reset();
+		}
+	}
+}
+
+const SDL_Rect TileMap::getBounds()
+{
+	SDL_Rect bounds = {
+		0,
+		0,
+		m_iGridSize[2] * m_iTileSize[0],
+		m_iGridSize[1] * m_iTileSize[1],
+	};
+	std::cout << "Bounds are: " << bounds.x << '/' << bounds.y << '/' << bounds.w << '/' << bounds.h << ' ' << std::endl;
+	return bounds;
 }

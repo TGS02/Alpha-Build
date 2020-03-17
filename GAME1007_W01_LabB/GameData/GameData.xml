@@ -10,6 +10,7 @@
  <levelset id="1" name="The Saloon? Maybe?">
    <level id="1" name ="Cowboy Far From Home" filename="Level1_1.xml" coverfile="Level1_1.jpg" unlockcode="xygf" collectibles="1"/>
    <level id="2" name ="Welcome to the Rock" filename="Level1_2.xml" coverfile="Level1_2.jpg" unlockcode="hajr" collectibles="2"/>
+   <level id="3" name ="Level 3" filename="Level1_3.xml" coverfile="Level1_3.jpg" unlockcode="hajr" collectibles="3"/>
  </levelset>
   <levelset id="2" name="The Factory">
     <level id="1" name ="Sorta Like the Oregon Trail..." filename="Level2_1.xml" coverfile="Level2_1.jpg" unlockcode="rtao" collectibles="3"/>
@@ -20,5 +21,3 @@
     <level id="2" name ="Space Lasso" filename="Level2_2.xml" coverfile="Level2_2.jpg" unlockcode="youl" collectibles="4"/>
   </levelset>
 </gamedata>
-
-

@@ -49,11 +49,12 @@ private:
 	const Uint8* g_iKeystates;
 	bool left;
 	int m_lastPosition;
-	bool die;
+	bool m_hasDied;
 	int delayMin, delayMax; // To create a delay after player dies.
 	bool startFlashing;
 	int flashMin, flashMax; // Player starts flashing after dying.
 	int stopMin, stopMax; // Set total time for player to keep flashing.
+	InteractiveTile* m_pStartingTile;
 
 	// Physics variables
 	glm::vec2 m_fVelocity;
@@ -90,12 +91,17 @@ public:
 	SDL_Texture* loadPlayer(SDL_Renderer*);
 	bool keyDown(SDL_Scancode);
 	void playerUpdate();
+	void setPosition(glm::vec2 position) { m_pos = position; }
+	glm::vec2 getStartingPosition();
+	void setStartingTile(InteractiveTile* startingTile) { m_pStartingTile = startingTile; }
 	glm::vec2 getPosition() { return m_pos; }
 	glm::vec2 getSize();
 	SDL_Rect getCol() { return SDL_Rect{ m_dst.x + m_col.x, m_dst.y + m_col.y, m_col.w, m_col.h }; }
+	SDL_FRect getFCol() { return SDL_FRect{ m_pos.x + (float)m_col.x, m_pos.y + (float)m_col.y, (float)m_col.w, (float)m_col.h }; }
 	bool getRotation();
 	bool getDie();
 	void setRotation(bool newRot);
+	void die();
 	void jump(bool holdingKey = true);
 	void shoot(glm::vec2 direction);
 	void reload();
