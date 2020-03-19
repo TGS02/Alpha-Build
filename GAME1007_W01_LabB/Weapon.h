@@ -16,6 +16,10 @@ private:
 	unsigned int m_iMaxShots;
 	unsigned int m_iMaxReloads;
 
+	// ammo ui info
+	int shotsLeft = 6;
+	int frame = 0;
+
 	// Player stats
 	Uint32 m_iRefireCD;
 	Uint32 m_iReloadCD;
@@ -61,4 +65,7 @@ public:
 	virtual bool Fire();
 	virtual bool Reload();
 	virtual void Reset();
+	int shotsGetter();
+	int frameGetter();
 };
+

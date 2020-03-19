@@ -67,37 +67,45 @@ void Forces::Update(TileMap* tileMap)
 Player::Player() :
 	m_src{ 0, 0, 32, 64 },
 	g_iKeystates(SDL_GetKeyboardState(nullptr)),
-	m_dst{ m_src.w+10, HEIGHT - 5*32-m_src.h -10, m_src.w, m_src.h},
+	m_dst{ m_src.w + 10, HEIGHT - 5 * 32 - m_src.h - 10, m_src.w, m_src.h },
 	m_col{ 10, 4, 20, 60 },
+	m_uis{ frame,0,98,100 },
+	m_uip{ WIDTH - 120,HEIGHT - 170,m_uis.w,m_uis.h },
 	m_pos{ static_cast<float>(m_dst.x + m_col.x), static_cast<float>(m_dst.y + m_col.y) },
 	isJumping(false),
 	m_pTileMap(nullptr)
 {
-	    m_frame = 0,
+	m_frame = 0,
 		m_frameMax = 12,
 		m_sprite = 0,
 		m_spriteMax = 6;
-		left = false;
-		onGround = false;
-		m_hasDied = false;
-		delayMin = 0;
-		delayMax = 15;
-		startFlashing = false;
-		flashMin = 0;
-		flashMax = 35;
-		stopMin = 0;
-		stopMax = 100;
-		record = 0;
-		finish = false;
+	left = false;
+	onGround = false;
+	m_hasDied = false;
+	delayMin = 0;
+	delayMax = 15;
+	startFlashing = false;
+	flashMin = 0;
+	flashMax = 35;
+	stopMin = 0;
+	stopMax = 100;
+	record = 0;
+	finish = false;
 	/*///////////////////////////*/
-		m_iDir = 1;
-		stop = false;
+	m_iDir = 1;
+	stop = false;
 }
 
 SDL_Texture* Player::loadPlayer(SDL_Renderer* m_pRenderer)
 {
-	m_pTexture= TextureManager::LoadTexture(m_pRenderer, "../Assets/Textures/CowboyCadet.png");
+	m_pTexture = TextureManager::LoadTexture(m_pRenderer, "../Assets/Textures/CowboyCadet.png");
 	return m_pTexture;
+}
+
+SDL_Texture* Player::loadAmmoUI(SDL_Renderer* m_pRenderer)
+{
+	m_uTexture = TextureManager::LoadTexture(m_pRenderer, "../Assets/Textures/gunChamberSheet.png");
+	return m_uTexture;
 }
 
 void Player::animate()
@@ -134,7 +142,7 @@ void Player::playerUpdate()
 	// Accelerate, move, check collisions, and set final position
 	accelerate();
 	move();
-	
+
 	// Update the player's weapon and sprite
 	m_pWeapon->Update();
 	animate();
@@ -242,10 +250,10 @@ void Player::checkBound()
 	if (m_dst.x <= 0)
 		m_dst.x = 0;
 	if (m_dst.x + m_dst.w >= WIDTH)
-		m_dst.x = WIDTH-m_dst.w;
+		m_dst.x = WIDTH - m_dst.w;
 	if (m_dst.y <= 0)
 		m_dst.y = 0;
-	if (m_dst.y+m_dst.h >= HEIGHT)
+	if (m_dst.y + m_dst.h >= HEIGHT)
 		m_dst.y = HEIGHT;
 }
 
@@ -281,7 +289,7 @@ void Player::move()
 		static_cast<int>(terminalPosition.y),
 		initialCollider.w,
 		initialCollider.h };
-	
+
 	glm::vec2 finalPosition = terminalPosition;
 	SDL_Rect finalCollider = terminalCollider;
 
@@ -393,17 +401,42 @@ void Player::move()
 
 void Player::playerDraw(SDL_Renderer* g_pRenderer)
 {
+	frame = m_pWeapon->frameGetter();
+	m_uis = { frame,0,98,100 };
+
+	if (m_pWeapon->shotsGetter() == 6) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 5) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 4) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 3) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 2) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 1) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+	else if (m_pWeapon->shotsGetter() == 0) {
+		TextureManager::Draw(g_pRenderer, m_uTexture, &m_uis, &m_uip);
+	}
+
 	SDL_RendererFlip flip = left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	int alpha = 255;
 
-	if(m_hasDied)
+	if (m_hasDied)
 	{
 		delayMin++;
 	}
 
 	if (startFlashing)
 	{
-		if (stopMin!=stopMax)
+		if (stopMin != stopMax)
 		{
 			if (flashMin == flashMax / 2)
 			{
@@ -431,12 +464,13 @@ void Player::playerDraw(SDL_Renderer* g_pRenderer)
 	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, 0.0, alpha, nullptr, flip);
 }
 
-Player::~Player(){}
+Player::~Player() {}
 void Player::clean()
 {
 
 	SDL_DestroyTexture(m_pTexture);
 }
+
 
 void Player::Stop() // If you want a dead stop both axes.
 {
