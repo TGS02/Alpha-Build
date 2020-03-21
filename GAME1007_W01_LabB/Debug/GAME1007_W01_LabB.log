@@ -1,35 +1,18 @@
-<<<<<<< HEAD
 ﻿  FSM.cpp
-C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,55): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\Camera.h(11,82): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(193,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(194,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-  GAME1007_W01_LabB.vcxproj -> C:\Users\tulip\Documents\Projects\Git Stuff\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe
-=======
-﻿  Tile.cpp
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(93,57): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(94,58): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(95,58): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(119,34): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(122,51): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(123,53): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.cpp(55,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.cpp(96,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(199,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(200,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
   GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\W2020\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe
->>>>>>> MistFixes
