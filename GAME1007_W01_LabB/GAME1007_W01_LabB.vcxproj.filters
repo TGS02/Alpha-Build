@@ -168,10 +168,10 @@
     <Xml Include="GameData\Level1_2.xml">
       <Filter>GameData\Resources</Filter>
     </Xml>
-    <Xml Include="GameData\Player1.xml">
+    <Xml Include="GameData\PlayerData.xml">
       <Filter>GameData\Resources</Filter>
     </Xml>
-    <Xml Include="GameData\PlayerData.xml">
+    <Xml Include="GameData\DebugPlayer.xml">
       <Filter>GameData\Resources</Filter>
     </Xml>
   </ItemGroup>

@@ -25,7 +25,6 @@ Engine::Engine():g_bRunning(false) , m_bSpaceOk(true)  ,pressSpace(false)       
 
 bool Engine::init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
-	
 	// Attempt to initialize SDL.
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{

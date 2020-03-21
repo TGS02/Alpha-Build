@@ -2,11 +2,11 @@
 #include "tinyxml2.h"
 #include "Scorecard.h"
 
-Scorecard::Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles)
-	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectibles(numCollectibles) {}
-
-Scorecard::Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles, int leastTotalTime, int leastGroundTime, float lowestGroundToTotal, int fewestReloads, int fewestShotsFired, float lowestReloadsToShots, unsigned int numDeaths, unsigned int numWins, float leastDeathsToWin, float topSpeed, unsigned int numAttempts)
-	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectibles(numCollectibles),
+Scorecard::Scorecard(unsigned int levelset, unsigned int level, unsigned int weaponset, unsigned int weapon, unsigned int numCollectables,
+	int leastTotalTime, int leastGroundTime, float lowestGroundToTotal,
+	int fewestReloads, int fewestShotsFired, float lowestReloadsToShots,
+	unsigned int numDeaths, unsigned int numWins, float leastDeathsToWin, float topSpeed, unsigned int numAttempts)
+	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectables(numCollectables),
 	m_iLeastTotalTime(leastTotalTime), m_iLeastGroundTime(leastGroundTime), m_fLowestGroundToTotalTimeRatio(lowestGroundToTotal),
 	m_iFewestReloads(fewestReloads), m_iFewestShotsFired(fewestShotsFired), m_fLowestReloadsToShotsRatio(lowestReloadsToShots),
 	m_iNumberOfDeaths(numDeaths), m_iNumberOfWins(numWins), m_fLeastDeathsToWinRatio(leastDeathsToWin),
@@ -15,7 +15,7 @@ Scorecard::Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int n
 Scorecard::Scorecard(const Scorecard& ref) :
 	m_iWeaponSetUsed(ref.m_iWeaponSetUsed),
 	m_iWeaponUsed(ref.m_iWeaponUsed),
-	m_iNumCollectibles(ref.m_iNumCollectibles),
+	m_iNumCollectables(ref.m_iNumCollectables),
 	m_iLeastTotalTime(ref.m_iLeastTotalTime),
 	m_iLeastGroundTime(ref.m_iLeastGroundTime),
 	m_fLowestGroundToTotalTimeRatio(ref.m_fLowestGroundToTotalTimeRatio),
@@ -39,7 +39,7 @@ Scorecard::Scorecard(const Scorecard& ref) :
 //// Replaces all values of lhs with those of rhs
 //inline Scorecard Scorecard::operator=(const Scorecard& rhs)
 //{
-//	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectibles != rhs.m_iNumCollectibles)
+//	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectables != rhs.m_iNumCollectables)
 //	{
 //		std::cout << "Attempted to perform binary operation on incomparible Scorecards." << std::endl;
 //	}
@@ -63,7 +63,7 @@ Scorecard::Scorecard(const Scorecard& ref) :
 //// Replaces only the lower scores of lhs with those of rhs
 //inline Scorecard Scorecard::operator+=(const Scorecard& rhs)
 //{
-//	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectibles != rhs.m_iNumCollectibles)
+//	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectables != rhs.m_iNumCollectables)
 //	{
 //		std::cout << "Attempted to perform binary operation on incomparible Scorecards." << std::endl;
 //	}
@@ -98,7 +98,7 @@ Scorecard::Scorecard(const Scorecard& ref) :
 // Checks if any single score of lhs is < than in rhs
 inline bool Scorecard::operator<=(const Scorecard& rhs)
 {
-	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectibles != rhs.m_iNumCollectibles)
+	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectables != rhs.m_iNumCollectables)
 	{
 		std::cout << "Attempted to perform binary operation on incomparible Scorecards." << std::endl;
 	}
@@ -132,7 +132,7 @@ inline bool Scorecard::operator<=(const Scorecard& rhs)
 // Checks if any single score of lhs is > than in rhs
 inline bool Scorecard::operator>=(const Scorecard& rhs)
 {
-	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectibles != rhs.m_iNumCollectibles)
+	if (this->m_iWeaponSetUsed != rhs.m_iWeaponSetUsed || this->m_iWeaponUsed != rhs.m_iWeaponUsed || this->m_iNumCollectables != rhs.m_iNumCollectables)
 	{
 		std::cout << "Attempted to perform binary operation on incomparible Scorecards." << std::endl;
 	}
@@ -183,7 +183,7 @@ std::ostream& operator<<(std::ostream& os, Scorecard& ref)
 	const string _____Attempts = "Total Attempts";
 	os << setw(25) << right << ____WeaponSet << setw(2) << ": " << setw(8) << left << ref.getWeaponSetUsed();
 	os << setw(25) << right << _______Weapon << setw(2) << ": " << setw(8) << left << ref.getWeaponUsed();
-	os << setw(25) << right << ________NumCs << setw(2) << ": " << setw(8) << left << ref.getNumCollectibles() << endl;
+	os << setw(25) << right << ________NumCs << setw(2) << ": " << setw(8) << left << ref.getNumCollectables() << endl;
 	os << setw(25) << right << ____TotalTime << setw(2) << ": " << setw(8) << left << ref.getLeastTotalTime();
 	os << setw(25) << right << ___GroundTime << setw(2) << ": " << setw(8) << left << ref.getLeastGroundTime();
 	os << setw(25) << right << _Ground_Total << setw(2) << ": " << setw(8) << left << ref.getLeastGroundToTotalTimeRatio() << endl;

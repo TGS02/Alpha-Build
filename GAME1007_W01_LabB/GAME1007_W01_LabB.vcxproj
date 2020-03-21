@@ -166,10 +166,10 @@
     <Image Include="TitleState.png" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="GameData\DebugPlayer.xml" />
     <Xml Include="GameData\GameData.xml" />
     <Xml Include="GameData\Level1_1.xml" />
     <Xml Include="GameData\Level1_2.xml" />
-    <Xml Include="GameData\Player1.xml" />
     <Xml Include="GameData\PlayerData.xml" />
   </ItemGroup>
   <ItemGroup>

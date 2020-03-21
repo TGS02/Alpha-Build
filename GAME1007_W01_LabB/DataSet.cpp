@@ -6,6 +6,7 @@
 #include "Tile.h"
 #include "TextureManager.h"
 #include "Engine.h"
+#include "GameData.h"
 
 /* ---- ---- ---- ---- ---- ---- ---- PlayerData Set loadFromXML ---- ---- ---- ---- ---- ---- ---- */
 /** The first thing the function needs to know is whether you're:
@@ -26,8 +27,6 @@ inline bool DataSet_1D<PlayerData>::LoadFromXML(Flags unloadFlags, Flags loadFla
 		Clean(Flags::ALL);
 	default:
 	case DataSet::Flags::DEFAULT:
-	case DataSet::Flags::FROMISTREAM:
-		//TGS02::getInputfromIstream();
 		Clean(DataSet::Flags::DEFAULT);
 		break;
 	}
@@ -54,35 +53,42 @@ inline bool DataSet_1D<PlayerData>::LoadFromXML(Flags unloadFlags, Flags loadFla
 
 		/* ---- ---- ---- ---- ---- Load PlayerDataSet ---- ---- ---- ---- ---- */
 		// Get the playername input
-		if (loadFlags == DataSet::Flags::DEFAULT || loadFlags == DataSet::Flags::FROMISTREAM || loadFlags == DataSet::Flags::DEFAULT_FROMISTREAM)
+		if (loadFlags == DataSet::Flags::DEFAULT)
 		{
-			std::cout << "Loading Player Data..." << std::endl;
-			//input = TGS02::getInputfromIstream();
-			input = ""; //temporary
+			PlayerSelect* pSelectState = dynamic_cast<PlayerSelect*>(Engine::Instance().GetFSM().GetState().back());
+			if (pSelectState == nullptr)
+			{
+				Engine::Instance().GetFSM().PushState(new PlayerSelect); // If we're attempting to load PlayerData, and we're NOT in the PlayerSelect state, something went fundamentally wrong, but it's not biggie - we just need to be in that state.
+				return false;
+			}
+			else
+			{
+				input = pSelectState->getNewUserName();
+				std::cout << "Loading Player Data for " << input << " with Load Flags: " << static_cast<int>(loadFlags) << std::endl;
+			}
 		}
 		else
-		{
-			input = "";
-		}
+			std::cout << "Loading all Player Data with Load Flags: " << static_cast<int>(loadFlags) << std::endl;
 
 		// Iterate through the loop
 		pElement = xmlDoc.FirstChildElement(ROOT)->FirstChildElement(CHILD_PLAYERDATA);
 		while (pElement != nullptr)
 		{
-			std::cout << pElement->Attribute(ATTRIBUTE_NAME) << std::endl;
+			//std::cout << pElement->Attribute(ATTRIBUTE_NAME) << std::endl; // This line prints out the names of every player in the datafile, which is not very polite.
 			std::string nameInFile = pElement->Attribute(ATTRIBUTE_NAME);
 			// If flags are set to load all, carry on.
 			// If flags are set to load specific, carry on only if the read value the requested one.
 			// If flags are set to load nothing, it won't have gotten this deep anyway.
-			std::cout << "loadFlags: " << static_cast<int>(loadFlags) << std::endl;
-			if (loadFlags == DataSet_1D<PlayerData>::Flags::ALL ||
-				((loadFlags == DataSet::Flags::DEFAULT || loadFlags == DataSet::Flags::FROMISTREAM && nameInFile == input || loadFlags == DataSet::Flags::DEFAULT_FROMISTREAM) && nameInFile == input))
+			if (loadFlags == DataSet_1D<PlayerData>::Flags::ALL || (loadFlags == DataSet::Flags::DEFAULT && nameInFile == input))
 			{
+				std::cout << "Pushing back PlayerData Item: " << nameInFile << "." << std::endl;
 				m_pDataSet.push_back(new PlayerData(nameInFile));
 				m_pDataSet.back()->LoadFromXML();
 			}
 			pElement = pElement->NextSiblingElement(CHILD_PLAYERDATA);
 		}
+		if (pElement == nullptr && m_pDataSet.size() == 0) // The player with the input name was not found in the datafile.
+			return false;
 	}
 	return true;
 }
@@ -441,125 +447,6 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 
 template class DataSet_1D<Tile>;
 
-/* ---- ---- ---- ---- ---- ---- ---- Scorecard Set loadFromXML ---- ---- ---- ---- ---- ---- ---- */
-template<>
-inline bool DataSet_2D<Scorecard>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
-{
-	// Create the XML document
-	tinyxml2::XMLDocument xmlDoc;
-	if (xmlDoc.LoadFile(getFileName().c_str()) != 0)	// Check the file loaded successfully
-	{
-		printFileName("ScorecardSet::LoadFromXML: ");
-		xmlDoc.PrintError();
-		return xmlDoc.Error();
-	}
-
-	// Define the temporary storage variables
-	std::string sctr;
-	std::string input = "";
-	const char* ROOT = "playerdata";
-	const char* ROOT_NAME = "name";
-	const char* ROOT_NUMCOLLECTED = "numcollected";
-	const char* ROOT_BODYFILE = "bodyfilename";
-	const char* ROOT_ARMFILE = "armfilename";
-	const char* ROOT_ACTIVEWEAPONSET = "activeweaponset";
-	const char* ROOT_ACTIVELEVELSET = "activelevelset";
-	const char* ID = "id";
-	const char* WEAPONID = "weaponid";
-	const char* UNLOCKED = "unlocked";
-	const char* CHILD_ACTIVEWEAPON = "activeweapon";
-	const char* CHILD_WEAPONSET = "weaponset";
-	const char* CHILD_WEAPON = "weapon";
-	const char* CHILD_LEVELSET = "levelset";
-	const char* CHILD_LEVEL = "level";
-	const char* CHILD_UNLOCKEDWEAPONS = "unlockedweapons";
-	const char* CHILD_UNLOCKEDLEVELS = "unlockedlevels";
-	const char* CHILD_SCORECARDDATA = "scorecarddata";
-	const char* CHILD_COLLECTIBLESET = "collectibleset";
-	const char* CHILD_COLLECTIBLE = "collectible";
-	const char* CHILD_SCORECARDSET = "scorecardset";
-	const char* CHILD_SCORECARD = "scorecard";
-	const char* SCORECARD_NUMCOLLECTED = "numcollected";
-	const char* SCORECARD_LEASTTOTALTIME = "leasttotaltime";
-	const char* SCORECARD_LEASTGROUNDTIME = "leastgroundtime";
-	const char* SCORECARD_LOWESTGROUNDTOTOTALTIMERATIO = "lowestgroundtototaltimeratio";
-	const char* SCORECARD_FEWESTRELOADS = "fewestreloads";
-	const char* SCORECARD_FEWESTSHOTSFIRED = "fewestshotsfired";
-	const char* SCORECARD_LOWESTRELOADSTOSHOTSRATIO = "lowestreloadstoshotsratio";
-	const char* SCORECARD_TOPSPEED = "topspeed";
-	const char* SCORECARD_NUMBEROFATTEMPTS = "numberofattempts";
-	const char* SCORECARD_NUMBEROFDEATHS = "numberofdeaths";
-	const char* SCORECARD_NUMBEROFWINS = "numberofwins";
-	const char* SCORECARD_LEASTDEATHSTOWIN = "leastdeathstowin";
-	tinyxml2::XMLNode* pRoot = xmlDoc.FirstChildElement(ROOT);
-	tinyxml2::XMLElement* pElement[5] = { nullptr };
-
-	// Iterate through the weaponsets (CHILD_WEAPONSET)
-	pElement[0] = pRoot->FirstChildElement(CHILD_SCORECARDDATA)->FirstChildElement(CHILD_WEAPONSET);
-	for (unsigned int weaponSetId = 0; pElement[0] != nullptr; weaponSetId++, pElement[0] = pElement[0]->NextSiblingElement(CHILD_WEAPONSET))
-	{
-		if (weaponSetId == getId())
-		{
-			// Iterate through the levelsets (CHILD_LEVELSET)
-			pElement[1] = pElement[0]->FirstChildElement(CHILD_LEVELSET);
-			for (unsigned int levelSetId = 0; pElement[1] != nullptr; levelSetId++, pElement[1]->NextSiblingElement(CHILD_LEVELSET))
-			{
-				if (levelSetId == getId_y())
-				{
-					// Iterate through the levels (CHILD_LEVEL)
-					pElement[2] = pElement[1]->FirstChildElement(CHILD_LEVEL);
-					for (unsigned int levelId = 0; pElement[2] != nullptr; levelId++, pElement[2]->NextSiblingElement(CHILD_LEVEL))
-					{
-						if (levelId == getId_z())
-						{
-							/* ---- ---- ---- Correct Scorecard SET identified, now to read and store it! ---- ---- ---- */
-							// Iterate through the weapons (CHILD_WEAPON)
-							pElement[3] = pElement[2]->FirstChildElement(CHILD_WEAPON);
-							for (unsigned int weaponId = 0; pElement[3] != nullptr; weaponId++, pElement[3]->NextSiblingElement(CHILD_WEAPON))
-							{
-								//m_pDataSet.push_back(new std::vector<Scorecard*>);
-
-								// Iterate through the individual scorecards (CHILD_COLLECTIBLE)
-								pElement[4] = pElement[3]->FirstChildElement(CHILD_COLLECTIBLE);
-								int leastTotalTime = -1, leastGroundTime = -1, fewestReloads = -1, fewestShotsFired = -1;
-								unsigned int numAttempts = 0, numDeaths = 0, numWins = 0;
-								float lowestGroundToTotal = -1, lowestReloadsToShots = -1, leastDeathsToWin = -1, topSpeed = -1;
-								for (unsigned int collectibleId = 0; pElement[4] != nullptr; collectibleId++, pElement[4]->NextSiblingElement(CHILD_COLLECTIBLE))
-								{
-									// Read the scorecard attributes
-									pElement[4]->QueryIntAttribute(SCORECARD_LEASTTOTALTIME, &leastTotalTime);
-									pElement[4]->QueryIntAttribute(SCORECARD_LEASTGROUNDTIME, &leastGroundTime);
-									pElement[4]->QueryFloatAttribute(SCORECARD_LOWESTGROUNDTOTOTALTIMERATIO, &lowestGroundToTotal);
-									pElement[4]->QueryIntAttribute(SCORECARD_FEWESTRELOADS, &fewestReloads);
-									pElement[4]->QueryIntAttribute(SCORECARD_FEWESTSHOTSFIRED, &fewestShotsFired);
-									pElement[4]->QueryFloatAttribute(SCORECARD_LOWESTRELOADSTOSHOTSRATIO, &lowestReloadsToShots);
-									pElement[4]->QueryFloatAttribute(SCORECARD_TOPSPEED, &topSpeed);
-									pElement[4]->QueryUnsignedAttribute(SCORECARD_NUMBEROFATTEMPTS, &numAttempts);
-									pElement[4]->QueryUnsignedAttribute(SCORECARD_NUMBEROFDEATHS, &numDeaths);
-									pElement[4]->QueryUnsignedAttribute(SCORECARD_NUMBEROFWINS, &numWins);
-									pElement[4]->QueryFloatAttribute(SCORECARD_LEASTDEATHSTOWIN, &leastDeathsToWin);
-									//m_pDataSet.back()->push_back(new Scorecard(weaponSetId, weaponId, collectibleId,
-									//	leastTotalTime, leastGroundTime, lowestGroundToTotal,
-									//	fewestReloads, fewestShotsFired, lowestReloadsToShots,
-									//	numDeaths, numWins, leastDeathsToWin, topSpeed, numAttempts));
-								}
-								std::cout << "All scorecard data using weapon " << weaponId << " for level " << levelId << " in level set " << levelSetId << " for " << weaponSetId << " loaded successfully." << std::endl;
-							}
-							std::cout << "All scorecard data for level " << levelId << " in level set " << levelSetId << " for " << weaponSetId << " loaded successfully." << std::endl;
-							break;
-						}
-					}
-					break;
-				}
-			}
-			break;
-		}
-	}
-	return true;
-}
-
-template class DataSet_2D<Scorecard>;
-
 template <class T>
 void DataSet_1D<T>::Clean(Flags unloadFlags)
 {
@@ -570,34 +457,4 @@ void DataSet_1D<T>::Clean(Flags unloadFlags)
 	}
 	m_pDataSet.clear();
 	m_pDataSet.shrink_to_fit();
-}
-
-template <class T>
-void DataSet_2D<T>::Clean(Flags flags)
-{
-	for (unsigned int xIndex = 0; xIndex < m_pDataSet.size(); xIndex++)
-	{
-		for (unsigned int yIndex = 0; yIndex < m_pDataSet[xIndex]->size(); yIndex++)
-		{
-			delete m_pDataSet[xIndex]->at(yIndex);
-			m_pDataSet[xIndex]->at(yIndex) = nullptr;
-		}
-		m_pDataSet[xIndex]->clear();
-		m_pDataSet[xIndex]->shrink_to_fit();
-		delete m_pDataSet[xIndex];
-	}
-	m_pDataSet.clear();
-	m_pDataSet.shrink_to_fit();
-}
-
-template<class T>
-void DataSet_2D<T>::Print()
-{
-	for (unsigned int xIndex = 0; xIndex < m_pDataSet.size(); xIndex++)
-	{
-		for (unsigned int yIndex = 0; yIndex < m_pDataSet[xIndex]->size(); yIndex++)
-		{
-			m_pDataSet[xIndex]->at(yIndex)->Print();
-		}
-	}
 }

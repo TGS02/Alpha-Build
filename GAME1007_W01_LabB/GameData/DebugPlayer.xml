@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<playerdata name="DebugPlayer" numcollected="0" bodyfilename ="Cowboy_Cadet.png" armfilename="Cowboy_Arm.png" activeweaponset="0" activelevelset="0">
+  <!-- The active Weapon for each [WeaponSet][LevelSet][Level] -->
+   <activeweapon>
+    <weaponset id="0">
+      <levelset id="0">
+        <level id="0" weaponid="0"/>
+        <level id="1" weaponid="0"/>
+      </levelset>
+    </weaponset>
+  </activeweapon>
+
+  <!-- The unlocked status for each [WeaponSet][Weapon] -->
+  <unlockedweapons>
+    <weaponset id="0" unlocked="true">
+      <weapon id="0" unlocked="true"/>
+      <weapon id="1" unlocked="false"/>
+    </weaponset>
+  </unlockedweapons>
+
+  <!-- The unlocked status for each [LevelSet][Level][collectable] -->
+  <unlockedlevels>
+    <levelset id="0" unlocked="true">
+      <level id="0" unlocked="true">
+        <collectable id="0" unlocked="false"/>
+      </level>
+    </levelset>
+  </unlockedlevels>
+
+  <!-- The ScorecardSet data for each [Weaponset][LevelSet][Level] -->
+  <scorecarddata>
+    <levelset id="0">
+      <level id="0">
+        <weaponset id="0">
+          <weapon id="0">
+            <scorecard numcollected="0" leasttotaltime="0" leastgroundtime="0" lowestgroundtototaltimeratio="0" fewestreloads="0" fewestshotsfired="0" lowestreloadstoshotsratio="0" topspeed="0" numberofattempts="0" numberofdeaths="0" numberofwins="0" leastdeathstowin="0"/>
+          </weapon>
+          <weapon id="1">
+            <scorecard numcollected="0" leasttotaltime="0" leastgroundtime="0" lowestgroundtototaltimeratio="0" fewestreloads="0" fewestshotsfired="0" lowestreloadstoshotsratio="0" topspeed="0" numberofattempts="0" numberofdeaths="0" numberofwins="0" leastdeathstowin="0"/>
+          </weapon>
+        </weaponset>
+      </level>
+      <level id="1">
+        <weaponset id="0">
+          <weapon id="0">
+            <scorecard numcollected="0" leasttotaltime="0" leastgroundtime="0" lowestgroundtototaltimeratio="0" fewestreloads="0" fewestshotsfired="0" lowestreloadstoshotsratio="0" topspeed="0" numberofattempts="0" numberofdeaths="0" numberofwins="0" leastdeathstowin="0"/>
+          </weapon>
+          <weapon id="1">
+            <scorecard numcollected="0" leasttotaltime="0" leastgroundtime="0" lowestgroundtototaltimeratio="0" fewestreloads="0" fewestshotsfired="0" lowestreloadstoshotsratio="0" topspeed="0" numberofattempts="0" numberofdeaths="0" numberofwins="0" leastdeathstowin="0"/>
+          </weapon>
+        </weaponset>
+      </level>
+    </levelset>
+  </scorecarddata>
+</playerdata>

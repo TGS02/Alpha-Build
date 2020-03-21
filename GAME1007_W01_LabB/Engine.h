@@ -5,9 +5,9 @@
 #include <SDL_ttf.h>
 #include "Player.h"
 #include "Gun.h"
-#include "Map.h"
 #include "FSM.h"
 #include <glm/vec2.hpp>
+#include "PlayerData.h"
 
 class Engine
 {
@@ -47,6 +47,10 @@ private:   //methods
 	void clean();
 
 public:
+	// TEMPORARY VARIABLES UNTIL THEY LOAD PROPERLY FROM PLAYERDATA
+	unsigned int m_activeLevelSet = 0;
+	unsigned int m_activeLevel = 0;
+	// END OF TEMPORARY VARIABLES
 	Camera& getCamera() { return *m_pCamera; }
 	void setHighScore(int s);
 	int getHighScore();

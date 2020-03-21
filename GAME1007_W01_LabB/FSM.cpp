@@ -5,8 +5,6 @@
 #include "GameData.h"
 #include "Weapon.h"
 using namespace std;
-#define GRAV 8.0
-#define JUMPFORCE 20.0
 
 //FSM. Begins
 FSM::FSM() {}
@@ -94,7 +92,6 @@ PauseState::PauseState()
 
 void PauseState::Enter()
 {
-	
 	cout << "Entering Pause state....." << endl;
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 360,250,300,80 },
 		std::bind(&FSM::PopState, &Engine::Instance().GetFSM())));
@@ -126,40 +123,7 @@ void PauseState::Exit(){ }
 //Pause State Ends
 
 //Game State Begins
-GameState::GameState()
-{
-	activeLevelSet = 0;
-	activeLevel = 1;
-	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
-	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
-	drawBackground = true;
-	jumpTime = 0;
-	counterSpace = 0;
-	record = 0;
-	score = 0;
-	shoot = false;
-	//bgTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/test.png");
-	//map = new Map(Engine::Instance().GetRenderer());
-	m_pPlayer = new Player();
-	m_pPlayer->loadPlayer(Engine::Instance().GetRenderer());
-	m_pPlayer->setWeapon(GameData::Instance()->getWeaponSet(0)->getDatum(0));
-	m_pPlayer->setTileMap(m_pTileMap);
-	gun = new Gun(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
-	gun->loadGun(Engine::Instance().GetRenderer());
-	countFinish = 0;
-	m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/time.png");
-	m_pScoreTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/score.png");
-	BG_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Space_Background.png");
-	crosshair_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Crosshair.png");
-	cross_src = { 0,0,32,32 };
-
-	cross_dst = { 0,0, cross_src.w,cross_src.h };
-	bg_src = { 0,0,1024,768 };
-	bg_dst = { 0,0,bg_src.w,bg_src.h };
-	score_src = src = { 0,0,970,80 };
-	dst = { 0,-8,970,80 };
-	score_dst = { 925 , -8, 970, 80 };
-}
+GameState::GameState() {}
 
 GameState::~GameState()
 {
@@ -182,6 +146,36 @@ GameState::~GameState()
 
 void GameState::Enter()
 {
+	drawBackground = true;
+	jumpTime = 0;
+	counterSpace = 0;
+	record = 0;
+	score = 0;
+	shoot = false;
+	countFinish = 0;
+	m_pTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/time.png");
+	m_pScoreTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/score.png");
+	BG_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Space_Background.png");
+	crosshair_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Crosshair.png");
+	cross_src = { 0,0,32,32 };
+
+	cross_dst = { 0,0, cross_src.w,cross_src.h };
+	bg_src = { 0,0,1024,768 };
+	bg_dst = { 0,0,bg_src.w,bg_src.h };
+	score_src = src = { 0,0,970,80 };
+	dst = { 0,-8,970,80 };
+	score_dst = { 925 , -8, 970, 80 };
+
+	GameData::Instance()->getLevelSet(Engine::Instance().m_activeLevelSet)->getDatum(Engine::Instance().m_activeLevel)->LoadFromXML();
+	m_pTileMap = GameData::Instance()->getLevelSet(Engine::Instance().m_activeLevelSet)->getDatum(Engine::Instance().m_activeLevel)->getTileMap();
+
+	m_pPlayer = new Player();
+	m_pPlayer->loadPlayer(Engine::Instance().GetRenderer());
+	m_pPlayer->setWeapon(GameData::Instance()->getWeaponSet(0)->getDatum(0));
+	m_pPlayer->setTileMap(m_pTileMap);
+	gun = new Gun(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
+	gun->loadGun(Engine::Instance().GetRenderer());
+
 	SDL_ShowCursor(SDL_DISABLE);
 	Engine::Instance().getCamera().SetBounds(m_pTileMap->getBounds());
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
@@ -330,8 +324,9 @@ void GameState::Render()
 
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), BG_text, &bg_src, &bg_dst);
 
-	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap()->draw();
-	
+	//GameData::Instance()->getLevelSet(Engine::Instance().m_activeLevelSet)->getDatum(Engine::Instance().m_activeLevel)->getTileMap()->draw();
+	m_pTileMap->draw();
+
 	// Render the player
 	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
 	gun->draw(Engine::Instance().GetRenderer());
@@ -406,13 +401,13 @@ TitleState::TitleState() {}
 
 void TitleState::Enter()
 {
+	cout << "Entering Title state....." << endl;
 	GameData::Instance()->LoadFromXML();
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
-	cout << "Entering Title state....." << endl;
 	m_pBGTex = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_bgSrc = { 0, 0, 1024, 768 };
 	m_bgDst = { 0 , 0, 1024, 768 };
-	
+
 	m_pLogoTex = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/(Cowboy) Cadet.png");
 	m_logoSrc = { 0, 0, 836, 420 };
 	m_logoDst = { (1024 / 2) - (836 / 4), 100, 836 / 2, 420 / 2 };
@@ -430,7 +425,12 @@ void TitleState::Enter()
 
 void TitleState::Update()
 {
-	
+	// Select username
+	if (GameData::Instance()->getPlayerDataSet()->getDataSet()->size() == 0)
+	{
+		std::cout << "No current user." << std::endl;
+		Engine::Instance().GetFSM().PushState(new PlayerSelect());
+	}
 	for (int i = 0; i < (int)m_vButtons.size(); i++)
 		m_vButtons[i]->Update();
 }
@@ -594,3 +594,67 @@ void LevelSelect::Render()
 void LevelSelect::Exit()
 {
 }
+
+PlayerSelect::PlayerSelect() : m_newUserName("") {}
+
+void PlayerSelect::Enter()
+{
+	cout << "Entering Player Select state..." << endl;
+
+	m_pLogoTex = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Board.png");
+	m_logoSrc = { 0, 0, 512, 512 };
+	m_logoDst = { 128,64,768,634 };
+
+	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 360,350,300,80 },
+		std::bind(&FSM::PopState, &Engine::Instance().GetFSM())));
+}
+
+void PlayerSelect::Update()
+{
+	// Get new user name from std::cin
+	if (m_newUserName == "")
+	{
+		bool validUserName = false;
+		while (!validUserName)
+		{
+			std::cout << "Enter username: ";
+			std::cin >> m_newUserName;
+			if (cin.fail())
+			{
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			else if (m_newUserName.length() < 3)
+			{
+				std::cout << "Invalid username: must be at least 3 characters in length." << std::endl;
+			}
+			else
+			{
+				validUserName = true;
+			}
+		}
+		if (GameData::Instance()->getPlayerDataSet()->LoadFromXML(DataSet::Flags::ALL, DataSet::Flags::DEFAULT) == false) // The player was not found in the datafile
+		{
+			std::cout << "Player not found." << std::endl;
+			m_newUserName = "";
+		}
+	}
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Update();
+}
+
+void PlayerSelect::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 0, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	//Engine::Instance().GetFSM().GetState().at(0)->Render(); // Why is it flickering, I don't understand?
+
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pLogoTex, &m_logoSrc, &m_logoDst);
+
+	for (int i = 0; i < (int)m_vButtons.size(); i++)
+		m_vButtons[i]->Render();
+	
+	State::Render();
+}
+
+void PlayerSelect::Exit() {}

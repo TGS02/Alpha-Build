@@ -36,12 +36,12 @@ bool GameData::LoadFromXML(GameData::Flags unloadFlags, GameData::Flags loadFlag
 		tinyxml2::XMLElement* pElement[2];
 
 		/* ---- ---- ---- ---- ---- Load PlayerDataSet ---- ---- ---- ---- ---- */
-		if (loadFlags == Flags::ALL)
-		{
-			// Load the playerDataSet using its own internal loading function, since it references a completely different xml file.
-			getPlayerDataSet()->LoadFromXML(DataSet::Flags::ALL, DataSet::Flags::FROMISTREAM);
-			std::cout << "All " << m_pPlayerDataSet.getDataSet()->size() << " players' data loaded successfully." << std::endl;
-		}
+		//if (loadFlags == Flags::ALL)
+		//{
+		//	// Load the playerDataSet using its own internal loading function, since it references a completely different xml file.
+		//	getPlayerDataSet()->LoadFromXML(DataSet::Flags::ALL, DataSet::Flags::DEFAULT);
+		//	std::cout << "All " << m_pPlayerDataSet.getDataSet()->size() << " players' data loaded successfully." << std::endl;
+		//}
 
 		/* ---- ---- ---- ---- ---- Load WeaponSetArray ---- ---- ---- ---- ---- */
 		if (loadFlags == Flags::ALL) // Note that flags don't currently work, so this is the best I can do
@@ -70,7 +70,7 @@ bool GameData::LoadFromXML(GameData::Flags unloadFlags, GameData::Flags loadFlag
 				pElement[0]->QueryUnsignedAttribute(ATTRIBUTE_ID, &setId);
 				std::string name = pElement[0]->Attribute(ATTRIBUTE_NAME);
 				m_pLevelSetArray.push_back(new DataSet_1D<Level>(setId, name, TGS02_GAMEDATAFILE));
-				m_pLevelSetArray.back()->LoadFromXML();
+				m_pLevelSetArray.back()->LoadFromXML(); // This line loads the level data for, currently, every single level in the game
 			}
 		}
 		std::cout << "All game data loaded successfully." << std::endl;

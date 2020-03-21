@@ -1,4 +1,3 @@
-
 #pragma once
 #include <SDL.h>
 #include <SDL_image.h>
@@ -41,6 +40,7 @@ public:
 
 
 };
+
 class EndState : public State
 {
 private:
@@ -62,6 +62,7 @@ public:
 
 
 };
+
 class GameState : public State
 {
 public:
@@ -82,8 +83,6 @@ public:
 	int p_record = 0;
 	bool p_finish = false;
 	bool shoot;
-	unsigned int activeLevel;
-	unsigned int activeLevelSet;
 	int mouseposx, mouseposy;
 private:
 	TileMap* m_pTileMap;
@@ -103,7 +102,6 @@ private:
 	int countFinish;
 	bool drawBackground;
 };
-
 
 class TitleState : public State
 {
@@ -137,6 +135,22 @@ public:
 	void Exit();
 };
 
+class PlayerSelect : public State
+{
+private:
+	SDL_Texture* m_pLogoTex;
+	SDL_Rect m_logoSrc, m_logoDst;
+	vector<Button*> m_vButtons;
+	std::string m_newUserName;
+public:
+	PlayerSelect();
+	void Enter();
+	void Update();
+	void Render();
+	void Exit();
+	std::string getNewUserName() { return m_newUserName; }
+};
+
 class FSM
 {
 private:
@@ -152,4 +166,3 @@ public:
 	void Clean();
 	vector<State*>& GetState();
 };
-

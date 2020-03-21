@@ -30,9 +30,9 @@ bool Level::LoadScorecardSet()
 	//UnloadScorecardSet(); // Make sure the scorecard set is properly deleted if needed before it is loaded
 	//for (unsigned int weaponIndex = 0; weaponIndex < GameData::getNumWeapons(); weaponIndex++)
 	//{
-	//	for (unsigned int collectibleIndex = 0; collectibleIndex < this->getNumCollectibles(); collectibleIndex++)
+	//	for (unsigned int collectibleIndex = 0; collectibleIndex < this->getNumCollectables(); collectibleIndex++)
 	//	{
-	//		m_pScorecardSet[weaponIndex][collectibleIndex] = new Scorecard(GameData::getPlayerName(), static_cast<Weapon_Type>(weaponIndex + 1), m_iNumCollectibles);
+	//		m_pScorecardSet[weaponIndex][collectibleIndex] = new Scorecard(GameData::getPlayerName(), static_cast<Weapon_Type>(weaponIndex + 1), m_iNumCollectables);
 	//		if (m_pScorecardSet[weaponIndex][collectibleIndex]->LoadFromXML() != 0)
 	//			//return 1;
 	//			;
@@ -79,7 +79,7 @@ bool Level::LoadTileMap()
 //	switch (flags)
 //	{
 //	case 0:
-//		m_iNumCollectibles = 1; // Load from xml
+//		m_iNumCollectables = 1; // Load from xml
 //		m_ActiveWeapon = Weapon_Type::None; // Load from xml
 //		createScorecardSet();	// Load from xml
 //		// Do not break;
@@ -92,7 +92,7 @@ bool Level::LoadTileMap()
 //		LoadTileMap();
 //		break;
 //	default:
-//		m_iNumCollectibles = 1; // Load from xml
+//		m_iNumCollectables = 1; // Load from xml
 //		m_ActiveWeapon = Weapon_Type::None; // Load from xml
 //		createScorecardSet();	// Load from xml
 //		LoadCoverImage();

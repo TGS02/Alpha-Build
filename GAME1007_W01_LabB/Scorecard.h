@@ -8,7 +8,7 @@ class Scorecard
 private:
 	unsigned int m_iWeaponSetUsed;
 	unsigned int m_iWeaponUsed;
-	unsigned int m_iNumCollectibles;
+	unsigned int m_iNumCollectables;
 	int m_iLeastTotalTime;
 	int m_iLeastGroundTime;
 	float m_fLowestGroundToTotalTimeRatio;
@@ -22,14 +22,13 @@ private:
 	float m_fLeastDeathsToWinRatio;
 
 	// Private functions
-	void setNumCollectibles(unsigned int num) { m_iNumCollectibles = num; }
+	void setNumCollectables(unsigned int num) { m_iNumCollectables = num; }
 public:
 	// System functions
-	Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles);
-	Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles,
-		int leastTotalTime, int leastGroundTime, float lowestGroundToTotal,
-		int fewestReloads, int fewestShotsFired, float lowestReloadsToShots,
-		unsigned int numDeaths, unsigned int numWins, float leastDeathsToWin, float topSpeed, unsigned int numAttempts);
+	Scorecard(unsigned int levelset, unsigned int level, unsigned int weaponset, unsigned int weapon, unsigned int numCollectables = 0,
+		int leastTotalTime = -1, int leastGroundTime = -1, float lowestGroundToTotal = -1.0f,
+		int fewestReloads = -1, int fewestShotsFired = -1, float lowestReloadsToShots = -1.0f,
+		unsigned int numDeaths = 0, unsigned int numWins = 0, float leastDeathsToWin = -1.0f, float topSpeed = 0.0f, unsigned int numAttempts = 0);
 	Scorecard(const Scorecard& ref);
 	~Scorecard() {}
 
@@ -49,7 +48,7 @@ public:
 	// Accessor functions
 	virtual unsigned int getWeaponSetUsed() { return m_iWeaponSetUsed; }
 	virtual unsigned int getWeaponUsed() { return m_iWeaponUsed; }
-	virtual unsigned int getNumCollectibles() { return m_iNumCollectibles; }	// Total collectibles in the level
+	virtual unsigned int getNumCollectables() { return m_iNumCollectables; }	// Total collectibles in the level
 	virtual unsigned int getLeastTotalTime() { return m_iLeastTotalTime; }
 	virtual unsigned int getLeastGroundTime() { return m_iLeastGroundTime; }
 	virtual float getLeastGroundToTotalTimeRatio() { return m_fLowestGroundToTotalTimeRatio; }
