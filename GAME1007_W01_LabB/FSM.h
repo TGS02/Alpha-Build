@@ -46,7 +46,7 @@ class EndState : public State
 private:
 	Scorecard* m_pScorecard;
 	Mix_Music* m_pMusic;
-	SDL_Texture* m_pTexture[2];
+	SDL_Texture* m_pTexture[3];
 	SDL_Rect src, dst;
 	vector<Button*> m_vButtons;
 	SDL_Surface* surface;
@@ -66,7 +66,7 @@ class GameState : public State
 {
 public:
 	Mix_Music* m_pMusic;
-	GameState(int i);
+	GameState(int j, int i);
 	~GameState();
 	void Enter();
 	void Update();
@@ -129,8 +129,10 @@ private:
 	SDL_Texture* m_pLogoTex;
 	SDL_Rect m_bgSrc, m_bgDst, m_logoSrc, m_logoDst;
 	vector<Button*> m_vButtons;
+	
 public:
-	LevelSelect();
+	int level_set;
+	LevelSelect(int i);
 	void Enter();
 	void Update();
 	void Render();
