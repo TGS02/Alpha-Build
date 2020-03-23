@@ -8,16 +8,11 @@
   <weapon id="5" name="Fanciest Gun Imaginable" recoil="50" refirerate="1100" reloadrate="3000" maxshots="6" maxreloads="99"/>
  </weaponset>
  <levelset id="1" name="The Saloon? Maybe?">
-   <level id="1" name ="Cowboy Far From Home" filename="Level1_1.xml" coverfile="Level1_1.jpg" unlockcode="xygf" collectibles="1"/>
-   <level id="2" name ="Welcome to the Rock" filename="Level1_2.xml" coverfile="Level1_2.jpg" unlockcode="hajr" collectibles="2"/>
-   <level id="3" name ="Level 3" filename="Level1_3.xml" coverfile="Level1_3.jpg" unlockcode="hajr" collectibles="3"/>
+   <level id="1" name ="Level1_1" filename="Level1_1.xml" coverfile="Level1_1.jpg" unlockcode="xygf" collectibles="3"/>
+   <level id="2" name ="Level1_2" filename="Level1_2.xml" coverfile="Level1_2.jpg" unlockcode="hajr" collectibles="3"/>
+   <level id="3" name ="Level1_3" filename="Level1_3.xml" coverfile="Level1_3.jpg" unlockcode="rtao" collectibles="4"/>
+   <level id="4" name ="Level1_4" filename="Level1_4.xml" coverfile="Level1_4.jpg" unlockcode="youl" collectibles="3"/>
+   <level id="5" name ="Level1_5" filename="Level1_5.xml" coverfile="Level1_5.jpg" unlockcode="kjaf" collectibles="3"/>
+   <level id="6" name ="Level1_6" filename="Level1_6.xml" coverfile="Level1_6.jpg" unlockcode="haac" collectibles="2"/>
  </levelset>
-  <levelset id="2" name="The Factory">
-    <level id="1" name ="Sorta Like the Oregon Trail..." filename="Level2_1.xml" coverfile="Level2_1.jpg" unlockcode="rtao" collectibles="3"/>
-    <level id="2" name ="Buckin' Bronco" filename="Level2_2.xml" coverfile="Level2_2.jpg" unlockcode="youl" collectibles="4"/>
-  </levelset>
-  <levelset id="3" name="The Outback">
-    <level id="1" name ="An Aweful Long Way Away" filename="Level2_1.xml" coverfile="Level2_1.jpg" unlockcode="rtao" collectibles="3"/>
-    <level id="2" name ="Space Lasso" filename="Level2_2.xml" coverfile="Level2_2.jpg" unlockcode="youl" collectibles="4"/>
-  </levelset>
 </gamedata>
