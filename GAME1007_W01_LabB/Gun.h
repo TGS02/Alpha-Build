@@ -10,7 +10,7 @@ private:
 	glm::vec2 m_vPosition;
 	glm::vec2 m_vMousePosition;
 	SDL_Rect m_src, m_dst;
-	bool left;
+	
 	SDL_RendererFlip flip;
 	float m_speed;
 	float m_turnRate;
@@ -31,6 +31,7 @@ private:
 public:
 	Gun(glm::vec2);
 	~Gun();
+	bool left;
 	void draw(SDL_Renderer* g_p_renderer);
 	void shoot();
 	void update();

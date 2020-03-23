@@ -66,7 +66,7 @@ class GameState : public State
 {
 public:
 	Mix_Music* m_pMusic;
-	GameState();
+	GameState(int i);
 	~GameState();
 	void Enter();
 	void Update();

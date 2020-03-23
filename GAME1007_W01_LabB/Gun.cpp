@@ -79,10 +79,14 @@ void Gun::computeMouseDirection()
 	velocity.x = getMousePosition().x - static_cast<int>(position.x);
 	velocity.y = getMousePosition().y - static_cast<int>(position.y);
 	m_vMouseDirection = Util::normalize(velocity);
-	if (velocity.x < 0)
+	if (velocity.x < 0) {
 		flip = SDL_FLIP_VERTICAL;
-	else
+		left = true;
+	}
+	else {
 		flip = SDL_FLIP_NONE;
+		left = false;
+	}
 }
 
 void Gun::getShootFsm(bool shoot)
@@ -161,7 +165,12 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 		
 	}
 	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 40, 18 };
-	SDL_Point centerPoint = { 0, 9 };
+	SDL_Point centerPoint;
+	if (left == false)
+		centerPoint = { 0, 9 };
+	else
+		centerPoint = { -9, 9 };
+
 	if(!playerDie)
 	Engine::Instance().getCamera().RenderOffsetEx(m_pTexture, &m_src, &m_dst, m_currentHeading, 255, &centerPoint, flip);
 

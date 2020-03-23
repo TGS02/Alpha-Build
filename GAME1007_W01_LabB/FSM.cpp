@@ -126,10 +126,10 @@ void PauseState::Exit(){ }
 //Pause State Ends
 
 //Game State Begins
-GameState::GameState()
+GameState::GameState(int i)
 {
 	activeLevelSet = 0;
-	activeLevel = 1;
+	activeLevel = i;
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->LoadFromXML();
 	m_pTileMap = GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap();
 	drawBackground = true;
@@ -333,7 +333,16 @@ void GameState::Render()
 	GameData::Instance()->getLevelSet(activeLevelSet)->getDatum(activeLevel)->getTileMap()->draw();
 	
 	// Render the player
-	m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
+	if (gun->left == false) {
+		m_pPlayer->SetLeft(false);
+		m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
+		
+	}
+	else {
+		m_pPlayer->SetLeft(true);
+		m_pPlayer->playerDraw(Engine::Instance().GetRenderer());
+
+	}
 	gun->draw(Engine::Instance().GetRenderer());
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), crosshair_text, &cross_src, &cross_dst);
 	
@@ -418,7 +427,7 @@ void TitleState::Enter()
 	m_logoDst = { (1024 / 2) - (836 / 4), 100, 836 / 2, 420 / 2 };
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 360,350,300,80 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(0))));
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 360,450,300,80 },
 		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new LevelSelect())));
@@ -554,16 +563,16 @@ void LevelSelect::Enter()
 	m_logoDst = { 128,64,768,634 };
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 200,350,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(0))));
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 600,350,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(1))));
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 200,600,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(2))));
 
 	m_vButtons.push_back(new Button("../Assets/Textures/Button.png", { 0,0,600,156 }, { 600,600,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState())));
+		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(0))));
 	
 	Mix_PlayMusic(m_pMusic, -1);
 }
