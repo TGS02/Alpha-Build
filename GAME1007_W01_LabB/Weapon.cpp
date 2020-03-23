@@ -24,6 +24,8 @@ bool Weapon::Fire()
 	{
 		--m_iShotsLeft;
 		m_iRefireCD = 0;
+		shotsLeft = shotsLeft - 1;
+		frame = frame + 98;
 		return true;
 	}
 	return false;
@@ -37,6 +39,8 @@ bool Weapon::Reload()
 		--m_iReloadsLeft;
 		m_iReloadCD = 0;
 		m_iShotsLeft = m_iMaxShots;
+		shotsLeft = 6;
+		frame = 0;
 		return true;
 	}
 	return false;
@@ -48,4 +52,14 @@ void Weapon::Reset()
 	m_iReloadsLeft = m_iMaxReloads;
 	m_iRefireCD = m_iRefireRate;
 	m_iRefireRate = m_iReloadRate;
+}
+
+int Weapon::shotsGetter()
+{
+	return shotsLeft;
+}
+
+int Weapon::frameGetter()
+{
+	return frame;
 }

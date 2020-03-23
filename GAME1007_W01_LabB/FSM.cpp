@@ -144,6 +144,7 @@ GameState::GameState(int i)
 	m_pPlayer->loadPlayer(Engine::Instance().GetRenderer());
 	m_pPlayer->setWeapon(GameData::Instance()->getWeaponSet(0)->getDatum(0));
 	m_pPlayer->setTileMap(m_pTileMap);
+	m_pPlayer->loadAmmoUI(Engine::Instance().GetRenderer());
 	gun = new Gun(glm::vec2(m_pPlayer->getPosition().x + (m_pPlayer->getSize().x / 2), m_pPlayer->getPosition().y + (m_pPlayer->getSize().y / 2)));
 	gun->loadGun(Engine::Instance().GetRenderer());
 	countFinish = 0;

@@ -39,13 +39,20 @@ private:
 
 	/********************************************/
 	SDL_Texture* m_pTexture;
+	//AmmoUI texture
+	SDL_Texture* m_uTexture;
+
 	int velX, velY;
 	SDL_Rect m_src, m_dst, m_col;
 	glm::vec2 m_pos;
-	int m_frame, 
-		m_frameMax, 
-		m_sprite, 
-		m_spriteMax; 
+	//ui ammo frame
+	int frame = 0;
+	SDL_Rect m_uis, m_uip;
+
+	int m_frame,
+		m_frameMax,
+		m_sprite,
+		m_spriteMax;
 	const Uint8* g_iKeystates;
 	bool left;
 	int m_lastPosition;
@@ -89,6 +96,7 @@ public:
 	Player();
 	~Player();
 	SDL_Texture* loadPlayer(SDL_Renderer*);
+	SDL_Texture* loadAmmoUI(SDL_Renderer*);
 	bool keyDown(SDL_Scancode);
 	void playerUpdate();
 	void setPosition(glm::vec2 position) { m_pos = position; }
