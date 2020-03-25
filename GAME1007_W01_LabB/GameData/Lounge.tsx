@@ -351,9 +351,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_1.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="2" x="8" y="24" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="25" duration="500"/>
    <frame tileid="26" duration="500"/>
@@ -366,9 +363,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="2" x="8" y="24" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="26" duration="500"/>
    <frame tileid="27" duration="500"/>
@@ -381,9 +375,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_3.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="2" x="8" y="24" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="27" duration="500"/>
    <frame tileid="26" duration="500"/>
@@ -396,9 +387,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Up_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="2" x="8" y="24" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="26" duration="500"/>
    <frame tileid="25" duration="500"/>
@@ -432,9 +420,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_1.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="32" duration="500"/>
    <frame tileid="33" duration="500"/>
@@ -447,9 +432,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="33" duration="500"/>
    <frame tileid="34" duration="500"/>
@@ -462,9 +444,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_3.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="34" duration="500"/>
    <frame tileid="33" duration="500"/>
@@ -477,9 +456,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Right_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="33" duration="500"/>
    <frame tileid="32" duration="500"/>
@@ -513,9 +489,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_1.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="0" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="39" duration="500"/>
    <frame tileid="40" duration="500"/>
@@ -528,9 +501,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="0" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="40" duration="500"/>
    <frame tileid="41" duration="500"/>
@@ -543,9 +513,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_3.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="0" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="41" duration="500"/>
    <frame tileid="40" duration="500"/>
@@ -558,9 +525,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Down_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="8" y="0" width="16" height="8"/>
-  </objectgroup>
   <animation>
    <frame tileid="40" duration="500"/>
    <frame tileid="39" duration="500"/>
@@ -594,9 +558,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_1.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="24" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="46" duration="500"/>
    <frame tileid="47" duration="500"/>
@@ -609,9 +570,6 @@
    <property name="interactiontype" type="int" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="24" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="47" duration="500"/>
    <frame tileid="48" duration="500"/>
@@ -624,9 +582,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_3.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="24" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="48" duration="500"/>
    <frame tileid="47" duration="500"/>
@@ -639,9 +594,6 @@
    <property name="interactiontype" value="3"/>
   </properties>
   <image width="32" height="32" source="../../Assets/Textures/Spike_Left_2.png"/>
-  <objectgroup draworder="index" id="2">
-   <object id="1" x="24" y="8" width="8" height="16"/>
-  </objectgroup>
   <animation>
    <frame tileid="47" duration="500"/>
    <frame tileid="46" duration="500"/>
