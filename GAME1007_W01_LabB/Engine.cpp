@@ -43,7 +43,7 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 			if (Mix_Init(MIX_INIT_MP3) != 0) // MIXER INIT success.
 			{
 				Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096);
-				m_pMusic = Mix_LoadMUS("../Assets/Audio/bgMusic.mp3");
+				m_pMusic = Mix_LoadMUS("../Assets/Audio/music.mp3");
 				 m_pPickUps = Mix_LoadWAV("../Assets/Audio/coin.wav");
 				 m_pShoot = Mix_LoadWAV("../Assets/Audio/sci-fiShoot.wav");
 				 m_pWin = Mix_LoadWAV("../Assets/Audio/win.wav");
@@ -62,6 +62,7 @@ bool Engine::init(const char* title, int xpos, int ypos, int width, int height, 
 	m_dst = { 0,0, WIDTH, HEIGHT / 2 };
 	m_dst2 = { 0,HEIGHT / 2, WIDTH, HEIGHT / 2 };
 	m_round = 0;
+	m_pCamera = new Camera(Engine::Instance().GetRenderer(), { 0, 0, WIDTH, HEIGHT });
 	m_pFSM = new FSM();
 	m_pFSM->ChangeState(new TitleState());
 	//Mix_PlayMusic(m_pMusic, -1);
@@ -104,12 +105,12 @@ void Engine::handleEvents()
 			if (event.key.keysym.sym == SDLK_ESCAPE)
 				g_bRunning = false;
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_SPACE)
-				pressSpace = false;
-		/*	if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_d)
-				upButtonad = true;*/
-			if (event.key.keysym.sym == SDLK_w)
-				m_bSpaceOk = true;
+		//	if (event.key.keysym.sym == SDLK_SPACE)
+		//		pressSpace = false;
+		///*	if (event.key.keysym.sym == SDLK_a || event.key.keysym.sym == SDLK_d)
+		//		upButtonad = true;*/
+		//	if (event.key.keysym.sym == SDLK_w)
+		//		m_bSpaceOk = true;
 			break;
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button >= 1 && event.button.button <= 3)

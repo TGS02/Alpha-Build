@@ -10,7 +10,8 @@ private:
 	glm::vec2 m_vPosition;
 	glm::vec2 m_vMousePosition;
 	SDL_Rect m_src, m_dst;
-	bool left;
+	
+	SDL_RendererFlip flip;
 	float m_speed;
 	float m_turnRate;
 	void m_changeDirection();
@@ -30,6 +31,7 @@ private:
 public:
 	Gun(glm::vec2);
 	~Gun();
+	bool left;
 	void draw(SDL_Renderer* g_p_renderer);
 	void shoot();
 	void update();
@@ -44,7 +46,7 @@ public:
 	float getMaxSpeed();
 	glm::vec2 getMousePosition();
 	bool getRotation();
-	void getPlayerDie(bool die);
+	void getPlayerDie(bool m_hasDied);
 	// setters
 	void setVelocity(glm::vec2 newVelocity);
 	void setCurrentDirection(glm::vec2 newDirection);

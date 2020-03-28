@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GameData">
+      <UniqueIdentifier>{3d48c669-89a8-40ce-a942-92ec7d111877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\Framework">
+      <UniqueIdentifier>{5f85c2a7-17bb-46fe-ac44-4b9a627a3854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\Gameplay">
+      <UniqueIdentifier>{b184bbc3-4c45-4067-b315-9b88dd16f41c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\Resources">
+      <UniqueIdentifier>{d17b8711-e901-4447-af5e-0ee05c274ee7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -22,9 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
@@ -45,15 +54,45 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DataSet.cpp">
+      <Filter>GameData\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="GameData.cpp">
+      <Filter>GameData\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Scorecard.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerData.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>GameData\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLManager.cpp">
+      <Filter>GameData\Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>GameData\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
@@ -74,6 +113,39 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataSet.h">
+      <Filter>GameData\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GameData.h">
+      <Filter>GameData\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Scorecard.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>GameData\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLManager.h">
+      <Filter>GameData\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>GameData\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Player.png">
@@ -85,5 +157,30 @@
     <Image Include="..\Assets\Textures\PPSH.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameData\GameData.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+    <Xml Include="GameData\Level1_1.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+    <Xml Include="GameData\Level1_2.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+    <Xml Include="GameData\Player1.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+    <Xml Include="GameData\PlayerData.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+    <Xml Include="LevelScores.xml">
+      <Filter>GameData\Resources</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameData\Lounge.tsx">
+      <Filter>GameData\Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>
