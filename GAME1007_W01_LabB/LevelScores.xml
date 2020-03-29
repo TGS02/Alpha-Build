@@ -1,8 +1,8 @@
 <playerdataset>
-    <Level id="0" complete="1" timeInLevel="10" TimeInAir="61" NumberOfShotsFired="7" NumberOfReloadsUsed="1" NumberOfCoinsCollected="0"/>
-    <Level id="1" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>
-    <Level id="2" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>
-    <Level id="3" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>
+    <Level id="0" complete="1" timeInLevel="12" TimeInAir="61" NumberOfShotsFired="7" NumberOfReloadsUsed="1" NumberOfCoinsCollected="1"/>
+    <Level id="1" complete="1" timeInLevel="16" TimeInAir="84" NumberOfShotsFired="10" NumberOfReloadsUsed="1" NumberOfCoinsCollected="0"/>
+    <Level id="2" complete="1" timeInLevel="98" TimeInAir="968" NumberOfShotsFired="15" NumberOfReloadsUsed="4" NumberOfCoinsCollected="3"/>
+    <Level id="3" complete="1" timeInLevel="46" TimeInAir="260" NumberOfShotsFired="7" NumberOfReloadsUsed="1" NumberOfCoinsCollected="1"/>
     <Level id="4" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>
     <Level id="5" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>
     <Level id="6" complete="0" timeInLevel="0" TimeInAir="0" NumberOfShotsFired="0" NumberOfReloadsUsed="0" NumberOfCoinsCollected="0"/>

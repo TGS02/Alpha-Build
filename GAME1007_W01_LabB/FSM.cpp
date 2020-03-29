@@ -506,14 +506,14 @@ void EndState::Enter()
 	m_pTexture[0] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_pTexture[1] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/EndBoard.png");
 	m_pTexture[2] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Bar.png");
-	if (level >= 3)
+	int nextLevel = level + 1;
+	int nextLevelSet = levelset;
+	if (nextLevel > 3)
 	{
-		level = 0;
-		levelset++;
+		nextLevel = 0;
+		nextLevelSet++;
 	}
-	else
-		level++;
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },levelset,level));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },nextLevelSet,nextLevel));
 	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 }));
 }
 
@@ -563,7 +563,7 @@ void EndState::Render()
 
 	std::stringstream levelText;
 	levelText.str("");
-	levelText << "LEVEL " << level+1; ///level
+	levelText << GameData::Instance()->getLevelSet(levelset)->getDatum(level)->getName();
 	color = { 41, 14, 1 };
 	surface = TTF_RenderText_Solid(titleFont, levelText.str().c_str(), color);
 	SDL_DestroyTexture(texture);
@@ -571,7 +571,7 @@ void EndState::Render()
 	texW = 0;
 	texH = 0;
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	dstrect = { 448, 175, texW, texH };
+	dstrect = { 512 - static_cast<int>(texW * 0.5), 175, texW, texH };
 	SDL_FreeSurface(surface);
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
