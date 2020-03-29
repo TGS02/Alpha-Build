@@ -5,14 +5,14 @@
 #include "SDL_image.h"
 using namespace std;
 
-Button::Button(const char* s, SDL_Rect src, SDL_Rect dst)
+Button::Button(const char* s, SDL_Rect src, SDL_Rect dst, bool flip)
 	: m_rSrc(src), m_rDst(dst), m_iFrame(0)
 {
 	cout << "Constructing button!" << endl;
 	// Set the button image. You should have some fail checking just in case. 
 	m_pText = IMG_LoadTexture(Engine::Instance().GetRenderer(), s);
 	// Setting the callback.
-
+	rendflip = flip;
 }
 
 Button::~Button()
@@ -64,10 +64,15 @@ void Button::Update()
 void Button::Render()
 {
 	m_rSrc.x = m_rSrc.w * m_iFrame;
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pText, &m_rSrc, &m_rDst);
+	if (rendflip == false) {
+		SDL_RenderCopyEx(Engine::Instance().GetRenderer(), m_pText, &m_rSrc, &m_rDst, 0, nullptr, SDL_FLIP_NONE);
+	}
+	else if (rendflip == true) {
+		SDL_RenderCopyEx(Engine::Instance().GetRenderer(), m_pText, &m_rSrc, &m_rDst, 0, nullptr, SDL_FLIP_HORIZONTAL);
+	}
 }
 
-PlayButton::PlayButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset, int level) : Button(s, src, dst) 
+PlayButton::PlayButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset, int level, bool flip) : Button(s, src, dst, flip) 
 {
 	plevelset = levelset;
 	plevel = level;
@@ -77,25 +82,25 @@ void PlayButton::Execute()
 	Engine::Instance().GetFSM().ChangeState(new GameState(plevel,plevelset));
 }
 
-ExitButton::ExitButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+ExitButton::ExitButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void ExitButton::Execute()
 {
 	Engine::Instance().QuitGame();
 }
 
-ResumeButton::ResumeButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+ResumeButton::ResumeButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void ResumeButton::Execute()
 {
 	Engine::Instance().GetFSM().PopState();
 }
 
-MainMenuButton::MainMenuButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+MainMenuButton::MainMenuButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void MainMenuButton::Execute()
 {
 	Engine::Instance().GetFSM().ChangeState(new TitleState);
 }
 
-LevelSelectButton::LevelSelectButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset) :Button(s, src, dst) 
+LevelSelectButton::LevelSelectButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset, bool flip) :Button(s, src, dst, flip) 
 {
 	plevelset = levelset;
 }
