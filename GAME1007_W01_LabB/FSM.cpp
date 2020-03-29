@@ -97,7 +97,8 @@ void PauseState::Enter()
 	
 	cout << "Entering Pause state....." << endl;
 	m_vButtons.push_back(new ResumeButton("../Assets/Textures/Buttons/Button_Resume.png", { 0,0,600,156 }, { 360,250,300,80 }));
-	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 }));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 }));
+	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,450,300,80 }));
 }
 
 void PauseState::Update()
@@ -449,7 +450,7 @@ void TitleState::Enter()
 	m_logoSrc = { 0, 0, 836, 420 };
 	m_logoDst = { (1024 / 2) - (836 / 4), 100, 836 / 2, 420 / 2 };
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 360,350,300,80 },1,1));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 360,350,300,80 },0,0));
 
 	m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Button_Levels.png", { 0,0,600,156 }, { 360,450,300,80 },0));
 
@@ -505,8 +506,15 @@ void EndState::Enter()
 	m_pTexture[0] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_pTexture[1] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/EndBoard.png");
 	m_pTexture[2] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Bar.png");
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },level,levelset));
-	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 }));
+	if (level >= 3)
+	{
+		level = 0;
+		levelset++;
+	}
+	else
+		level++;
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },levelset,level));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 }));
 }
 
 
@@ -678,13 +686,13 @@ void LevelSelect::Enter()
 	m_logoSrc = { 0, 0, 512, 512 };
 	m_logoDst = { 128,64,768,634 };
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,350,250,60 },0,level_set));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,350,250,60 },level_set,0));
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,350,250,60 },1,level_set));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,350,250,60 },level_set,1));
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 },2,level_set));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 },level_set,2));
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 },3,level_set));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 },level_set,3));
 	
 	if (level_set == 0)
 	{
