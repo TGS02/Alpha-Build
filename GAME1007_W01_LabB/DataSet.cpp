@@ -202,12 +202,12 @@ inline bool DataSet_1D<Level>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 				unlockcode = pElement[1]->Attribute(ATTRIBUTE_UNLOCKCODE);
 				pElement[1]->QueryUnsignedAttribute(ATTRIBUTE_COLLECTIBLES, &collectibles);
 				m_pDataSet.push_back(new Level(id, name, filename, coverfile, unlockcode, collectibles));
-				std::cout << "Level data " << itemId << " in set " << setId << " loaded successfully." << std::endl;
+				//std::cout << "Level data " << itemId << " in set " << setId << " loaded successfully." << std::endl;
 			}
-			std::cout << "Level data set " << setId << " loaded successfully." << std::endl;
+			//std::cout << "Level data set " << setId << " loaded successfully." << std::endl;
 		}
 	}
-	std::cout << "All level data sets loaded successfully." << std::endl;
+	//std::cout << "All level data sets loaded successfully." << std::endl;
 	return true;
 }
 
@@ -416,10 +416,10 @@ inline bool DataSet_1D<Tile>::LoadFromXML(Flags unloadFlags, Flags loadFlags)
 		}
 		else
 		{
-			std::cout << "Tile at index " << id[0] << " in set " << getId() << " loaded successfully." << std::endl;
+			//std::cout << "Tile at index " << id[0] << " in set " << getId() << " loaded successfully." << std::endl;
 		}
 	}
-	std::cout << "All tiles in tileset " << getId() << " loaded successfully." << std::endl;
+	//std::cout << "All tiles in tileset " << getId() << " loaded successfully." << std::endl;
 	for (unsigned int tileId = 0; tileId < m_pDataSet.size(); tileId++)
 	{
 		FrameSet* fsptr = m_pDataSet[tileId]->getFrameSet();

@@ -96,10 +96,8 @@ void PauseState::Enter()
 {
 	
 	cout << "Entering Pause state....." << endl;
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Resume.png", { 0,0,600,156 }, { 360,250,300,80 },
-		std::bind(&FSM::PopState, &Engine::Instance().GetFSM())));
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 },
-		std::bind(&Engine::QuitGame, &Engine::Instance())));
+	m_vButtons.push_back(new ResumeButton("../Assets/Textures/Buttons/Button_Resume.png", { 0,0,600,156 }, { 360,250,300,80 }));
+	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 }));
 }
 
 void PauseState::Update()
@@ -310,7 +308,7 @@ void GameState::Update()
 			m_pScorecard->setNumShots(m_pPlayer->numOfShots);
 			countFinish = 0;
 			m_pScorecard->saveData(int(activeLevel));
-			Engine::Instance().GetFSM().ChangeState(new EndState(activeLevel));
+			Engine::Instance().GetFSM().ChangeState(new EndState(activeLevel,activeLevelSet));
 		}
 	}
 	else if (Engine::Instance().KeyDown(SDL_SCANCODE_P))
@@ -451,14 +449,11 @@ void TitleState::Enter()
 	m_logoSrc = { 0, 0, 836, 420 };
 	m_logoDst = { (1024 / 2) - (836 / 4), 100, 836 / 2, 420 / 2 };
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 360,350,300,80 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(0,0))));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 360,350,300,80 },1,1));
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Levels.png", { 0,0,600,156 }, { 360,450,300,80 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new LevelSelect(0))));
+	m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Button_Levels.png", { 0,0,600,156 }, { 360,450,300,80 },0));
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,550,300,80 },
-		std::bind(&Engine::QuitGame, &Engine::Instance())));
+	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,550,300,80 }));
 	Mix_PlayMusic(m_pMusic, -1);
 }
 
@@ -489,9 +484,10 @@ void TitleState::Exit()
 
 // Title State Ends
 
-EndState::EndState(int j)
+EndState::EndState(int j, int i)
 {
 	level = j;
+	levelset = i;
 	m_pLevelsScores = new LevelScore();
 	m_pLevelsScores->loadData();
 }
@@ -509,10 +505,8 @@ void EndState::Enter()
 	m_pTexture[0] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_pTexture[1] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/EndBoard.png");
 	m_pTexture[2] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Bar.png");
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new TitleState())));
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 },
-		std::bind(&Engine::QuitGame, &Engine::Instance())));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },level,levelset));
+	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 }));
 }
 
 
@@ -676,7 +670,6 @@ void LevelSelect::Enter()
 {
 	GameData::Instance()->LoadFromXML();
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
-	cout << "Entering Title state....." << endl;
 	m_pBGTex = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_bgSrc = { 0, 0, 1024, 768 };
 	m_bgDst = { 0 , 0, 1024, 768 };
@@ -685,27 +678,22 @@ void LevelSelect::Enter()
 	m_logoSrc = { 0, 0, 512, 512 };
 	m_logoDst = { 128,64,768,634 };
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,350,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(0,level_set))));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,350,250,60 },0,level_set));
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,350,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(1, level_set))));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,350,250,60 },1,level_set));
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(2, level_set))));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 },2,level_set));
 
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 },
-		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new GameState(3, level_set))));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 },3,level_set));
 	
 	if (level_set == 0)
 	{
-		m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },
-			std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new LevelSelect(1))));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },1));
 	}
 	if (level_set == 1)
 	{
-		m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 150,350,124,60 },
-			std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new LevelSelect(0))));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 150,350,124,60 },0));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },2));
 	}
 
 	Mix_PlayMusic(m_pMusic, -1);

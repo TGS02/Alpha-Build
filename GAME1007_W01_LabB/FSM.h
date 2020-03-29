@@ -45,6 +45,7 @@ class EndState : public State
 {
 private:
 	int level;
+	int levelset;
 	Scorecard* m_pScorecard;
 	LevelScore* m_pLevelsScores;
 	Mix_Music* m_pMusic;
@@ -55,7 +56,7 @@ private:
 	SDL_Texture* texture;
 	TTF_Font* font,*titleFont,*littleSize;
 public:
-	EndState(int j);
+	EndState(int j, int i);
 	void Enter();
 	void Update();
 	void Render();

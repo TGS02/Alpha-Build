@@ -5,14 +5,14 @@
 #include "SDL_image.h"
 using namespace std;
 
-Button::Button(const char* s, SDL_Rect src, SDL_Rect dst, std::function<void()> cb)
+Button::Button(const char* s, SDL_Rect src, SDL_Rect dst)
 	: m_rSrc(src), m_rDst(dst), m_iFrame(0)
 {
 	cout << "Constructing button!" << endl;
 	// Set the button image. You should have some fail checking just in case. 
 	m_pText = IMG_LoadTexture(Engine::Instance().GetRenderer(), s);
 	// Setting the callback.
-	m_callback = cb;
+
 }
 
 Button::~Button()
@@ -52,19 +52,54 @@ void Button::Update()
 			{
 				m_iFrame = MOUSE_OVER;
 				// Execute callback.
-				willCallback = true;
+				Execute();
 			}
 			else
 				m_iFrame = MOUSE_UP;
 		}
 		break;
 	}
-	if (willCallback)
-		m_callback();
 }
 
 void Button::Render()
 {
 	m_rSrc.x = m_rSrc.w * m_iFrame;
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pText, &m_rSrc, &m_rDst);
+}
+
+PlayButton::PlayButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset, int level) : Button(s, src, dst) 
+{
+	plevelset = levelset;
+	plevel = level;
+}
+void PlayButton::Execute()
+{
+	Engine::Instance().GetFSM().ChangeState(new GameState(plevel,plevelset));
+}
+
+ExitButton::ExitButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+void ExitButton::Execute()
+{
+	Engine::Instance().QuitGame();
+}
+
+ResumeButton::ResumeButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+void ResumeButton::Execute()
+{
+	Engine::Instance().GetFSM().PopState();
+}
+
+MainMenuButton::MainMenuButton(const char* s, SDL_Rect src, SDL_Rect dst) :Button(s, src, dst) {}
+void MainMenuButton::Execute()
+{
+	Engine::Instance().GetFSM().ChangeState(new TitleState);
+}
+
+LevelSelectButton::LevelSelectButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset) :Button(s, src, dst) 
+{
+	plevelset = levelset;
+}
+void LevelSelectButton::Execute()
+{
+	Engine::Instance().GetFSM().ChangeState(new LevelSelect(plevelset));
 }

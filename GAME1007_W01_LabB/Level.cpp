@@ -103,7 +103,7 @@ bool Level::LoadTileMap()
 // Loads all metadata for the level except the cover image
 bool Level::LoadFromXML(DataSet::Flags unloadFlags, DataSet::Flags loadFlags)
 {
-	std::cout << "Loading TileMap from XML." << std::endl;
+	//std::cout << "Loading TileMap from XML." << std::endl;
 	m_pTileMap = new TileMap(getFileName());
 	return m_pTileMap->LoadFromXML() == true ? true : false;
 }
