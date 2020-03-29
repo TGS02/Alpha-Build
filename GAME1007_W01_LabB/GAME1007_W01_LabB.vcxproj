@@ -171,6 +171,7 @@
     <Xml Include="GameData\Level1_2.xml" />
     <Xml Include="GameData\Player1.xml" />
     <Xml Include="GameData\PlayerData.xml" />
+    <Xml Include="LevelScores.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameData\Lounge.tsx" />

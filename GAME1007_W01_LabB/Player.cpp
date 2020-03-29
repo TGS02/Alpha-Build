@@ -94,6 +94,9 @@ Player::Player() :
 	/*///////////////////////////*/
 	m_iDir = 1;
 	stop = false;
+	numOfCoins = 0;
+	numOfReloads = 0;
+	numOfShots = 0;
 }
 
 SDL_Texture* Player::loadPlayer(SDL_Renderer* m_pRenderer)
@@ -142,7 +145,20 @@ void Player::playerUpdate()
 	// Accelerate, move, check collisions, and set final position
 	accelerate();
 	move();
-
+	if (!onGround)
+	{
+		
+		m_inAirTimer.start();
+	}
+	else
+	{
+		m_inAirTimer.pause();
+		if(Engine::Instance().counter==true)
+		{
+			inAir += m_inAirTimer.get_ticks() ;
+		Engine::Instance().counter = false;
+		}
+	}
 	// Update the player's weapon and sprite
 	m_pWeapon->Update();
 	animate();
@@ -210,6 +226,7 @@ void Player::jump(bool holdingKey)
 	}
 	else if (holdingKey && isJumping && !onGround)
 	{
+
 		float squaredTotalJumpForce = (m_fTotalJumpForce.x * m_fTotalJumpForce.x) + (m_fTotalJumpForce.y * m_fTotalJumpForce.y);
 		float squaredJumpForceMax = (m_forces.jumpForceMax * m_forces.jumpForceMax);
 		if (squaredTotalJumpForce < squaredJumpForceMax)
@@ -230,6 +247,7 @@ void Player::shoot(glm::vec2 direction)
 {
 	if (m_pWeapon->Fire())
 	{
+		numOfShots++;
 		onGround = false;
 		m_fRecoilVelocity -= direction * m_pWeapon->getRecoilForce();
 		std::cout << "Firing! " << m_fRecoilVelocity.x << '/' << m_fRecoilVelocity.y << std::endl;
@@ -242,7 +260,10 @@ void Player::shoot(glm::vec2 direction)
 
 void Player::reload()
 {
-	if (m_pWeapon->Reload()) {}
+	if (m_pWeapon->Reload())
+	{
+		numOfReloads++;
+	}
 }
 
 void Player::checkBound()
@@ -384,9 +405,12 @@ void Player::move()
 				break;
 			case InteractiveTile::Type::DIE:
 				die();
+				numOfCoins = 0;
 				break;
 			case InteractiveTile::Type::GET:
 				std::cout << "You got a collectable!" << std::endl;
+				numOfCoins++;
+				record += 10;
 				break;
 			case InteractiveTile::Type::WIN:
 				std::cout << "You reached the exit!" << std::endl;
@@ -476,6 +500,7 @@ void Player::Stop() // If you want a dead stop both axes.
 {
 	m_fVelocity = { 0.0f, 0.0f };
 }
+
 
 void Player::SetDir(int dir) { m_iDir = dir; } // Will be used to set direction of sprite for your Assignment 2.
 

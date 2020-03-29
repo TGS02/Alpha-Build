@@ -3,14 +3,20 @@
 #include "Scorecard.h"
 
 Scorecard::Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles)
-	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectibles(numCollectibles) {}
+	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectibles(numCollectibles)
+{
+	initXml();
+}
 
 Scorecard::Scorecard(unsigned int weaponset, unsigned int weapon, unsigned int numCollectibles, int leastTotalTime, int leastGroundTime, float lowestGroundToTotal, int fewestReloads, int fewestShotsFired, float lowestReloadsToShots, unsigned int numDeaths, unsigned int numWins, float leastDeathsToWin, float topSpeed, unsigned int numAttempts)
 	: m_iWeaponSetUsed(weaponset), m_iWeaponUsed(weapon), m_iNumCollectibles(numCollectibles),
 	m_iLeastTotalTime(leastTotalTime), m_iLeastGroundTime(leastGroundTime), m_fLowestGroundToTotalTimeRatio(lowestGroundToTotal),
 	m_iFewestReloads(fewestReloads), m_iFewestShotsFired(fewestShotsFired), m_fLowestReloadsToShotsRatio(lowestReloadsToShots),
 	m_iNumberOfDeaths(numDeaths), m_iNumberOfWins(numWins), m_fLeastDeathsToWinRatio(leastDeathsToWin),
-	m_fTopSpeed(topSpeed), m_iNumberOfAttempts(numAttempts) {}
+	m_fTopSpeed(topSpeed), m_iNumberOfAttempts(numAttempts)
+{
+	initXml();
+}
 
 Scorecard::Scorecard(const Scorecard& ref) :
 	m_iWeaponSetUsed(ref.m_iWeaponSetUsed),
@@ -26,10 +32,17 @@ Scorecard::Scorecard(const Scorecard& ref) :
 	m_iNumberOfAttempts(ref.m_iNumberOfAttempts),
 	m_iNumberOfDeaths(ref.m_iNumberOfDeaths),
 	m_iNumberOfWins(ref.m_iNumberOfWins),
-	m_fLeastDeathsToWinRatio(ref.m_fLeastDeathsToWinRatio) {}
+	m_fLeastDeathsToWinRatio(ref.m_fLeastDeathsToWinRatio)
+{
+	initXml();
+}
 
-
-
+Scorecard::Scorecard(int complete, int totalTime, int airTime, int shots, int reloads, int coins)
+	:m_levelCompleted(complete),m_totalLevelTime(totalTime),m_totalTimeInAir(airTime), m_numShots(shots)
+	,m_numReloads(reloads), m_numCoins(coins)
+{
+	initXml();
+}
 
 
 /*--------------------------
@@ -197,3 +210,152 @@ std::ostream& operator<<(std::ostream& os, Scorecard& ref)
 	os << setw(25) << right << _____Attempts << setw(2) << ": " << setw(8) << left << ref.getNumberOfAttempts() << endl;
 	return os;
 }
+
+void Scorecard::initXml()
+{
+	/*XMLDocument xmlDoc;
+		XMLNode* pRoot = xmlDoc.NewElement("playerdataset");
+		xmlDoc.InsertEndChild(pRoot);
+		XMLElement* pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 0);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 1);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 2);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 3);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 4);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 5);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 6);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		pElement = xmlDoc.NewElement("Level");
+		pElement->SetAttribute("id", 7);
+		pElement->SetAttribute("complete", 0);
+		pElement->SetAttribute("timeInLevel", 0);
+		pElement->SetAttribute("TimeInAir", 0);
+		pElement->SetAttribute("NumberOfShotsFired", 0);
+		pElement->SetAttribute("NumberOfReloadsUsed", 0);
+		pElement->SetAttribute("NumberOfCoinsCollected", 0);
+		pRoot->InsertEndChild(pElement);
+		xmlDoc.SaveFile("LevelScores.xml");*/
+	if(xmlDoc.LoadFile("LevelScores.xml")!=0)
+	{
+		xmlDoc.PrintError();
+	}
+	pRoot = xmlDoc.FirstChildElement("playerdataset");
+}
+
+void LevelScore::initXml()
+{
+	xmlDoc.LoadFile("LevelScores.xml");
+	pRoot = xmlDoc.FirstChildElement("playerdataset");
+}
+
+void LevelScore::loadData()
+{
+	if (!m_vLevelsScores.empty())
+		m_vLevelsScores.clear();
+	pRoot = xmlDoc.FirstChildElement("playerdataset");
+	//	pElement = pRoot->FirstChildElement("player");
+	pElement = pRoot->FirstChildElement("Level");
+
+	int complete, totalTime, airTime, shots, reloads, coins;
+		while (pElement != nullptr)
+	{
+
+		
+		pElement->QueryIntAttribute("complete",				  &complete);
+		pElement->QueryIntAttribute("timeInLevel",			  &totalTime);
+		pElement->QueryIntAttribute("TimeInAir",		      &airTime);
+		pElement->QueryIntAttribute("NumberOfShotsFired",     &shots);
+		pElement->QueryIntAttribute("NumberOfReloadsUsed",    &reloads);
+		pElement->QueryIntAttribute("NumberOfCoinsCollected", &coins);
+
+
+		m_vLevelsScores.push_back(new Scorecard(complete,totalTime,airTime,shots,reloads,coins));
+		pElement = pElement->NextSiblingElement("Level");
+
+	}
+}
+
+void Scorecard::saveData(int levelNum)
+{
+	pRoot = xmlDoc.FirstChildElement("playerdataset");
+//	pElement = pRoot->FirstChildElement("player");
+	pElement = pRoot->FirstChildElement("Level");
+
+	int level;
+	pElement->QueryIntAttribute("id", &level);
+
+	while (level != levelNum)
+	{
+		pElement = pElement->NextSiblingElement("Level");
+		pElement->QueryIntAttribute("id", &level);
+	}
+	pElement->SetAttribute("id", levelNum);
+	pElement->SetAttribute("complete", 1);
+	pElement->SetAttribute("timeInLevel", m_totalLevelTime);
+	pElement->SetAttribute("TimeInAir", m_totalTimeInAir);
+	pElement->SetAttribute("NumberOfShotsFired", m_numShots);
+	pElement->SetAttribute("NumberOfReloadsUsed", m_numReloads);
+	pElement->SetAttribute("NumberOfCoinsCollected", m_numCoins);
+
+	xmlDoc.SaveFile("LevelScores.xml");
+}
+
+void Scorecard::resetScores()
+{
+	m_numCoins = 0;
+}
+

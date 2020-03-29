@@ -44,16 +44,18 @@ public:
 class EndState : public State
 {
 private:
+	int level;
 	Scorecard* m_pScorecard;
+	LevelScore* m_pLevelsScores;
 	Mix_Music* m_pMusic;
 	SDL_Texture* m_pTexture[3];
 	SDL_Rect src, dst;
 	vector<Button*> m_vButtons;
 	SDL_Surface* surface;
 	SDL_Texture* texture;
-	TTF_Font* font;
+	TTF_Font* font,*titleFont,*littleSize;
 public:
-	EndState();
+	EndState(int j);
 	void Enter();
 	void Update();
 	void Render();
@@ -85,6 +87,7 @@ public:
 	unsigned int activeLevel;
 	unsigned int activeLevelSet;
 	int mouseposx, mouseposy;
+
 private:
 	TileMap* m_pTileMap;
 	Scorecard* m_pScorecard;

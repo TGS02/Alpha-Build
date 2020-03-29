@@ -60,7 +60,7 @@ public:
 	~Engine();
 	TTF_Font* getFont();
 	Mix_Chunk* getShootMixChunk();
-	
+	bool counter = false;
 	//getters
 	Mix_Chunk* getWinMixChunk();
 	Mix_Chunk* getDeathMixChunk();

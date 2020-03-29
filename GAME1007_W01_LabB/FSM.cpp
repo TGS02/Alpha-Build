@@ -137,6 +137,7 @@ GameState::GameState(int j, int i)
 	counterSpace = 0;
 	record = 0;
 	score = 0;
+	m_pScorecard = new Scorecard(0, 0, 0, 0, 0, 0);
 	shoot = false;
 	//bgTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/test.png");
 	//map = new Map(Engine::Instance().GetRenderer());
@@ -160,6 +161,7 @@ GameState::GameState(int j, int i)
 	score_src = src = { 0,0,970,80 };
 	dst = { 0,-8,970,80 };
 	score_dst = { 925 , -8, 970, 80 };
+	
 }
 
 GameState::~GameState()
@@ -216,7 +218,9 @@ void GameState::Update()
 	}
 	if (Engine::Instance().KeyDown(SDL_SCANCODE_W) || Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
 	{
+		//m_pPlayer->m_inAirTimer.start();
 		m_pPlayer->jump(true);
+		Engine::Instance().counter = true;
 	}
 	else
 	{
@@ -224,7 +228,9 @@ void GameState::Update()
 	}
 	if (Engine::Instance().GetMouseState(0))
 	{
+		//m_pPlayer->m_inAirTimer.start();
 		m_pPlayer->shoot({ gun->getCurrentDirection().x, gun->getCurrentDirection().y });
+		Engine::Instance().counter = true;
 	}
 
 	//if (Engine::Instance().KeyDown(SDL_SCANCODE_W))
@@ -285,6 +291,7 @@ void GameState::Update()
 	if (m_pPlayer->getDie())
 	{
 		gun->getPlayerDie(true);
+		
 	}
 	
 	if (m_pPlayer->finish==true)
@@ -295,16 +302,29 @@ void GameState::Update()
 		if(countFinish==10)
 		m_pPlayer->stop = true;
 		if (countFinish == 27) {
-			Engine::Instance().GetFSM().ChangeState(new EndState());
-			myTimer.stop();
+			myTimer.pause();
+			m_pScorecard->setTotalLevelTime(myTimer.get_ticks()/1000);
+			m_pScorecard->setTotalTimeInAir(m_pPlayer->inAir);
+			m_pScorecard->setNumReloads(m_pPlayer->numOfReloads);
+			m_pScorecard->setNumCoins(m_pPlayer->numOfCoins);
+			m_pScorecard->setNumShots(m_pPlayer->numOfShots);
 			countFinish = 0;
+			m_pScorecard->saveData(int(activeLevel));
+			Engine::Instance().GetFSM().ChangeState(new EndState(activeLevel));
 		}
 	}
 	else if (Engine::Instance().KeyDown(SDL_SCANCODE_P))
 	     {
+		myTimer.pause(); 
+		m_pScorecard->setTotalLevelTime(myTimer.get_ticks()/1000);
+		m_pScorecard->setTotalTimeInAir(m_pPlayer->inAir);
+		m_pScorecard->setNumReloads(m_pPlayer->numOfReloads);
+		m_pScorecard->setNumCoins(m_pPlayer->numOfCoins);
+		m_pScorecard->setNumShots(m_pPlayer->numOfShots);
+		countFinish = 0;
+		m_pScorecard->saveData(int(activeLevel));
 		Engine::Instance().GetFSM().PushState(new PauseState());
 		
-		myTimer.pause();
 	     }
 	else if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
 	{
@@ -350,7 +370,11 @@ void GameState::Render()
 	/*if (Engine::Instance().getFont() == nullptr)
 		cout << TTF_GetError();*/
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture, &src, &dst);
-	std::stringstream timeText, scoreText, lastRec;
+	std::stringstream timeText, scoreText, lastRec,level;
+
+
+
+
 	timeText.str("");
 	timeText << myTimer.get_ticks() / 1000;
 	if(!m_pPlayer->finish)
@@ -382,14 +406,14 @@ void GameState::Render()
 	SDL_FreeSurface(surface);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
 	//SDL_RenderCopy(Engine::Instance().GetRenderer(), barTexture, &bar_src, &bar_dst);
-	if (m_pPlayer->finish == true)
-	{
+	//if (m_pPlayer->finish == true)
+	//{
 
-		record = myTimer.get_ticks() / 1000;
-		lastRec << "Last Record:  " << record - (score % 10);
+	//	record = myTimer.get_ticks() / 1000;
+	//	lastRec << "Last Record:  " << record - (score % 10);
 
-		myTimer.start();
-	}
+	////	myTimer.start();
+	//}
 	if (dynamic_cast<GameState*> (Engine::Instance().GetFSM().GetState().back()))
 	{
 		State::Render();
@@ -465,24 +489,29 @@ void TitleState::Exit()
 
 // Title State Ends
 
-EndState::EndState()
+EndState::EndState(int j)
 {
-	
+	level = j;
+	m_pLevelsScores = new LevelScore();
+	m_pLevelsScores->loadData();
 }
 
 void EndState::Enter()
 {
 	m_pMusic = Mix_LoadMUS("../Assets/Audio/Music.mp3");
-	font = TTF_OpenFont("arial.ttf", 40);
+	font = TTF_OpenFont("arial.ttf", 25);
+	titleFont = TTF_OpenFont("RioGrande.ttf", 40);
+	littleSize = TTF_OpenFont("arial.ttf", 15);
+	
 	Mix_PlayMusic(m_pMusic, -1);
 	
 	cout << "Entering End state....." << endl;
 	m_pTexture[0] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Title_BG.png");
 	m_pTexture[1] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/EndBoard.png");
 	m_pTexture[2] = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Bar.png");
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 315,450,100,50 },
+	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },
 		std::bind(&FSM::ChangeState, &Engine::Instance().GetFSM(), new TitleState())));
-	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 615,450,100,50 },
+	m_vButtons.push_back(new Button("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 },
 		std::bind(&Engine::QuitGame, &Engine::Instance())));
 }
 
@@ -517,34 +546,116 @@ void EndState::Render()
 		m_vButtons[i]->Render();
 	std::stringstream scoreText;
 	scoreText.str("");
-	scoreText << "" << Engine::Instance().getHighScore();
-	SDL_Color color = { 0, 0, 0 };
+	scoreText << "" << m_pLevelsScores->m_vLevelsScores[level]->getTotalLevelTime();      //level time
+	SDL_Color color = { 255, 255, 255 };
 	surface = TTF_RenderText_Solid(font, scoreText.str().c_str(), color);
 	SDL_DestroyTexture(texture);
 	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
 	int texW = 0;
 	int texH = 0;
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	SDL_Rect dstrect = { 382, 300, texW, texH };
+	SDL_Rect dstrect = { 385, 294, texW, texH };
 	SDL_FreeSurface(surface);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst1);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst1);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	std::stringstream levelText;
+	levelText.str("");
+	levelText << "LEVEL " << level+1; ///level
+	color = { 41, 14, 1 };
+	surface = TTF_RenderText_Solid(titleFont, levelText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 448, 175, texW, texH };
+	SDL_FreeSurface(surface);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
 
 
 	std::stringstream timeText;
 	timeText.str("");
-	timeText << "" << Engine::Instance().getTime();;
-	color = { 0, 0, 0 };
+	timeText << "" << m_pLevelsScores->m_vLevelsScores[level]->getNumCoins(); ///coins
+	color = { 255, 255, 255 };
 	surface = TTF_RenderText_Solid(font, timeText.str().c_str(), color);
 	SDL_DestroyTexture(texture);
 	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
 	texW = 0;
 	texH = 0;
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	dstrect = { 630, 300, texW, texH };
+	dstrect = { 510, 540, texW, texH };
 	SDL_FreeSurface(surface);
-	SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
 	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	std::stringstream reloadText;
+	reloadText.str("");
+	reloadText << "" << m_pLevelsScores->m_vLevelsScores[level]->getNumReloads();  ///number of reloads
+	color = { 255, 255, 255 };
+	surface = TTF_RenderText_Solid(font, reloadText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 630, 430, texW, texH };
+	SDL_FreeSurface(surface);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	std::stringstream shootText;
+	shootText.str("");
+	shootText << "" << m_pLevelsScores->m_vLevelsScores[level]->getNumShots();  ///number of shoots
+	color = { 255, 255, 255 };
+	surface = TTF_RenderText_Solid(font, shootText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 385, 430, texW, texH };
+	SDL_FreeSurface(surface);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+
+	std::stringstream airText;
+	airText.str("");
+	if(m_pLevelsScores->m_vLevelsScores[level]->getTotalTimeInAir()<1000)
+	airText << "" << m_pLevelsScores->m_vLevelsScores[level]->getTotalTimeInAir() ;  ///air time
+	else
+	airText << "" << m_pLevelsScores->m_vLevelsScores[level]->getTotalTimeInAir()/1000;
+	color = { 255, 255, 255 };
+	surface = TTF_RenderText_Solid(font, airText.str().c_str(), color);
+	SDL_DestroyTexture(texture);
+	texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+	texW = 0;
+	texH = 0;
+	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	dstrect = { 630, 294, texW, texH };
+	SDL_FreeSurface(surface);
+	//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+	
+	if (m_pLevelsScores->m_vLevelsScores[level]->getTotalTimeInAir() < 1000)
+	{
+		std::stringstream msText;
+		msText.str(" ms");
+
+		color = { 255, 255, 255 };
+		surface = TTF_RenderText_Solid(littleSize, msText.str().c_str(), color);
+		SDL_DestroyTexture(texture);
+		texture = SDL_CreateTextureFromSurface(Engine::Instance().GetRenderer(), surface);
+		texW = 0;
+		texH = 0;
+		SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+		dstrect = { 675, 301, texW, texH };
+		SDL_FreeSurface(surface);
+		//SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pTexture[2], &barsrc, &bardst2);
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), texture, NULL, &dstrect);
+	}
 	State::Render();
 }
 

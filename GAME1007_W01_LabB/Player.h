@@ -8,6 +8,7 @@
 #include "TileMap.h"
 #include "Weapon.h"
 #include "Camera.h"
+#include "timer.h"
 using namespace std;
 
 struct Forces
@@ -74,11 +75,15 @@ private:
 
 	Weapon* m_pWeapon;
 	glm::vec2 m_fRecoilVelocity;
-
 public:
+	int inAir=0;
+	Timer m_inAirTimer;
 	int record;
 	bool finish;
 	bool stop;
+	int numOfCoins;
+	int numOfReloads;
+	int numOfShots;
 	void Update();
 	void Stop();
 	void SetDir(int dir);
