@@ -525,10 +525,15 @@ void EndState::Update()
 	{
 		Engine::Instance().GetFSM().ChangeState(new TitleState());
 		/*Engine::Instance().getPlayer()->finish = false;*/
-		// Mary - dil wit it.
 	}
 	for (int i = 0; i < (int)m_vButtons.size(); i++)
-		m_vButtons[i]->Update();
+	
+	{
+		if (m_vButtons[i]!=nullptr)
+		{
+			m_vButtons[i]->Update();
+		}
+	}
 }
 
 void EndState::Render()
@@ -700,12 +705,12 @@ void LevelSelect::Enter()
 	}
 	if (level_set == 1)
 	{
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 10,350,124,60 },0,true));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 },0,true));
 		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },2,false));
 	}
 	if (level_set == 2)
 	{
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 10,350,124,60 }, 1, true));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 }, 1, true));
 	}
 	Mix_PlayMusic(m_pMusic, -1);
 }

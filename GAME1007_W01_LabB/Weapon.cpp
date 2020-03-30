@@ -48,10 +48,12 @@ bool Weapon::Reload()
 
 void Weapon::Reset()
 {
+	shotsLeft = 6;
+	frame = 0;
 	m_iShotsLeft = m_iMaxShots;
 	m_iReloadsLeft = m_iMaxReloads;
-	m_iRefireCD = m_iRefireRate;
-	m_iRefireRate = m_iReloadRate;
+	m_iRefireCD = 0;
+	//	m_iRefireRate = m_iReloadRate;
 }
 
 int Weapon::shotsGetter()

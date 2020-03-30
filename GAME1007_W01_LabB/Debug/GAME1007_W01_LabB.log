@@ -1,18 +1,8 @@
-﻿  FSM.cpp
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(93,57): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(94,58): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(95,58): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(119,34): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(122,51): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\Tile.h(123,53): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(201,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\Allarielle\source\repos\W2020\Alpha-Build\GAME1007_W01_LabB\FSM.cpp(202,51): warning C4244: '=': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-  GAME1007_W01_LabB.vcxproj -> C:\Users\Allarielle\source\repos\W2020\Alpha-Build\Debug\CowboyCadet_FirstPlayable.exe
+﻿  Player.cpp
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(93,57): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(94,58): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(95,58): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(119,34): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(122,51): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\mehra\Desktop\fixed\Alpha-Build-master\GAME1007_W01_LabB\Tile.h(123,53): warning C4227: anachronism used: qualifiers on reference are ignored
+  GAME1007_W01_LabB.vcxproj -> C:\Users\mehra\Desktop\fixed\Alpha-Build-master\Debug\CowboyCadet_FirstPlayable.exe

@@ -405,6 +405,7 @@ void Player::move()
 				break;
 			case InteractiveTile::Type::DIE:
 				die();
+				numOfReloads++;
 				numOfCoins = 0;
 				break;
 			case InteractiveTile::Type::GET:
@@ -414,6 +415,7 @@ void Player::move()
 				break;
 			case InteractiveTile::Type::WIN:
 				std::cout << "You reached the exit!" << std::endl;
+				m_pWeapon->Reset();
 				finish = true;
 				break;
 			default:
