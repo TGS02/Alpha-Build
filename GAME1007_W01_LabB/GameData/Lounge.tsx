@@ -170,7 +170,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -186,7 +186,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -202,7 +202,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -218,7 +218,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -234,7 +234,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -250,7 +250,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -266,7 +266,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -282,7 +282,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>
@@ -298,7 +298,7 @@
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
    <property name="jumpimpulse_x" type="float" value="0"/>
-   <property name="jumpimpulse_y" type="float" value="-15"/>
+   <property name="jumpimpulse_y" type="float" value="-12"/>
    <property name="maxdrag" type="float" value="0.25"/>
    <property name="maxspeed" type="float" value="5"/>
   </properties>

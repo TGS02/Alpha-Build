@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gamedata>
  <weaponset id="1" name="Default Weaponset">
-  <weapon id="1" name="Trusty Sixshooter" recoil="15" refirerate="200" reloadrate="1000" maxshots="6" maxreloads="99"/>
+  <weapon id="1" name="Trusty Sixshooter" recoil="13.5" refirerate="235" reloadrate="800" maxshots="6" maxreloads="99"/>
   <weapon id="2" name="Golden Revolver" recoil="20" refirerate="1100" reloadrate="3000" maxshots="6" maxreloads="99"/>
   <weapon id="3" name="Twin Pistols" recoil="50" refirerate="1100" reloadrate="3000" maxshots="6" maxreloads="99"/>
   <weapon id="4" name="Buckshot" recoil="50" refirerate="1100" reloadrate="3000" maxshots="6" maxreloads="99"/>
