@@ -1,5 +1,5 @@
 <playerdataset>
-    <Level id="0" complete="1" timeInLevel="15" TimeInAir="122" NumberOfShotsFired="8" NumberOfReloadsUsed="2" NumberOfCoinsCollected="1"/>
+    <Level id="0" complete="1" timeInLevel="183" TimeInAir="1801" NumberOfShotsFired="80" NumberOfReloadsUsed="16" NumberOfCoinsCollected="1"/>
     <Level id="1" complete="1" timeInLevel="8" TimeInAir="418" NumberOfShotsFired="11" NumberOfReloadsUsed="1" NumberOfCoinsCollected="0"/>
     <Level id="2" complete="1" timeInLevel="9" TimeInAir="22" NumberOfShotsFired="12" NumberOfReloadsUsed="1" NumberOfCoinsCollected="0"/>
     <Level id="3" complete="1" timeInLevel="21" TimeInAir="138" NumberOfShotsFired="13" NumberOfReloadsUsed="2" NumberOfCoinsCollected="0"/>
