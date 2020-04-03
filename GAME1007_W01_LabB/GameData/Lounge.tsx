@@ -165,7 +165,7 @@
  </tile>
  <tile id="14" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
@@ -181,7 +181,7 @@
  </tile>
  <tile id="15" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
@@ -197,7 +197,7 @@
  </tile>
  <tile id="16" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
@@ -213,7 +213,7 @@
  </tile>
  <tile id="17" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
@@ -229,7 +229,7 @@
  </tile>
  <tile id="18" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
@@ -245,7 +245,7 @@
  </tile>
  <tile id="19" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
@@ -261,7 +261,7 @@
  </tile>
  <tile id="20" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
@@ -277,7 +277,7 @@
  </tile>
  <tile id="21" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="2"/>
@@ -293,7 +293,7 @@
  </tile>
  <tile id="22" type="StaticTile">
   <properties>
-   <property name="drag" type="float" value="0.5"/>
+   <property name="drag" type="float" value="0.6"/>
    <property name="force_x" type="float" value="0"/>
    <property name="force_y" type="float" value="0"/>
    <property name="interactiontype" type="int" value="1"/>
