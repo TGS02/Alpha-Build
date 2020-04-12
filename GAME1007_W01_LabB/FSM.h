@@ -135,6 +135,8 @@ private:
 	vector<Button*> m_vButtons;
 	vector<SDL_Texture*> m_pLevels;
 	
+	SDL_Rect tempSrc;
+	SDL_Rect tempDst[4];
 public:
 	int level_set;
 	LevelSelect(int i);

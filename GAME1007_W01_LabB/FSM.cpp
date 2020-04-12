@@ -97,8 +97,9 @@ void PauseState::Enter()
 	
 	cout << "Entering Pause state....." << endl;
 	m_vButtons.push_back(new ResumeButton("../Assets/Textures/Buttons/Button_Resume.png", { 0,0,600,156 }, { 360,250,300,80 }, false));
-	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 },false));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Mainmenu.png", { 0,0,600,156 }, { 360,350,300,80 },false));
 	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,450,300,80 },false));
+	SDL_ShowCursor(SDL_ENABLE);
 }
 
 void PauseState::Update()
@@ -726,8 +727,9 @@ void LevelSelect::loadButtons()
 	}
 	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,325,250,60 }, level_set, 0, false));
 	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,325,250,60 }, level_set, 1, false));
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 }, level_set, 2, false));
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 }, level_set, 3, false));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,612,250,60 }, level_set, 2, false));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,612,250,60 }, level_set, 3, false));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Mainmenu.png", { 0,0,600,156 }, { 360,680,300,80 }, false));
 }
 
 void LevelSelect::Enter()
@@ -776,8 +778,12 @@ void LevelSelect::Render()
 
 void LevelSelect::displayPreviews()
 {
-	SDL_Rect tempSrc = { 0,0,200 ,200 };
-	SDL_Rect tempDst[4] = { { 225, 112, 200, 200 }, { 625, 112, 200, 200 },{ 225, 400, 200, 200 },{ 625, 400, 200, 200  } };
+	tempSrc = { 0,0,200 ,200 };
+	tempDst[0] =  { 225, 112, 200, 200 };
+	tempDst[1] = { 625, 112, 200, 200 };
+	tempDst[2] = { 225, 400, 200, 200 };
+	tempDst[3] = { 625, 400, 200, 200 };
+
 	for (int i = 0; i < 4; i++)
 	{
 		SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pLevels[i], &tempSrc, &tempDst[i]);
