@@ -133,13 +133,19 @@ private:
 	SDL_Texture* m_pLogoTex;
 	SDL_Rect m_bgSrc, m_bgDst, m_logoSrc, m_logoDst;
 	vector<Button*> m_vButtons;
+	vector<SDL_Texture*> m_pLevels;
 	
+	SDL_Rect tempSrc;
+	SDL_Rect tempDst[4];
 public:
 	int level_set;
 	LevelSelect(int i);
+	void loadPreviews();
 	void Enter();
 	void Update();
 	void Render();
+	void displayPreviews();
+	void loadButtons();
 	void Exit();
 };
 

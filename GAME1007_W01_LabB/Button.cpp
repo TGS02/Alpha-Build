@@ -91,6 +91,7 @@ void ExitButton::Execute()
 ResumeButton::ResumeButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void ResumeButton::Execute()
 {
+	SDL_ShowCursor(SDL_DISABLE);
 	Engine::Instance().GetFSM().PopState();
 }
 

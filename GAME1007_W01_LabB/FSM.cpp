@@ -97,8 +97,9 @@ void PauseState::Enter()
 	
 	cout << "Entering Pause state....." << endl;
 	m_vButtons.push_back(new ResumeButton("../Assets/Textures/Buttons/Button_Resume.png", { 0,0,600,156 }, { 360,250,300,80 }, false));
-	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,350,300,80 },false));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Mainmenu.png", { 0,0,600,156 }, { 360,350,300,80 },false));
 	m_vButtons.push_back(new ExitButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 360,450,300,80 },false));
+	SDL_ShowCursor(SDL_ENABLE);
 }
 
 void PauseState::Update()
@@ -513,7 +514,9 @@ void EndState::Enter()
 		nextLevel = 0;
 		nextLevelSet++;
 	}
+	if( nextLevelSet != 3)
 	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_Start.png", { 0,0,600,156 }, { 310,560,100,50 },nextLevelSet,nextLevel,false));
+
 	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Quit.png", { 0,0,600,156 }, { 625,560,100,50 }, false));
 }
 
@@ -677,6 +680,56 @@ void EndState::Exit()
 LevelSelect::LevelSelect(int i)
 {
 	level_set = i;
+	loadPreviews();
+	loadButtons();
+}
+
+void LevelSelect::loadPreviews()
+{
+	switch (level_set)
+	{
+	case 0:
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level1-1.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level1-2.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level1-3.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level1-4.png"));
+		break;
+	case 1:
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level2-1.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level2-2.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level2-3.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level2-4.png"));
+		break;
+	case 2:
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level3-1.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level3-2.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level3-3.png"));
+		m_pLevels.push_back(IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/LevelSelect/Level3-4.png"));
+		break;
+	}
+}
+
+void LevelSelect::loadButtons()
+{
+
+	switch(level_set)
+	{
+	case 0:
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 }, 1, false));
+		break;
+	case 1:
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 }, 0, true));
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 }, 2, false));
+		break;
+	case 2:
+		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 }, 1, true));
+		break;
+	}
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,325,250,60 }, level_set, 0, false));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,325,250,60 }, level_set, 1, false));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,612,250,60 }, level_set, 2, false));
+	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,612,250,60 }, level_set, 3, false));
+	m_vButtons.push_back(new MainMenuButton("../Assets/Textures/Buttons/Button_Mainmenu.png", { 0,0,600,156 }, { 360,680,300,80 }, false));
 }
 
 void LevelSelect::Enter()
@@ -691,34 +744,17 @@ void LevelSelect::Enter()
 	m_logoSrc = { 0, 0, 512, 512 };
 	m_logoDst = { 128,64,768,634 };
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L1.png", { 0,0,600,156 }, { 200,350,250,60 },level_set,0,false));
 
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L2.png", { 0,0,600,156 }, { 600,350,250,60 },level_set,1,false));
-
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L3.png", { 0,0,600,156 }, { 200,600,250,60 },level_set,2,false));
-
-	m_vButtons.push_back(new PlayButton("../Assets/Textures/Buttons/Button_L4.png", { 0,0,600,156 }, { 600,600,250,60 },level_set,3,false));
 	
-	if (level_set == 0)
-	{
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },1,false));
-	}
-	if (level_set == 1)
-	{
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 },0,true));
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 900,350,124,60 },2,false));
-	}
-	if (level_set == 2)
-	{
-		m_vButtons.push_back(new LevelSelectButton("../Assets/Textures/Buttons/Level set button.png", { 0,0,124,60 }, { 0,350,124,60 }, 1, true));
-	}
 	Mix_PlayMusic(m_pMusic, -1);
 }
 
 void LevelSelect::Update()
 {
 	for (int i = 0; i < (int)m_vButtons.size(); i++)
+	{
 		m_vButtons[i]->Update();
+	}
 }
 
 void LevelSelect::Render()
@@ -729,17 +765,37 @@ void LevelSelect::Render()
 	//SDL_RenderClear(Engine::Instance().GetRenderer());
 
 	SDL_SetRenderDrawBlendMode(Engine::Instance().GetRenderer(), SDL_BLENDMODE_BLEND);
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 128);
+	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 0, 0, 255, 128);
 	SDL_Rect rect = { 220, 125, 200, 200 };
-	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);
+	SDL_RenderFillRect(Engine::Instance().GetRenderer(), &rect);*/
+
+	displayPreviews();
 
 	for (int i = 0; i < (int)m_vButtons.size(); i++)
 		m_vButtons[i]->Render();
 	State::Render();
 }
 
+void LevelSelect::displayPreviews()
+{
+	tempSrc = { 0,0,200 ,200 };
+	tempDst[0] =  { 225, 112, 200, 200 };
+	tempDst[1] = { 625, 112, 200, 200 };
+	tempDst[2] = { 225, 400, 200, 200 };
+	tempDst[3] = { 625, 400, 200, 200 };
+
+	for (int i = 0; i < 4; i++)
+	{
+		SDL_RenderCopy(Engine::Instance().GetRenderer(), m_pLevels[i], &tempSrc, &tempDst[i]);
+	}
+}
+
+
+
 void LevelSelect::Exit()
 {
 	m_vButtons.clear();
 	m_vButtons.shrink_to_fit();
+	m_pLevels.clear();
+	m_pLevels.shrink_to_fit();
 }

@@ -151,19 +151,22 @@ void Gun::turnLeft()
 
 void Gun::draw(SDL_Renderer* g_p_renderer)
 {
-	if(drawShoot)
-	{
-		m_src = { 40,0,40,14 };
-		counterShoot++;
-		if(counterShoot==12)
+	
+		if (drawShoot)
 		{
-			counterShoot = 0;
-			drawShoot = false;
-			m_src = { 0,0,40,14 };
+
+			m_src = { 40,0,40,14 };
+			counterShoot++;
+			if (counterShoot == 12)
+			{
+				counterShoot = 0;
+				drawShoot = false;
+				m_src = { 0,0,40,14 };
+
+			}
 
 		}
-		
-	}
+	
 	m_dst = { static_cast<int>(m_vPosition.x), static_cast<int>(m_vPosition.y) , 40, 18 };
 	SDL_Point centerPoint;
 	if (left == false)
@@ -227,30 +230,32 @@ void Gun::draw(SDL_Renderer* g_p_renderer)
 
 void Gun::shoot()
 {
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
+
+	if (Engine::Instance().GetMouseState(0))
 	{
-		glm::vec2 offset;
-		
-		
-		float angle = 1.0 - abs(m_VCurrentDirection.y);
-		if  (m_VCurrentDirection.x <= 0)
-		{
+			drawShoot = true;
+			glm::vec2 offset;
 
-			offset.x = getPosition().x + recoilDrag.x;
-			offset.y = getPosition().y - 10 * recoilDrag.y;
 
+			float angle = 1.0 - abs(m_VCurrentDirection.y);
+			if (m_VCurrentDirection.x <= 0)
+			{
+
+				offset.x = getPosition().x + recoilDrag.x;
+				offset.y = getPosition().y - 10 * recoilDrag.y;
+
+			}
+			else
+			{
+				offset.x = getPosition().x - recoilDrag.x;
+				offset.y = getPosition().y - 10 * recoilDrag.y;
+
+			}
+
+
+			setPosition(offset);
 		}
-		else 
-		{
-			offset.x = getPosition().x - recoilDrag.x;
-			offset.y = getPosition().y - 10 * recoilDrag.y;
-
-		}
-
 	
-		setPosition(offset);
-
-	}
 	
 }
 
