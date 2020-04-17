@@ -21,8 +21,6 @@ Engine::Engine():g_bRunning(false) , m_bSpaceOk(true)  ,pressSpace(false)       
 	
 }
 
-
-
 bool Engine::init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
 	
@@ -116,7 +114,7 @@ void Engine::handleEvents()
 			if (event.button.button >= 1 && event.button.button <= 3)
 			{
 				m_MouseState[event.button.button - 1] = true;
-				Mix_PlayChannel(-1, m_pButtons, 0);
+				
 			}
 			break;
 		case SDL_MOUSEBUTTONUP:
@@ -199,12 +197,21 @@ TTF_Font* Engine::getFont()
 	return font;
 }
 
+
 Mix_Chunk* Engine::getShootMixChunk()
 {
 	return m_pShoot;
 }
 
 Mix_Chunk* Engine::getMixChunk()
+{
+	return m_pPickUps;
+}
+Mix_Chunk* Engine::getButtonChunk()
+{
+	return m_pButtons;
+}
+Mix_Chunk* Engine::getCoinsChunk()
 {
 	return m_pPickUps;
 }

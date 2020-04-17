@@ -298,7 +298,7 @@ void GameState::Update()
 	
 	if (m_pPlayer->finish==true)
 	{
-		
+		Mix_PlayChannel(-1, Engine::Instance().getWinMixChunk(), 0);
 		//map->getFinishFsm(true);
 		countFinish++;
 		if(countFinish==10)

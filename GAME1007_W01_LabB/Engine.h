@@ -27,7 +27,6 @@ private:   //Properties
 	FSM* m_pFSM;
 	glm::vec2 m_mousePosition;
 	TTF_Font* font;
-	Mix_Chunk* m_pPickUps, * m_pShoot, *m_pWin, *m_pButtons,* m_pDeath;
 	bool m_bSpaceOk;
 	bool upButtonad;
 	SDL_Point m_MousePos;
@@ -35,6 +34,7 @@ private:   //Properties
 	bool pressSpace;
 	bool m_MouseState[3] = { 0,0,0 };
 	Camera* m_pCamera;
+	Mix_Chunk* m_pPickUps, * m_pShoot, *m_pWin, *m_pButtons,* m_pDeath;
 
 private:   //methods
 	bool init(const char* , int , int , int , int, int);        //you could define all these functions inline(copy the whole function including its body here)
@@ -62,9 +62,11 @@ public:
 	Mix_Chunk* getShootMixChunk();
 	bool counter = false;
 	//getters
+	Mix_Chunk* getCoinsChunk();
 	Mix_Chunk* getWinMixChunk();
 	Mix_Chunk* getDeathMixChunk();
 	Mix_Chunk* getMixChunk();
+	Mix_Chunk* getButtonChunk();
 	SDL_Renderer* GetRenderer();
 	glm::vec2 getMousePosition();
 	bool GetMouseState(int idx);

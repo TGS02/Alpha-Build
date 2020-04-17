@@ -195,6 +195,7 @@ void Player::setRotation(bool newRot)
 
 void Player::die()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getDeathMixChunk(), 0);
 	setPosition(getStartingPosition());
 	std::cout << m_pos.x << m_pos.y << std::endl;
 	m_dst = { static_cast<int>(m_pos.x), static_cast<int>(m_pos.y), m_src.w, m_src.h };
@@ -245,6 +246,7 @@ void Player::jump(bool holdingKey)
 
 void Player::shoot(glm::vec2 direction)
 {
+	Mix_PlayChannel(-1, Engine::Instance().getShootMixChunk(), 0);
 	if (m_pWeapon->Fire())
 	{
 		numOfShots++;
@@ -409,6 +411,7 @@ void Player::move()
 				numOfCoins = 0;
 				break;
 			case InteractiveTile::Type::GET:
+				Mix_PlayChannel(-1, Engine::Instance().getCoinsChunk(), 0);
 				std::cout << "You got a collectable!" << std::endl;
 				numOfCoins++;
 				record += 10;

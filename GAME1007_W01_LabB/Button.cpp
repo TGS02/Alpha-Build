@@ -79,18 +79,21 @@ PlayButton::PlayButton(const char* s, SDL_Rect src, SDL_Rect dst, int levelset, 
 }
 void PlayButton::Execute()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getButtonChunk(), 0);
 	Engine::Instance().GetFSM().ChangeState(new GameState(plevel,plevelset));
 }
 
 ExitButton::ExitButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void ExitButton::Execute()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getButtonChunk(), 0);
 	Engine::Instance().QuitGame();
 }
 
 ResumeButton::ResumeButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void ResumeButton::Execute()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getButtonChunk(), 0);
 	SDL_ShowCursor(SDL_DISABLE);
 	Engine::Instance().GetFSM().PopState();
 }
@@ -98,6 +101,7 @@ void ResumeButton::Execute()
 MainMenuButton::MainMenuButton(const char* s, SDL_Rect src, SDL_Rect dst,bool flip) :Button(s, src, dst,flip) {}
 void MainMenuButton::Execute()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getButtonChunk(), 0);
 	Engine::Instance().GetFSM().ChangeState(new TitleState);
 }
 
@@ -107,5 +111,6 @@ LevelSelectButton::LevelSelectButton(const char* s, SDL_Rect src, SDL_Rect dst, 
 }
 void LevelSelectButton::Execute()
 {
+	Mix_PlayChannel(-1, Engine::Instance().getButtonChunk(), 0);
 	Engine::Instance().GetFSM().ChangeState(new LevelSelect(plevelset));
 }
