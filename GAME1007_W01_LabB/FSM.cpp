@@ -153,8 +153,10 @@ GameState::GameState(int j, int i)
 	m_pScoreTexture = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/score.png");
 	BG_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Space_Background.png");
 	crosshair_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Crosshair.png");
+	controls_text = IMG_LoadTexture(Engine::Instance().GetRenderer(), "../Assets/Textures/Controls.png");
+	control_src = { 0,0,110,125 };
+	control_dst = { 20,50,110,125 };
 	cross_src = { 0,0,32,32 };
-
 	cross_dst = { 0,0, cross_src.w,cross_src.h };
 	bg_src = { 0,0,1024,768 };
 	bg_dst = { 0,0,bg_src.w,bg_src.h };
@@ -216,7 +218,7 @@ void GameState::Update()
 	{
 		m_pPlayer->getAcceleration().x += m_pPlayer->getControl();
 	}
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_W) || Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_SPACE))
 	{
 		//m_pPlayer->m_inAirTimer.start();
 		m_pPlayer->jump(true);
@@ -373,7 +375,7 @@ void GameState::Render()
 	std::stringstream timeText, scoreText, lastRec,level;
 
 
-
+	SDL_RenderCopy(Engine::Instance().GetRenderer(), controls_text, &control_src, &control_dst);
 
 	timeText.str("");
 	timeText << myTimer.get_ticks() / 1000;

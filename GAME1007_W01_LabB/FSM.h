@@ -95,8 +95,8 @@ private:
 	int jumpTime;
 	int record,score;
 	SDL_Surface* surface;
-	SDL_Texture* texture, *m_pScoreTexture,*m_pTexture, *barTexture, *BG_text, * crosshair_text;
-	SDL_Rect bar_src, bar_dst, bg_src, cross_src, cross_dst;
+	SDL_Texture* texture, *m_pScoreTexture,*m_pTexture, *barTexture, *BG_text, * crosshair_text,*controls_text;
+	SDL_Rect bar_src, bar_dst, bg_src, cross_src, cross_dst,control_src,control_dst;
 	SDL_Rect src, dst, score_src, score_dst,bg_dst;
 	int counterSpace;
 	TTF_Font* font;
